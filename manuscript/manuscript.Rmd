@@ -60,7 +60,46 @@ Although in the abstract reproducibility seems easy, it has in large parts faile
 
 To target these key threats to reproducibility, many authors have offered that research scientists could do better to curate the key assets of their work: the data and code used to analyze the data. Recognizing that data in the modern workflow is usually in electronic form, and the procedures to analyze it almost exclusively being run on computers, the empirical sciences have recognized certain aspects of computer science to help with this respect. One idea gaining traction in the research community is the idea of version control systems (VCS). 
 
+## Aims of the current manuscript
 
+We introduce the popular VCS Git. Illustrate its use in the scientific workflow with a hypothetical example project. Provide commands / instructions for Apple and Windows users. Show how to use it with minimal learning curve with the R Studio IDE. [TODO]
+
+# The Git version control system
+
+VCSs are computer programs designed for "tracking changes in computer files and coordinating work on those files among multiple people" (Wikipedia). In this tutorial, we focus on the most widely used (within science) VCS, called Git. It is important to understand that unlike an operating system's (OS) default file viewer, such as Finder (Apple computers) or File Explorer (?? Windows), Git is not a standalone program for navigating files and folders on a computer. Instead, it adds functionality to the OSs existing file system, by making available a specific set of functions--either executed from the command line, or through a graphical user interface (GUI) / integrated development environment (IDE)--that allow taking snapshots of the project and its files, and distributing the work across multiple computers and users. To begin using Git, users must first download and install the Git software on their computers. Git is free and open source, works on Windows, Macintosh, and Linux OSs (among others), and is used by major software developers such as Microsoft, Google, and Facebook. It can be freely downloaded at <https://git-scm.com/>. 
+
+## Installing Git
+
+Even if you already have Git installed (some computers do) it is a good idea to install the latest version[^git-version], which can be downloaded as a standalone program from <https://git-scm.com/download>. Here, we provide more detailed instructions on installing Git for OS X and Windows, but Linux (and other OS) users can find instructions at the Git website (<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>). Along with install instructions, we detail how to configure the Git program so that it is ready to be used.
+
+### OS X
+
+Many OS X computers already have Git installed, especially those operating OS X 10.9 or higher, but it is good practice to install the latest version. The easiest way to update Git to the latest version is to download the installer from <http://git-scm.com/download/mac>, and install it like any other program. Once Git is installed, it can be used from the command line (the OS X command line is available through the Terminal app, which is included by default with the OS X install), or through various GUIs. Although it might be initially intimidating, we encourage using the Terminal app to set the basic configuration of Git.
+
+To operate properly, Git needs to be able to identify its user. You can set these by entering a few basic commands in the Terminal. To verify the current user information, type `git config --global user.name`, and hit return. This should not return anything, unless a previous user of the computer has set it. To ensure that Git knows who you are, type `git config --global user.name "User Name"` (where User Name is your name), and hit return. If you now re-run the first command, Terminal will return the name you entered as `"User Name"`. The second piece of information is your email, which can be entered by `git config --global user.email "email@address.com"` (where email@address.com is your email address). You can verify that the correct email address was saved by typing `git config --global user.email` in the Terminal, and hit return. Once this information is entered, Git will know who you are, and is thus able to track who is doing what within a project, which is especially helpful when you are collaborating with other people.
+
+### Windows
+
+Windows users can download the Git software installer from <http://git-scm.com/download/win>. [TODO]
+
+# Using Git
+
+The first operating principle of Git is that work is organized into independent projects, which Git calls *repositories*. At its core, a repository is a folder on your computer, which is version controlled by Git. Everything that happens inside that folder is tracked by Git, but the user has full control of what is tracked (everything, by default) and when. To establish the operating principles of Git, we now turn to a practical example using a hypothetical project that, we feel, reflects the components of a typical project in experimental psychology.
+
+## Organizing files and folders
+
+Observers have noted that implementing reproducibility into the scientific workflow is less time-consuming if it is planned from the onset of the project, rather than attempting to add reproducibility to the project after it has been completed [TODO]. To that end, it is important to organize the project keeping a few key goals in mind (here, we broadly follow established guidelines such as Project TIER recommendations): The files and folders should have easy to understand names (avoid idiosynchratic naming schemes), and the names should indicate the purposes of the files and folders. 
+
+The example project has a home directory, which has a concise name indicating its contents. Here, we have simply called it `example-project`. Everything related to that material is placed in subfolders of the home directory: We have "conducted" one experiment in the project; this experiment had three main components: 1) the computer code that was used to present the stimuli to the participants `experiment-1/experiment/`, 2) the raw data files in `experiment-1/data/`, and 3) the code used to analyse the data in `experiment-1/analysis/`. Note that all these folders were sub-sub-directories of the home folder for the project, clearly indicating which experiment (in what may be a multi-experiment project) they refer to. 
+
+With this initial set-up in mind, let's begin using Git to enhance the reproducibility of this project.
+
+
+
+
+# Footnotes
+
+[^git-version]: As of the writing of this article, the current version of Git is 2.13.1. 
 
 \newpage
 
