@@ -1,0 +1,50 @@
+---
+title             : "Curating Research Assets in Behavioral Sciences: A tutorial on managing research materials with R Studio & the Git version control system"
+shorttitle        : "Curating Research Assets in Behavioral Sciences"
+
+author: 
+  - name: Matti Vuorre
+    affiliation: 1
+    corresponding: yes
+    address: 406 Schermerhorn Hall, 1190 Amsterdam Avenue MC 5501, New York, NY 10027
+    email: mv2521@columbia.edu
+  - name          : ""
+    affiliation   : ""
+affiliation:
+  - id            : "1"
+    institution   : "Department of Psychology, Columbia University"
+author_note: >
+  Complete departmental affiliations for each author (note the indentation, if you start a new paragraph).
+
+  Enter author note here.
+
+abstract: >
+  Enter abstract here (note the indentation, if you start a new paragraph).
+  
+keywords          : "keywords"
+wordcount         : "X"
+bibliography      : ["references.bib"]
+figsintext        : yes
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+lineno            : yes
+lang              : "english"
+class             : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r include = FALSE}
+library(knitr)  # Make sure that knit directory is project root
+library(papaja)
+library(tidyverse)
+```
+
+
+\newpage
+
+# References
+
+
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
