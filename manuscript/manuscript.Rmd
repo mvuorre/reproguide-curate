@@ -56,6 +56,11 @@ This definition makes clear an important distinction: reproducibility is not the
 
 ## Challenges to reproducibility
 
+Although in the abstract reproducibility seems easy, it has in large parts failed in practice. One study found that X% of statistical claims in papers could not be reproduced. Some reasons for this included the original data not being available; personnel being changed leading to materials not being organized; not clear which data was used for analysis; not clear which analyses were done.
+
+To target these key threats to reproducibility, many authors have offered that research scientists could do better to curate the key assets of their work: the data and code used to analyze the data. Recognizing that data in the modern workflow is usually in electronic form, and the procedures to analyze it almost exclusively being run on computers, the empirical sciences have recognized certain aspects of computer science to help with this respect. One idea gaining traction in the research community is the idea of version control systems (VCS). 
+
+
 
 \newpage
 
