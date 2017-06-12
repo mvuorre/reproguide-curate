@@ -40,6 +40,22 @@ library(papaja)
 library(tidyverse)
 ```
 
+# Introduction
+
+The lack of reproducibility is an increasingly recognized problem across scientific disciplines, and calls for changing the scientific workflow to enhance it have been published in a wide range of research areas, including Biology [@markowetz_five_2015], Ecology [@ihle_striving_2017], Neuroscience [@eglen_toward_2017] and Psychology [@munafo_manifesto_2017]. However, although exhortations to focus on reproducibility in the scientific practice are now commonplace on the pages of leading scientific journals [@baker_1500_2016], only a small minority of researchers are familiar with the tools and practices that enable implementing reproducibility in the scientific workflow. Therefore, although there now is a broad consensus that efforts to improve reproducibility are important, and even on some of the tools that may allow to do so, materials instructing researchers in using them are lacking. In this tutorial paper, we present a detailed walk-through of the git version control system for behavioral scientists.
+
+## Reproducibility
+
+Consider the following [@ihle_striving_2017, p.2]: Have you ever found a mistake in your results without knowing what caused it? Forgot what analyses you have already done and how (and possibly, why)? Lost datasets or information about the cases or variables in a dataset? Struggled in redoing analyses when new data became available? Had difficulty understanding what data to use or how in a project that you inherited from another researcher? Answering any of these questions in the affirmative suggests that your work might benefit from improving reproducibility [@ihle_striving_2017].
+
+But what exactly is reproducibility and why does it matter? Reproducibility can be defined as follows: "A research project is computationally reproducible if a second investigator (including you in the future) can recreate the final reported results of the project, including key quantitative findings, tables, and figures, given only a set of files and written instructions." [@kitzes_practice_2017] In the context of experimental Psychology, for example, a project would mean an experiment or a set of experiments investigating a theory or hypothesis, reported results would be a conference presentation or a submitted manuscript. In this field, key quantitative findings are usually probability values from statistical models, such as *p*-values, or tables of descriptive statistics such as (differences in) means.
+
+Given this broad definition, here is an example of a non-reproducible project: A published journal article advertises a specific relationship between two variables, to some specified degree of uncertainty, but doesn't provide the raw data or code used to analyse it. An example of a reproducible project, on the other hand, provides a well organized package of i) the raw data supporting the claims made in the article, ii) the computer code (or steps of analysis) required to compute the summary and test statistics from the data, and iii) instructions on how to apply ii) to i), if it is not self-evident. Clearly, many projects fall in between, and can be partly reproducible--e.g. provide raw data but no code.
+
+This definition makes clear an important distinction: reproducibility is not the same as replicability. Traditional methods and results sections in journal articles have focused on ensuring replicability (but not reproducibility) by giving detailed instructions on how to repeat the experiment and collect a data set *like* the original one. Viewed in this light, replicability is a broad methodological issue concerning the epistemology of the scientific claims; whereas reproducibility--the topic of this tutorial--concerns the minimal steps required to allow checking for the validity of the computations required to assert the scientific claim in the first place.
+
+## Challenges to reproducibility
+
 
 \newpage
 
