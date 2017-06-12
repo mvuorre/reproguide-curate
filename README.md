@@ -10,6 +10,18 @@ The manuscript is written in [R Markdown](http://rmarkdown.rstudio.com/) with th
 
 References are in a bibfile in `references.bib`. I manage citations with a combination of [Zotero](https://www.zotero.org/), [citr](https://github.com/crsh/citr) R Studio add-in, and [Better Bib(La)Tex](https://github.com/crsh/citr#better-biblatex-integration). With these, citations are automatically formatted and added from Zotero to the `references.bib` file.
 
+### Other materials
+
+Lots of good stuff on the web:
+
+- <http://www.geo.uzh.ch/microsite/reproducible_research/post/rr-rstudio-git/>
+- <https://www.youtube.com/watch?v=KjLycV1IWqc>
+- <https://www.youtube.com/watch?v=qcjpHFwCugE>
+- <https://support.rstudio.com/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN>
+- <https://jennybc.github.io/2014-05-12-ubc/ubc-r/session03_git.html>
+- <http://r-bio.github.io/intro-git-rstudio/>
+- <http://kbroman.org/github_tutorial/pages/rstudio.html>
+
 # Topics (roadmap)
 
 We plan to cover broadly these topics in roughly this order:
