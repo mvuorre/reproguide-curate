@@ -4,7 +4,7 @@ This is a repository for a git tutorial to be submitted to Advances in Methods a
 
 ## How to contribute
 
-The manuscript is written in [R Markdown](http://rmarkdown.rstudio.com/) with the [papaja](https://github.com/crsh/papaja) R package. The source file is `manuscript/manuscript.Rmd`. 
+The manuscript is written in [R Markdown](http://rmarkdown.rstudio.com/) with the [papaja](https://github.com/crsh/papaja) R package. The source file is `manuscript/manuscript.Rmd` (knit to view resulting PDF.)
 
 ### References & Citations
 
