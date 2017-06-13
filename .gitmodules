@@ -1,0 +1,3 @@
+[submodule "git-example"]
+	path = git-example
+	url = https://github.com/mvuorre/git-example.git
