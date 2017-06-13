@@ -54,6 +54,8 @@ Given this broad definition, here is an example of a non-reproducible project: A
 
 This definition makes clear an important distinction: reproducibility is not the same as replicability. Traditional methods and results sections in journal articles have focused on ensuring replicability (but not reproducibility) by giving detailed instructions on how to repeat the experiment and collect a data set *like* the original one. Viewed in this light, replicability is a broad methodological issue concerning the epistemology of the scientific claims; whereas reproducibility--the topic of this tutorial--concerns the minimal steps required to allow checking for the validity of the computations required to assert the scientific claim in the first place.
 
+Although they are often conlated [TODO] reproducibility and replicability are, in fact, independent of one another. One might think that reproducibility [TODO Peng 2011?] is a requirement of replicability, but an experiment can be replicated even if the materials of the original study are not available for replicability. Likewise, the materials of a study might allow its results to be reproduced, yet the underlying scientific idea might not be replicable. Therefore, it is important to keep these two concepts distinct; in this manuscript we are interested in reproducibility. 
+
 ## Challenges to reproducibility
 
 Although in the abstract reproducibility seems easy, it has in large parts failed in practice. One study found that X% of statistical claims in papers could not be reproduced. Some reasons for this included the original data not being available; personnel being changed leading to materials not being organized; not clear which data was used for analysis; not clear which analyses were done.
