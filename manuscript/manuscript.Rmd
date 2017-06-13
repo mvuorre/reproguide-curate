@@ -8,8 +8,8 @@ author:
     corresponding: yes
     address: 406 Schermerhorn Hall, 1190 Amsterdam Avenue MC 5501, New York, NY 10027
     email: mv2521@columbia.edu
-  - name          : ""
-    affiliation   : ""
+  - name          : "James P. Curley"
+    affiliation   : "1"
 affiliation:
   - id            : "1"
     institution   : "Department of Psychology, Columbia University"
