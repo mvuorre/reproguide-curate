@@ -102,17 +102,31 @@ Briefly, when you work in a Git repository, Git stores the state of each file th
 
 Most importantly, each state in Git's log contains the full state of the files at that point in time. Users can always go back to an earlier version by "checking out" a previous state of Git's log. That's why these programs are called Version Control Systems.
 
-To establish the operating principles of Git in practice, we now turn to a practical example using a hypothetical project that, we feel, reflects the components of a typical project in experimental psychology. 
+To establish the operating principles of Git in practice, we now turn to a practical example using a hypothetical project that, we feel, reflects the components of a typical project in experimental psychology. To most clearly show the use of Git, we begin with an empty project with no components.
 
 ## Organizing files and folders
 
 Observers have noted that implementing reproducibility into the scientific workflow is less time-consuming if it is planned from the onset of the project, rather than attempting to add reproducibility to the project after it has been completed [TODO]. To that end, it is important to organize the project keeping a few key goals in mind (here, we broadly follow established guidelines such as Project TIER recommendations): The files and folders should have easy to understand names (avoid idiosynchratic naming schemes), and the names should indicate the purposes of the files and folders. 
 
-The example project has a home directory, which has a concise name indicating its contents. Here, we have simply called it `example-project`. Everything related to that material is placed in subfolders of the home directory: We have "conducted" one experiment in the project; this experiment had three main components: 1) the computer code that was used to present the stimuli to the participants `experiment-1/experiment/`, 2) the raw data files in `experiment-1/data/`, and 3) the code used to analyse the data in `experiment-1/analysis/`. Note that all these folders were sub-sub-directories of the home folder for the project, clearly indicating which experiment (in what may be a multi-experiment project) they refer to. 
+The first step is to create a home folder for the project. This folder should have an immediately recognizable name, and should be placed somewhere on your computer where you can find it. We call the example project `git-example`. All the materials related to this project will be placed in subfolders of the home directory, but for now `git-example` is just an empty folder waiting to be filled with data, code, and documents. 
 
-With this initial set-up in mind, let's begin using Git to enhance the reproducibility of this project.
+## Initializing a Git repository
 
+Next, you need to navigate to the folder and initialize it as a Git repository. Here, the `git-example` project is in the users `Documents` folder, and we can use `cd ..` in the OS X terminal to navigate up in the folder hierarchy, and `cd <folder>` to navigate into `<folder>`. So assuming that the Terminal opens up in `Documents`, we navigate to `git-example` with
 
+```
+cd git-example
+```
+
+Then, to turn this folder into a Git repository, type in 
+
+```
+git init
+```
+
+and hit Return. This command initializes the folder as a Git repository, and the only change so far has been the addition of a hidden `.git` folder inside `git-example` (and a `.gitattributes` file; but users can ignore these hidden files and folders). 
+
+## Adding a file to Git
 
 
 # Footnotes
