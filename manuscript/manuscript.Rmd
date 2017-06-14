@@ -344,6 +344,19 @@ These new contributors can then work on their local copies as detailed in earlie
 git push
 ```
 
+### Obtaining other's changes from Central repo
+
+Just as you must manually push your own local changes to the remote repository, you must also obtain others' changes by **pulling** them from the central repo. Before starting to work on your proposed change, pull the remote changes with [TODO see if it needs to be rebased]:
+
+```bash
+git pull
+```
+
+The way in which users, and their local repositories, interact with the central repository by pushing and pulling is the cornerstone of collaboration on GitHub, and thoughtful use of these commands allows for complex workflows without any important code (data, ideas in manuscript, analysis code) being ever overwritten. However, there is no automatic way for a computer to tell what changes to prioritize: If two users have worked on the same code, and they both attempt to push their changes, the user to do this later will have to resolve the **conflict**.
+
+### Resolving a conflict
+
+If user A has pushed changes to the central repository while user B was working on the same code, user B's push will result in a merge conflict. That is just a natural consequence of two individuals working simultaneously on the same idea. User B simply needs to first merge the changes in the remote repository to her own code by pulling from the remote. Once the conflict has been manually resolved (and user B's code updated with the pull), user B can push changes from her local repository to the central repository. How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial. For more information, see e.g. <https://www.atlassian.com/git/tutorials/comparing-workflows#centralized-workflow>. The GitHub customer service is also very responsive to their users help requests.
 
 
 # Git Summary
