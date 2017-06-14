@@ -282,10 +282,30 @@ git add .
 git commit -m "Completed power analysis"
 ```
 
-After this last commit, if we ever want to know in the future what our planned sample size was, we can come back to this commit with `git log` or `git show` and see what was inside the newly created power analysis file. This possibility of "rewinding history" is especially useful for files that might go under multiple revisions, or if we might be interested when and in what order the files were created. One might consider committing a power analysis as a small personal pre-registration of a part of the research plan.
 After this last commit, if we ever want to know in the future what our planned sample size was, we can come back to this commit with `git log` or `git show` and see what was inside the newly created power analysis file. For instance, if new information suggests that we should change assumed effect size in the power analysis, we can simply edit and save the file, then add and commit the changes to Git with a helpful message that logs this important event in the Git memory of the repository.
 
 This possibility of "rewinding history" is especially useful for files that might go under multiple revisions, or if we might be interested when and in what order the files were created. One might consider committing a power analysis as a small personal pre-registration of a part of the research plan.
+
+# Collaborating
+
+The true advantages of using a VCS such as Git become apparent when we consider projects with more than one contributor. For example, consider a project where data is collected at multiple sites, and these files are then saved onto a centralized server, or shared through a service that automatically merges files from multiple sources (such as the popular Dropbox service). If two or more sites accidentally save a data file with the same name (e.g. `data-001.csv`), and these changes are automatically merged, the later file will simply overwrite the earlier file. Disaster!
+
+Or consider a data analysis where two or more people work simultaneously on some complicated analysis. If user A and B have the same file open on multiple computers, after a while when user B saves the file, user A's version of the file will be overwritten. Disaster!
+
+Git and other VCSs were specifically designed to allow (and facilitate) multi-site collaboration on extremely complex projects, as for example required by leading software companies such as Apple and Microsoft. Next, we'll illustrate how collaborating on a Git project works in practice.
+
+There are many ways in which a team could collaborate on a Git project (e.g. <https://www.atlassian.com/git/tutorials/comparing-workflows>), and here we focus on a common one, called the "Centralized Workflow". 
+
+## Overview of the Centralized Git Workflow
+
+In this workflow, a central repository hosted on a research team's server, or an online service like GitHub (<https://github.com/>), is used to pull and push (see Table \@ref(tab:git-commands)) information to and from local repositories. First, one user creates this central repository, then other users clone a local copy (see Table \@ref(tab:git-commands)). All changes are first created, added, and committed locally as detailed above, and only then **pushed** to the central repository. To get changes that other users have pushed to the central repository, a user **pulls** changes from it.
+
+Setting up a centralized Git repository on a research team's private server is relatively straightforward, but because the details vary from team to team, here we illustrate the Centralized Workflow using GitHub.
+
+## GitHub
+
+GitHub is one of the 100 most popular website worldwide, and hosts over 60 million software projects with a total of over 20 million users (<https://github.com/about>). We chose GitHub for collaboration because it is already the de-facto standard in VCS collaboration among scientists, it offers free private (see below) repositories for students, and has many attractive features, some of which we will detail below.
+
 
 
 
@@ -293,7 +313,7 @@ This possibility of "rewinding history" is especially useful for files that migh
 
 ## Overview of the Git Workflow
 
-```{r, results = 'asis', warning = F}
+```{r git-commands, results = 'asis', warning = F}
 commands <- read_csv("data/git-commands.csv")
 commands %>% 
     apa_table(
