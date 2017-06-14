@@ -358,6 +358,13 @@ The way in which users, and their local repositories, interact with the central 
 
 If user A has pushed changes to the central repository while user B was working on the same code, user B's push will result in a merge conflict. That is just a natural consequence of two individuals working simultaneously on the same idea. User B simply needs to first merge the changes in the remote repository to her own code by pulling from the remote. Once the conflict has been manually resolved (and user B's code updated with the pull), user B can push changes from her local repository to the central repository. How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial. For more information, see e.g. <https://www.atlassian.com/git/tutorials/comparing-workflows#centralized-workflow>. The GitHub customer service is also very responsive to their users help requests.
 
+## Private or public collaboration?
+
+By default, all GitHub repositories are public, meaning that anyone with an internet connection can use their web browser to inspect the contents of your repository, or even clone it to their computer. This may sound intimidating to researchers who are used to working in a more private context, and clearly necessitates planning and thought with respect to issues such as data privacy and sharing sensitive materials. However, for many projects---including the writing of this tutorial---we see very few downsides to working "in the open".
+
+There are two alternatives to working in a public GitHub repository: One, which we won't cover here, is to not use GitHub but instead place the central repository on the research team's shared server. The second option is to change the repository's settings on GitHub (this can be done when the repository is first created or afterwards) to private. Private repositories, and their contents, are only accessible to invited team members, and are therefore ideal for small teams who would like to work without revealing their master plans to the public just yet.
+
+To make a GitHub repository private, navigate to the repository's website with a web browser (e.g. <https://github.com/<username>/<reponame>>), and click "Settings", then "Make this repository private". Once one user has set the central GitHub repository to as private, anyone wishing to clone, push, pull, or view the repo must provide their GitHub username and password. Only if they match an invited team members username and password can the user access the repository.
 
 # Git Summary
 
