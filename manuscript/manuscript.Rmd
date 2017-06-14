@@ -120,13 +120,13 @@ The first step is to create a home folder for the project. This folder should ha
 
 Next, you need to navigate to the folder and initialize it as a Git repository. Here, the `git-example` project is in the users `Documents` folder, and we can use `cd ..` in the OS X terminal to navigate up in the folder hierarchy, and `cd <folder>` to navigate into `<folder>`. So assuming that the Terminal opens up in `Documents`, we navigate to `git-example` with (to execute code in Terminal, enter the text into the command line and hit Return):
 
-```
+```bash
 cd git-example
 ```
 
 Then, to turn this folder into a Git repository, execute
 
-```
+```bash
 git init
 ```
 
@@ -145,14 +145,10 @@ Which in this case would return
 ```bash
 Matti [~/Documents/git-example]$ git status
 On branch master
-
 Initial commit
-
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
-
 	README
-
 nothing added to commit but untracked files present (use "git add" to track)
 Matti [~/Documents/git-example]$ 
 ```
@@ -247,6 +243,54 @@ Although we now understand the fundamentals of using Git to track the states of 
 
 ## (Slightly more) advanced Git
 
+The state of the project now looks like this:
+
+```bash
+git-example/
+    admin/
+        ethics-info.pdf
+    experiment-1/
+        analysis/
+            plan_n.R
+    manuscript/
+    README
+```
+
+Running `git status` now tells that there are two new files (empty folders are ignored). That is, since the previous commit, two files have been added to the project; one a pdf with some administrative information (`ethics-info.pdf`), the other one is an R script for a pre-planned power analysis (`plan_n.R`). We would certainly like to track any changes to the power analysis script, but the ethics information file isn't really something that we need to keep track of---we can't make changes to it anyway. It would be laborious to constantly keep ignoring it when committing changes to Git (especially if we'd like to commit multiple files simultaneously with `git add .`) Git has an elegant solution to specifying which files to keep track of. Because by default all files are tracked, Git uses a special file for instructing which files are to be *ignored* from tracking.
+
+### Make Git Ignore Files
+
+To make Git ignore files, we simply add a plain text file called `.gitignore` to the home folder of the repository. Each row of this file should specify a file or a folder (or a regular expression) that Git should ignore. In our example we want to make Git ignore the `admin/` folder entirely, and any file with the .pdf extension inside `manuscript/. The example .gitignore file looks like this (lines beginning with `#` are comments):
+
+```bash
+# Ignore everything inside the 'admin' folder
+admin/
+
+# Ignore all .pdf files in the 'manuscript' folder
+manuscript/*.pdf
+```
+
+Re-running `git status` now only shows the `plan_n.R` file (and the newly created .gitignore file, which is also under version control, naturally.) 
+
+Because there are now two untracked files, and we would like to keep a clean history of what has happened in the project, we create two separate commits: One for the .gitignore file, and one for the power analysis file. 
+
+```bash
+git add .gitignore
+git commit -m "Added .gitignore file"
+
+git add .
+git commit -m "Completed power analysis"
+```
+
+After this last commit, if we ever want to know in the future what our planned sample size was, we can come back to this commit with `git log` or `git show` and see what was inside the newly created power analysis file. This possibility of "rewinding history" is especially useful for files that might go under multiple revisions, or if we might be interested when and in what order the files were created. One might consider committing a power analysis as a small personal pre-registration of a part of the research plan.
+After this last commit, if we ever want to know in the future what our planned sample size was, we can come back to this commit with `git log` or `git show` and see what was inside the newly created power analysis file. For instance, if new information suggests that we should change assumed effect size in the power analysis, we can simply edit and save the file, then add and commit the changes to Git with a helpful message that logs this important event in the Git memory of the repository.
+
+This possibility of "rewinding history" is especially useful for files that might go under multiple revisions, or if we might be interested when and in what order the files were created. One might consider committing a power analysis as a small personal pre-registration of a part of the research plan.
+
+
+
+# Git Summary
+
 ## Overview of the Git Workflow
 
 ```{r, results = 'asis', warning = F}
@@ -258,9 +302,7 @@ commands %>%
         landscape = FALSE)
 ```
 
-# Further resources
-
-<!-- Text box: Resources for learning Git -->
+## Further resources for learning Git
 
 \noindent
 \fbox{\begin{minipage}{\textwidth}
