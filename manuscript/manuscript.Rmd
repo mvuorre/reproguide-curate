@@ -384,10 +384,38 @@ Managing projects (and Git repositories) with R Studio is centered on the idea o
 
 One of these files is `.gitignore` which we covered above. The other file is and .Rproj file, which indicates that the folder is the home folder for an R (Studio) project. Users don't interact with this file, but when opened, it is simply a plain text file containing the project's settings (these can be modified through Tools -> Project Options in R Studio).
 
+## Using Git with R Studio
+
+Once the R Project has been created, R Studio has a "Git" tab in the top-right panel of the GUI. At first, this tab shows the two new files in the repository, and some buttons with familiar looking names ("Commit", "Push", etc.)
+
+```{r rstudio-git-1, fig.cap = "R Studio's Git tab for a newly created project."}
+knitr::include_graphics("data/rstudio-git-1.png")
+```
+
+### Add and Commit changes
+
+To mark this milestone of creating a project, let's commit these changes to Git. The workflow is exactly the same as when using Git from the terminal, but we now have some visually appealing helpers. To begin committing these changes, click on "Commit" in the Git tab. This brings up another window where we can select files to add into the staging area (the `.gitignore` file in Figure \@ref(fig:rstudio-git-2) is staged by checking the box). Once all the desired files (here we chose both) are staged, we write a short commit message as detailed above, and click the "Commit" button.
+
+```{r rstudio-git-2, fig.cap = "Creating a Git commit with R Studio."}
+knitr::include_graphics("data/rstudio-git-2.png")
+```
+
+### Add a remote GitHub repository
+
+When creating the R Project, there was an option for creating the project from an existing Git repository. Because we didn't do this, we must now manually instruct Git that this repo should have a remote in GitHub. This is done exactly as above, and we must use command line functions. After you've created a new repository on GitHub, navigate to the project's folder on your computer with the command line navigator of your choice, and execute the following commands:
+
+```bash
+git remote add origin https://github.com/<username>/<reponame>.git
+git push -u origin master
+```
+
+After executing these commands, you can use all Git and GitHub features from R Studio without having to use the command line.
+
+### Further examples
 
 # Git Summary
 
-## Overview of the Git Workflow
+## Overview of Git Commands
 
 ```{r git-commands, results = 'asis', warning = F}
 commands <- read_csv("data/git-commands.csv")
