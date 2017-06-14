@@ -112,25 +112,25 @@ To establish the operating principles of Git in practice, we now turn to a pract
 
 ## Organizing files and folders
 
-Observers have noted that implementing reproducibility into the scientific workflow is less time-consuming if it is planned from the onset of the project, rather than attempting to add reproducibility to the project after it has been completed [TODO]. To that end, it is important to organize the project keeping a few key goals in mind (here, we broadly follow established guidelines such as Project TIER recommendations): The files and folders should have easy to understand names (avoid idiosynchratic naming schemes), and the names should indicate the purposes of the files and folders. 
+Implementing reproducibility into the scientific workflow is less time-consuming if it is planned from the onset of the project, rather than attempting to add reproducibility to the project after it has been completed. It is therefore important to organize the project keeping a few key goals in mind (here, we broadly follow established guidelines such as Project TIER recommendations): The files and folders should have easy to understand names (avoid idiosynchratic naming schemes), and the names should indicate the purposes of the files and folders. 
 
 The first step is to create a home folder for the project. This folder should have an immediately recognizable name, and should be placed somewhere on your computer where you can find it. We call the example project `git-example`. All the materials related to this project will be placed in subfolders of the home directory, but for now `git-example` is just an empty folder waiting to be filled with data, code, and documents. 
 
 ## Initializing a Git repository
 
-Next, you need to navigate to the folder and initialize it as a Git repository. Here, the `git-example` project is in the users `Documents` folder, and we can use `cd ..` in the OS X terminal to navigate up in the folder hierarchy, and `cd <folder>` to navigate into `<folder>`. So assuming that the Terminal opens up in `Documents`, we navigate to `git-example` with
+Next, you need to navigate to the folder and initialize it as a Git repository. Here, the `git-example` project is in the users `Documents` folder, and we can use `cd ..` in the OS X terminal to navigate up in the folder hierarchy, and `cd <folder>` to navigate into `<folder>`. So assuming that the Terminal opens up in `Documents`, we navigate to `git-example` with (to execute code in Terminal, enter the text into the command line and hit Return):
 
 ```
 cd git-example
 ```
 
-Then, to turn this folder into a Git repository, type in 
+Then, to turn this folder into a Git repository, execute
 
 ```
 git init
 ```
 
-and hit Return. This command initializes the folder as a Git repository, and the only change so far has been the addition of a hidden `.git` folder inside `git-example` (and a `.gitattributes` file; but users can ignore these hidden files and folders). 
+This command initializes the folder as a Git repository, and the only change so far has been the addition of a hidden `.git` folder inside `git-example` (and a `.gitattributes` file; but users can ignore these hidden files and folders). 
 
 ## Adding a file to Git
 
@@ -245,7 +245,20 @@ This output can be investigated for a detailed log of all changes created by tha
 
 Although we now understand the fundamentals of using Git to track the states of (and therefore changes to) a repository, this contrived and overly simplistic example doesn't allow full appreciation of the benefits of using Git for version control. 
 
+# Further resources
 
+<!-- Text box: Resources for learning Git -->
+
+\noindent
+\fbox{\begin{minipage}{\textwidth}
+  \begin{itemize}
+    \item \href{https://www.git-tower.com/blog/workflow-of-version-control}{Basic VCS workflow}, an infographic explaining how VCS works.
+    \item \href{https://services.github.com/resources/cheatsheets/}{GitHub's Git cheat sheet} is available in multiple languages and contains the most used Git commands.
+    \item \href{https://try.github.io/levels/1/challenges/1}{TryGit}, an interactive website for learning the basics of Git.
+    \item \href{http://r-pkgs.had.co.nz/git.html}{Git + GitHub} in an R programming context.
+    \item \href{https://git-scm.com/book/en/v2}{Pro Git book}, a complete manual of Git.
+  \end{itemize}
+\end{minipage}}
 
 # Footnotes
 
