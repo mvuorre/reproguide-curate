@@ -14,6 +14,7 @@ References are in a bibfile in `references.bib`. I manage citations with a combi
 
 Lots of good stuff on the web:
 
+- <https://www.atlassian.com/git/tutorials/comparing-workflows>
 - <http://www.geo.uzh.ch/microsite/reproducible_research/post/rr-rstudio-git/>
 - <https://www.youtube.com/watch?v=KjLycV1IWqc>
 - <https://www.youtube.com/watch?v=qcjpHFwCugE>
