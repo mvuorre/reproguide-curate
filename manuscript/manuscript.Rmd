@@ -243,7 +243,20 @@ diff --git a/README b/README
 
 This output can be investigated for a detailed log of all changes created by that commit. From top, it lists the author of the commit, the commit message, and then the commit's "**diff**" (i.e. what differs in the new version vs the old version of the file.) The current diff shows that 1 file received eight additional lines of text (the part wrapped in @ symbols), and then the additions themselves (the lines prepended with +s).
 
-Although we now understand the fundamentals of using Git to track the states of (and therefore changes to) a repository, this contrived and overly simplistic example doesn't allow full appreciation of the benefits of using Git for version control. 
+Although we now understand the fundamentals of using Git to track the states of (and therefore changes to) a repository, this contrived and overly simplistic example doesn't allow full appreciation of the benefits of using Git for version control. To better illustrate Git's functioning, we now fast-forward in the hypothetical example project to a stage in the project where more files and materials have been created.
+
+## (Slightly more) advanced Git
+
+## Overview of the Git Workflow
+
+```{r, results = 'asis', warning = F}
+commands <- read_csv("data/git-commands.csv")
+commands %>% 
+    apa_table(
+        caption = "Main Git commands.",
+        note = "Source: https://help.github.com/articles/github-glossary/ and https://services.github.com/on-demand/downloads/github-git-cheat-sheet.pdf",
+        landscape = FALSE)
+```
 
 # Further resources
 
