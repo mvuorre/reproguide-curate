@@ -328,6 +328,23 @@ The `-u origin master` are only required for the first push, as they set up the 
 
 The team has now created the remote Central repository, and other users can start contributing to it. 
 
+### Contributing to a Central (GitHub) repository
+
+Once another team member has set up Git on their own computer, and signed up for GitHub, they need to **clone** the remote GitHub repository onto their local computer. [TODO actually check that these steps are correct with a 'fresh' computer.]
+
+To clone a repository, the new user must first navigate to an appropriate location on the computer where they would like to create the repository on their computer, for example their `username/Documents` folder. Once the appropriate location is found, cloning will create a new folder for the repo inside this folder.
+
+```bash
+git clone https://github.com/<username>/<reponame>.git
+```
+
+These new contributors can then work on their local copies as detailed in earlier parts of this tutorial; making changes, adding, and committing. After committing their changes, they can update the status of the Central Git repo by pushing their changes to it:
+
+```bash
+git push
+```
+
+
 
 # Git Summary
 
