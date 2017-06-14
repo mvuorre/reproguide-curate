@@ -306,8 +306,27 @@ Setting up a centralized Git repository on a research team's private server is r
 
 GitHub is one of the 100 most popular website worldwide, and hosts over 60 million software projects with a total of over 20 million users (<https://github.com/about>). We chose GitHub for collaboration because it is already the de-facto standard in VCS collaboration among scientists, it offers free private (see below) repositories for students, and has many attractive features, some of which we will detail below.
 
+Anyone wanting to use GitHub must first create a free user account at <https://github.com>. After the user account has been set up, and the user has logged in, creating a new repository at GitHub is self evident (there is a big green button labeled "New repository"). 
 
+### Create a new GitHub repository
 
+Although we are creating a new repository here, the goal is to create an online "remote" for the running example within this tutorial, and therefore the specific steps are slightly different than what they would be if a brand new repository was needed. 
+
+For the current example, after clicking "New repository", we simply enter a name, which can be anything, but for consistency we call the GitHub repository `git-example`. After entering the name, click "Create repository", and the next step is to link the new remote to the local repository. The required steps are detailed on screen when you do this at GitHub, but here we would execute the following command in the command line:
+
+```bash
+git remote add origin https://github.com/<username>/<reponame>.git
+```
+
+Where `<username>` and `<reponame>` should be replaced with the user's GitHub username, and the GitHub repository name. Once the connection is set up, we can **push** local changes to the GitHub remote:
+
+```bash
+git push -u origin master
+```
+
+The `-u origin master` are only required for the first push, as they set up the connection. For pushing any changes collowing this, simply type `git push` after adding and committing locally.
+
+The team has now created the remote Central repository, and other users can start contributing to it. 
 
 
 # Git Summary
