@@ -80,6 +80,24 @@ The core concepts of version control are that contributors to a project create s
 
 Some popular Version Control Systems are SVN, Mercurial, and Git. In this tutorial, we focus on the most widely used (in science) of these, called Git. Git is especially good for scientific collaboration because of online tools (GitHub) that allow seamless collaboration even for very large research teams.
 
+<!-- Examples of problems in psychology solved by VCS somewhere here. -->
+
+\noindent
+\fbox{\begin{minipage}{\textwidth}
+  \begin{itemize}
+    \item Problem: Researchers usually want to try different ways of visualizing and modeling their data, and sometimes it is difficult to keep track of all the different versions.
+      \begin{itemize}
+        \item Solution: VCS allows researchers to save each version of the analysis into a history from where it can be easily recalled. This approach also eschews the need for creating multiple copies of the same analysis files with small tweaks, as illustrated \href{http://phdcomics.com/comics/archive.php?comicid=1531}{here}.
+      \end{itemize}
+  \end{itemize}
+  \begin{itemize}
+    \item Problem:
+      \begin{itemize}
+        \item Solution:
+      \end{itemize}
+  \end{itemize}
+\end{minipage}}
+
 ## The Git Version Control System
 
 It is important to understand that unlike an operating system's (OS) default file viewer, such as Finder (Apple computers) or File Explorer (?? Windows), Git is not a standalone program for navigating files and folders on a computer. Instead, it adds functionality to the OSs existing file system, by making available a specific set of functions--either executed from the command line, or through a graphical user interface (GUI) / integrated development environment (IDE)--that allow taking snapshots of the project and its files, and distributing the work across multiple computers and users. To begin using Git, users must first download and install the Git software on their computers. Git is free and open source, works on Windows, Macintosh, and Linux OSs (among others), and is used by major software developers such as Microsoft, Google, and Facebook. It can be freely downloaded at <https://git-scm.com/>. Before we explain the basics of using Git, we present brief installation instructions for Windows and Apple users. 
