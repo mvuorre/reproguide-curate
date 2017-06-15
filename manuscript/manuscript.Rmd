@@ -28,6 +28,8 @@ lineno            : yes
 lang              : "english"
 class             : "doc, 12pt, draftfirst"  # man / jou / doc
 output            : papaja::apa6_pdf
+header-includes:
+   - \usepackage{tcolorbox}
 ---
 
 ```{r include = FALSE}
@@ -72,21 +74,26 @@ Fortunately for the empirical sciences, challenges related to organizing and cur
 Version Control Systems (VCS; also known as Source Control Systems) are computer programs designed for tracking changes to computer code, and sharing the code with others. Although initially developed for writing computer code collaboratively[^vcs-collaborate], it is easy to recognize the benefits of VCS for scientific production and collaboration as well. For example, behavioral experiments are often written in a programming language, and can have multiple authors and versions. Keeping track of the versions of the program, and allowing many authors to contribute to it (without breaking the code) are problems that VCSs were specifically designed for. By extension, VCS is easily adopted to other aspects of the research cycle, such as curating data across computers and laboratories, or writing manuscripts with multiple authors, versions, and sources of results.
 
 <!-- Examples of problems in psychology solved by VCS. -->
-\noindent
-\fbox{\begin{minipage}{\textwidth}
-  \begin{itemize}
-    \item Problem: Researchers want to try different ways of visualizing and modeling their data, and keep track of all the different versions they try.
-      \begin{itemize}
-        \item Solution: VCS allows researchers to save each version of the analysis into a history from where it can be easily recalled. This approach also eschews the need for creating multiple copies of the same analysis files with small tweaks, as illustrated \href{http://phdcomics.com/comics/archive.php?comicid=1531}{here}.
-      \end{itemize}
-  \end{itemize}
-  \begin{itemize}
-    \item Problem:
-      \begin{itemize}
-        \item Solution:
-      \end{itemize}
-  \end{itemize}
-\end{minipage}}
+\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\footnotesize, title=Box 1. Common problems and their VCS solutions]
+    \begin{itemize}
+    \item How to try different ways of visualizing and modeling data while keeping track of the different versions---and the differences between them?
+        \begin{itemize}
+        \item VCS saves each version of the analysis, allowing testing new features without losing previous versions or proliferating files in the project's directories. All the past versions can be directly compared with each other.
+        \end{itemize}
+    \end{itemize}
+    \begin{itemize}
+    \item How to work on the same code or manuscript files simultaneously with collaborators?
+        \begin{itemize}
+        \item VCS were built for distributed collaborative work: Collaborators work on their local copies and "push" and "pull" material to and from each other or a central "repository". VCS keeps precise track of who has done what, when, and (possibly) why.
+        \end{itemize}
+    \end{itemize}
+    \begin{itemize}
+    \item How to share my work in an organized manner with others?
+        \begin{itemize}
+        \item VCS requires committing to a common organization scheme with collaborators, making it easier to keep everyone "on the same page" with what goes where and how to contribute to specific parts of the project. Sharing the project with others is built into VCS, and can be facilitated with online services such as GitHub.
+        \end{itemize}
+    \end{itemize}
+\end{tcolorbox}
 
 The core concepts of version control are that contributors to a project create small checkpoints of the changes they make to the source code (or manuscript text, data, etc.), and then submit those changes to the VCS. The VCS maintains a history of all these little checkpoints, and the exact state of the project at each of these checkpoints.
 
@@ -444,19 +451,16 @@ commands %>%
         landscape = FALSE)
 ```
 
-## Further resources for learning Git
-
-\noindent
-\fbox{\begin{minipage}{\textwidth}
-  \begin{itemize}
-    \item \href{https://www.git-tower.com/blog/workflow-of-version-control}{Basic VCS workflow}, an infographic explaining how VCS works.
-    \item \href{https://services.github.com/resources/cheatsheets/}{GitHub's Git cheat sheet} is available in multiple languages and contains the most used Git commands.
-    \item \href{https://try.github.io/levels/1/challenges/1}{TryGit}, an interactive website for learning the basics of Git.
-    \item \href{http://r-pkgs.had.co.nz/git.html}{Git + GitHub} in an R programming context.
-    \item \href{https://git-scm.com/book/en/v2}{Pro Git book}, a complete manual of Git.
-  \end{itemize}
-\end{minipage}}
-
+<!-- Box 2. Further resources for learning Git -->
+\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\footnotesize, title=Box 2. Further resources for learning Git]
+\begin{itemize}
+    \item \href{https://www.git-tower.com/blog/workflow-of-version-control}{Basic VCS workflow}, an infographic explaining how VCS works (\url{https://www.git-tower.com/blog/workflow-of-version-control}).
+    \item \href{https://services.github.com/resources/cheatsheets/}{GitHub's Git cheat sheet} is available in multiple languages and contains the most used Git commands (\url{https://services.github.com/resources/cheatsheets/}).
+    \item \href{https://try.github.io}{TryGit}, an interactive website for learning the basics of Git (\url{https://try.github.io}).
+    \item \href{http://r-pkgs.had.co.nz/git.html}{Git + GitHub} in an R programming context (\url{http://r-pkgs.had.co.nz/git.html}).
+    \item \href{https://git-scm.com/book/en/v2}{Pro Git book}, a complete manual of Git (\url{https://git-scm.com/book/en/v2}).
+\end{itemize}
+\end{tcolorbox}
 \newpage
 
 [^git-version]: As of the writing of this article, the current version of Git is 2.13.1.
