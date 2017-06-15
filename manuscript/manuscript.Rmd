@@ -109,13 +109,15 @@ Even if you already have Git installed (some computers do) it is a good idea to 
 
 Many OS X computers already have Git installed, especially those operating OS X 10.9 or higher, but it is good practice to install the latest version. The easiest way to update Git to the latest version is to download the installer from <http://git-scm.com/download/mac>, and install it like any other program. Once Git is installed, it can be used from the command line (the OS X command line is available through the Terminal app, which is included by default with the OS X install), or through various GUIs. Although it might at first appear intimidating because of the archaic-looking interface, we encourage using Git from the command line.
 
-To operate properly, Git needs to be able to identify its user. You can set these by entering a few basic commands in the Terminal. The following commands are intended to be entered to Terminal or a similar command line interface. To verify the current user information, type `git config --global user.name`, and hit return. This should not return anything, unless a previous user of the computer has set the global Git user name. 
-
-To ensure that Git knows who you are, type `git config --global user.name "User Name"` (where User Name is your name), and hit return. If you now re-run the first command, Terminal will return the name you entered as `"User Name"`. The second piece of information is your email, which can be entered by `git config --global user.email "email@address.com"` (where email@address.com is your email address). You can verify that the correct email address was saved by typing `git config --global user.email` in the Terminal, and hit return. Once this information is entered, Git will know who you are, and is thus able to track who is doing what within a project, which is especially helpful when you are collaborating with other people, or when you are working on multiple computers.
-
 ### Windows
 
 Windows users can download the Git software installer from <http://git-scm.com/download/win>. [TODO]
+
+## Git setup
+
+To operate properly, Git needs to be able to identify its user. You can set these by entering a few basic commands in the command line. To verify the current user information, type `git config --global user.name`, and hit return. This should not return anything, unless a previous user of the computer has set the global Git user name. 
+
+To ensure that Git knows who you are, type `git config --global user.name "User Name"` (where User Name is your name) in the command line, and hit return. If you now re-run the first command, the command line will return the name you entered as `"User Name"`. The username can be anything you'd like, but it is probably a good idea to use your real name so that potential collaborators know who you are. The second piece of information is your email, which can be entered by `git config --global user.email "email@address.com"` (where email@address.com is your email address). You can verify that the correct email address was saved by typing `git config --global user.email` in the Terminal, and hit return. Once this information is entered, Git will know who you are, and is thus able to track who is doing what within a project, which is especially helpful when you are collaborating with other people, or when you are working on multiple computers.
 
 # Using Git
 
@@ -323,7 +325,7 @@ Setting up a centralized Git repository on a research team's private server is r
 
 GitHub is one of the 100 most popular website worldwide, and hosts over 60 million software projects with a total of over 20 million users (<https://github.com/about>). We chose GitHub for collaboration because it is already the de-facto standard in VCS collaboration among scientists, it offers free private (see below) repositories for students, and has many attractive features, some of which we will detail below.
 
-Anyone wanting to use GitHub must first create a free user account at <https://github.com>. After the user account has been set up, and the user has logged in, creating a new repository at GitHub is self evident (there is a big green button labeled "New repository"). 
+Anyone wanting to use GitHub must first create a free user account at <https://github.com>. After the user account has been set up, and the user has logged in, creating a new repository at GitHub is self evident (there is a big green button labeled "New repository"). You must create the GitHub account with the same email address as you used above when configuring your local Git (or re-configure your local Git to use your the email address that you used to register for GitHub).
 
 ### Create a new GitHub repository
 
