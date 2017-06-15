@@ -71,7 +71,7 @@ Fortunately for the empirical sciences, challenges related to organizing and cur
 
 # Version Control Systems
 
-Version Control Systems (VCS; also known as Source Control Systems) are computer programs designed for tracking changes to computer code, and sharing the code with others. Although initially developed for writing computer code collaboratively[^vcs-collaborate], it is easy to recognize the benefits of VCS for scientific production and collaboration as well. For example, behavioral experiments are often written in a programming language, and can have multiple authors and versions. Keeping track of the versions of the program, and allowing many authors to contribute to it (without breaking the code) are problems that VCSs were specifically designed for. By extension, VCS is easily adopted to other aspects of the research cycle, such as curating data across computers and laboratories, or writing manuscripts with multiple authors, versions, and sources of results.
+Version Control Systems (VCS; also known as Source Control Systems) are computer programs designed for tracking changes to computer code, and collaborating on the code with others. Although initially developed for writing code collaboratively[^vcs-collaborate], it is easy to recognize that VCS can also be adopted for scientific production and collaboration. For example, behavioral experiments are often written in a programming language, and can have multiple authors and versions. Keeping track of the versions of the program, and allowing many authors to contribute to it (without breaking the code) are problems that VCSs were specifically designed for. By extension, VCS is easily adopted to other aspects of the research cycle, such as curating data across computers and laboratories, or writing manuscripts with multiple authors, versions, and sources of results.
 
 <!-- Examples of problems in psychology solved by VCS. -->
 \begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\footnotesize, title=Box 1. Common problems and their VCS solutions]
@@ -95,9 +95,7 @@ Version Control Systems (VCS; also known as Source Control Systems) are computer
     \end{itemize}
 \end{tcolorbox}
 
-The core concepts of version control are that contributors to a project create small checkpoints of the changes they make to the source code (or manuscript text, data, etc.), and then submit those changes to the VCS. The VCS maintains a history of all these little checkpoints, and the exact state of the project at each of these checkpoints.
-
-<!-- Insert illustration of VCS about here. -->
+The core concepts of version control are that contributors to a project create small checkpoints of the changes they make to the source code (or manuscript text, data, etc.), and then submit those changes to the VCS. The VCS maintains a history of all these little checkpoints, and the exact state of the project at each of these checkpoints. See Figure \@ref(fig:git-diagram) for a diagram of the typical VCS workflow.
 
 Some popular Version Control Systems are SVN, Mercurial, and Git. In this tutorial, we focus on the most widely used (in science) of these, called Git. Git is especially good for scientific collaboration because of online tools (GitHub) that allow seamless collaboration even for very large research teams.
 
@@ -128,6 +126,10 @@ To ensure that Git knows who you are, type `git config --global user.name "User 
 The first operating principle of Git is that your work is organized into independent projects, which Git calls *repositories*. At its core, a repository is a folder on your computer, which is version controlled by Git (you can tell if a folder is "monitored" by git by checking if the folder, or any of its parent folders, contains a hidden `.git` directory). Everything that happens inside a repository is tracked by Git, but the user has full control of what is tracked (everything, by default) and when. Because the user(s) has full control of what and when is tracked, there is a small set of operations the users need to execute every time they wish to log something in Git.
 
 Briefly, when you work in a Git repository, Git stores the state of each file that it monitors, and when any of these files change, Git indicates that they differ from the previously logged state. If the user then is happy with the current changes, she can **add** the changed files to Git's "staging area". If the user then is certain that the files added to the staging area are in good shape, they can **commit** the changes. These two operations are the backbone of using Git to store the state of the project whenever meaningful changes are made.
+
+```{r git-diagram, fig.cap = "A diagram illustrating the typical Git workflow. Verbs indicated in bold text are Git operations and explained in detail in the main text."}
+knitr::include_graphics("../data/git-diagram.png")
+```
 
 Most importantly, each state in Git's log contains the full state of the files at that point in time. Users can always go back to an earlier version by "checking out" a previous state of Git's log. That's why these programs are called Version Control Systems.
 
