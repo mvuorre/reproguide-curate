@@ -22,6 +22,11 @@ Lots of good stuff on the web:
 - <https://jennybc.github.io/2014-05-12-ubc/ubc-r/session03_git.html>
 - <http://r-bio.github.io/intro-git-rstudio/>
 - <http://kbroman.org/github_tutorial/pages/rstudio.html>
+- <http://happygitwithr.com/>
+- <http://ohshitgit.com/>
+    - How to fix mistakes with Git
+    
+Once this repo is public, its history can be viewed (with brilliant fx) here: <http://starlogs.net/#mvuorre/reproguide-curate>
 
 # Topics (roadmap)
 
