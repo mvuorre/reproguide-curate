@@ -63,26 +63,19 @@ Why, do so many research products fall short of the basic scientific standard of
 
 >"To our surprise, some authors are apparently willing to share, but have no easy access to their own data or have lost their data altogether, due to computer crashes or collaborators having left the university. Many authors cite a lack of time as a reason not to share, and note that sharing their data would take too much effort, which is probably due to poor documenta- tion and storage practices." (p. 2-3)
 
-In short, scientists usually excel at *producing* research assets, but commonly fail at *curating* them (a topic commonly known as Digital Asset Management; @jacobsen_implementing_2012). This state of affairs is not surprising because researchers are trained to do research, but receive little or no training in formal methods or accepted gold standards for curating their research assets. For simple[^simple] projects, such as writing a solo-author manuscript, this has not been a problem. However, with increasing complexity of research designs, number of collaborators, research sites, and technical skills required in modern scientific workflows, not knowing how to keep track of materials can lead to serious problems, as detailed above.
+In short, scientists usually excel at *producing* research assets, but commonly fail at *curating* them (a topic commonly known as Digital Asset Management; @jacobsen_implementing_2012). This state of affairs is not surprising because researchers are trained to do research, but receive little or no training in formal methods or accepted gold standards for curating their research assets. For simple[^simple] projects, such as writing a solo-author manuscript, this has not been a problem. However, with increasing complexity of research designs, number of collaborators, research sites, and technical skills required in modern scientific workflows, not knowing how to keep track of materials can lead to serious problems, as detailed above. 
 
 Fortunately for the empirical sciences, challenges related to organizing and curating materials ("digital assets") across time, space, and personnel have been solved to a high standard in computer science with Version Control Systems (VCS). In the remainder of this article, we introduce a popular VCS called Git, and illustrate its use in the scientific workflow with a hypothetical example project. In the tutorial below, we show how to use the Git VCS by using text commands from the computer's command line. After introducing the fundamentals of Git's VCS functions from the command line, we also show how to use Git easily with a Graphical User Interface (GUI) implemented in the popular R Studio Integrated Development Environment (IDE).
 
 # Version Control Systems
 
-Version Control Systems (VCS; also known as Source Control systems) are computer programs designed for tracking changes to computer code, and sharing the code---and its history---with others. Although initially developed for writing computer code collaboratively, it is easy to recognize the benefits of VCS for scientific production and collaboration as well. For example, behavioral experiments are often written in a programming language, and can include multiple authors and versions. Keeping track of the versions of the program, and allowing many authors to contribute to it (without breaking the code) are problems that VCSs were specifically designed for. By extension, VCS easily adopts to other aspects of the research cycle, such as curating data across computers, laboratories, and experiments; even writing manuscripts is easier when it is recognized that manuscripts (usually) undergo multiple rounds of revision, and that multiple authors might want to keep track of all these different versions.
+Version Control Systems (VCS; also known as Source Control Systems) are computer programs designed for tracking changes to computer code, and sharing the code with others. Although initially developed for writing computer code collaboratively[^vcs-collaborate], it is easy to recognize the benefits of VCS for scientific production and collaboration as well. For example, behavioral experiments are often written in a programming language, and can have multiple authors and versions. Keeping track of the versions of the program, and allowing many authors to contribute to it (without breaking the code) are problems that VCSs were specifically designed for. By extension, VCS is easily adopted to other aspects of the research cycle, such as curating data across computers and laboratories, or writing manuscripts with multiple authors, versions, and sources of results.
 
-The core concepts of version control are that contributors to a project create small checkpoints of the changes they make to the source code (or manuscript text, data, etc.), and then submit those changes to the VCS. The VCS maintains a history of all these little checkpoints, and the exact state of the project at each of these checkpoints.
-
-<!-- Insert illustration of VCS about here. -->
-
-Some popular Version Control Systems are SVN, Mercurial, and Git. In this tutorial, we focus on the most widely used (in science) of these, called Git. Git is especially good for scientific collaboration because of online tools (GitHub) that allow seamless collaboration even for very large research teams.
-
-<!-- Examples of problems in psychology solved by VCS somewhere here. -->
-
+<!-- Examples of problems in psychology solved by VCS. -->
 \noindent
 \fbox{\begin{minipage}{\textwidth}
   \begin{itemize}
-    \item Problem: Researchers usually want to try different ways of visualizing and modeling their data, and sometimes it is difficult to keep track of all the different versions.
+    \item Problem: Researchers want to try different ways of visualizing and modeling their data, and keep track of all the different versions they try.
       \begin{itemize}
         \item Solution: VCS allows researchers to save each version of the analysis into a history from where it can be easily recalled. This approach also eschews the need for creating multiple copies of the same analysis files with small tweaks, as illustrated \href{http://phdcomics.com/comics/archive.php?comicid=1531}{here}.
       \end{itemize}
@@ -95,9 +88,15 @@ Some popular Version Control Systems are SVN, Mercurial, and Git. In this tutori
   \end{itemize}
 \end{minipage}}
 
+The core concepts of version control are that contributors to a project create small checkpoints of the changes they make to the source code (or manuscript text, data, etc.), and then submit those changes to the VCS. The VCS maintains a history of all these little checkpoints, and the exact state of the project at each of these checkpoints.
+
+<!-- Insert illustration of VCS about here. -->
+
+Some popular Version Control Systems are SVN, Mercurial, and Git. In this tutorial, we focus on the most widely used (in science) of these, called Git. Git is especially good for scientific collaboration because of online tools (GitHub) that allow seamless collaboration even for very large research teams.
+
 ## The Git Version Control System
 
-It is important to understand that unlike an operating system's (OS) default file viewer, such as Finder (Apple computers) or File Explorer (?? Windows), Git[^git-name] is not a standalone program for navigating files and folders on a computer. Instead, it adds functionality to the OSs existing file system, by making available a specific set of functions--either executed from the command line, or through a graphical user interface (GUI) / integrated development environment (IDE)--that allow taking snapshots of the project and its files, and distributing the work across multiple computers and users. To begin using Git, users must first download and install the Git software on their computers. Git is free and open source, works on Windows, Macintosh, and Linux OSs (among others), and is used by major software developers such as Microsoft, Google, and Facebook. It can be freely downloaded at <https://git-scm.com/>. Before we explain the basics of using Git, we present brief installation instructions for Windows and Apple users. 
+It is important to understand that unlike an operating system's (OS) default file viewer, such as Finder (Apple computers) or File Explorer (?? Windows), Git[^git-name] is not a standalone program for navigating files and folders on a computer. Instead, it adds functionality to the OSs existing file system, by making available a specific set of functions--either executed from the command line, or through a graphical user interface (GUI) / integrated development environment (IDE)--that allow taking snapshots of the project and its files, and distributing the work across multiple computers and users. To begin using Git, users must first download and install the Git software on their computers. Git is free and open source, works on Windows, Macintosh, and Linux OSs (among others). It can be freely downloaded at <https://git-scm.com/>. Before we explain the basics of using Git, we present brief installation instructions for Windows and Apple users. 
 
 ## Installing Git
 
@@ -430,6 +429,8 @@ After executing these commands, you can use all Git and GitHub features from R S
 
 ### Further examples
 
+- Born open data [@rouder_what_2015]
+
 # Git Summary
 
 ## Overview of Git Commands
@@ -461,6 +462,7 @@ commands %>%
 [^git-version]: As of the writing of this article, the current version of Git is 2.13.1.
 [^git-name]: The creator of Git, Linus Torvalds, named Git after himself as "the stupid content tracker" (@mcmillan_after_2005; <https://git-scm.com/docs/git.html>)
 [^simple]: By "simple", we only mean that the technical aspects of the project, related to curating materials related to it, are simple. We of course do not suggest that there might be anything theoretically or scientifically simple in such projects.
+[^vcs-collaborate]: The software we present below is used used by major software developers such as Microsoft, Google, and Facebook on code bases with hundreds of contributors.
 
 # References
 
