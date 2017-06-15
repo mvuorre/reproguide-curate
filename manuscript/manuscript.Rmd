@@ -325,6 +325,10 @@ There are many ways in which a team could collaborate on a Git project (e.g. <ht
 
 In this workflow, a central repository hosted on a research team's server, or an online service like GitHub (<https://github.com/>), is used to pull and push (see Table \@ref(tab:git-commands)) information to and from local repositories. First, one user creates this central repository, then other users clone a local copy (see Table \@ref(tab:git-commands)). All changes are first created, added, and committed locally as detailed above, and only then **pushed** to the central repository. To get changes that other users have pushed to the central repository, a user **pulls** changes from it.
 
+```{r git-diagram-collaborate, fig.cap = "A diagram illustrating the typical collaborative Git workflow with a remote repository (e.g. GitHub). Verbs indicated in bold text are Git operations and explained in detail in the main text.", out.width="6in"}
+knitr::include_graphics("../data/git-diagram-collaborate.png")
+```
+
 Setting up a centralized Git repository on a research team's private server is relatively straightforward, but because the details vary from team to team, here we illustrate the Centralized Workflow using GitHub.
 
 ## GitHub
