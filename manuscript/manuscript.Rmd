@@ -388,19 +388,19 @@ To make a GitHub repository private, navigate to the repository's website with a
 
 # Using Git from IDE
 
-Finally, we have above detailed how to use Git from the computer's command line, but not all users are comfortable---although there is no reason not to be!---with this mode of interacting with their computers. We chose to introduce Git from the command line because eventually users will need to use it for more complicated operations (and it is required for setting the user's information); however, there are various graphical user interfaces (GUIs) available for Git, that allow interacting with Git by pointing and clicking buttons with the mouse.
-
-In this section, we introduce how to use the popular R Studio Integrated Development Environment (IDE) for the R programming language for interacting with Git. An IDE is an interface that bundles together many necessary features of software development---some users may be familiar with R Studio for conducting statistical analyses. Version control is an essential feature of software development, and R Studio provides a good GUI within its IDE for controlling Git.
-
-For this example, we will begin a completely new repository using only R Studio, and assume that readers are familiar with the concepts from the above tutorial.
+Above, we have detailed how to use Git from the computer's command line, but not all users are comfortable---although there is no reason not to be!---with this mode of interacting with their computers. We chose to introduce Git from the command line because eventually users might want to use it for more complicated operations (and it is required for setting the user's information). However, there are various graphical user interfaces (GUIs) available for Git which allow point-and-click interacting with Git.
 
 ## R Studio
 
-[TODO download and install R Studio, cite]
+In this section, we introduce how to use the popular R Studio IDE [@rstudio_team_rstudio:_2016] for the R programming language [@r_core_team_r:_2017] for interacting with Git. An IDE is an interface that bundles together many necessary features of software development---some users may be familiar with R Studio for conducting statistical analyses. Version control is an essential feature of software development, and R Studio provides a good GUI within its IDE for controlling Git.
+
+For this example, we will begin a completely new project using only R Studio, and assume that readers are familiar with the concepts from the above tutorial. R Studio is a free and open source IDE, works on Windows, Mac, and Linux operating systems, and can be downloaded from the project's website at <https://www.rstudio.com/products/rstudio/download/>. Once downloaded and installed, it can be used for accessing the R programming language, and for many operations involved in curating research assets, including a GUI for Git.
 
 Managing projects (and Git repositories) with R Studio is centered on the idea of R Projects. To start a new project with R Studio, open the R Studio application, and click File -> New Project. This brings up a dialog asking whether to create a project in a new directory, existing directory, or checkout an existing project from a version control repository. Here, we create a new project in a new directory, and choose "New Project" in the following screen. Then we'll give a name to the project's home folder and choose where to save it on the computer. Importantly, we'll also check the "Create a git repository" box, which will automatically set up a new repository for the project (provided you have set Git up as detailed above). Clicking "Create project" creates the folder in the specified location, and two files inside the project's main folder.
 
-[TODO put some screenshots in here]
+```{r rstudio-project-1, fig.cap = "Creating a project in R Studio."}
+knitr::include_graphics("images/rstudio-project-1.png")
+```
 
 One of these files is `.gitignore` which we covered above. The other file is and .Rproj file, which indicates that the folder is the home folder for an R (Studio) project. Users don't interact with this file, but when opened, it is simply a plain text file containing the project's settings (these can be modified through Tools -> Project Options in R Studio).
 
