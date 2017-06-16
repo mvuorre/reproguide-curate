@@ -73,31 +73,31 @@ Fortunately for the empirical sciences, challenges related to organizing and cur
 
 Version Control Systems (VCS; also known as Source Control Systems) are computer programs designed for tracking changes to computer code, and collaborating on the code with others. Although initially developed for writing code collaboratively[^vcs-collaborate], it is easy to recognize that VCS can also be adopted for scientific production and collaboration. For example, behavioral experiments are often written in a programming language, and can have multiple authors and versions. Keeping track of the versions of the program, and allowing many authors to contribute to it (without breaking the code) are problems that VCSs were specifically designed for. By extension, VCS is easily adopted to other aspects of the research cycle, such as curating data across computers and laboratories, or writing manuscripts with multiple authors, versions, and sources of results.
 
-<!-- Examples of problems in psychology solved by VCS. -->
-\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\footnotesize, title=Box 1. Common problems and their VCS solutions]
+The core concepts of version control are that contributors to a project create small checkpoints of the changes they make to the source code (or manuscript text, data, etc.), and then submit those changes to the VCS. The VCS maintains a history of all these little checkpoints, and the exact state of the project at each of these checkpoints. See Figure \@ref(fig:git-diagram) for a diagram of the typical VCS workflow.
+
+Some popular Version Control Systems are SVN, Mercurial, and Git. In this tutorial, we focus on the most widely used (in science) of these, called Git. Git is especially good for scientific collaboration because of online tools (GitHub) that allow seamless collaboration even for very large research teams.
+
+<!-- Examples of problems in psychology solved by Git. -->
+\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\footnotesize, title=Box 1. Common problems and their Git solutions]
     \begin{itemize}
     \item How to try different ways of visualizing and modeling data while keeping track of the different versions---and the differences between them?
         \begin{itemize}
-        \item VCS saves each version of the analysis, allowing testing new features without losing previous versions or proliferating files in the project's directories. All the past versions can be directly compared with each other.
+        \item Git saves each version of the analysis, allowing testing new features without losing previous versions or proliferating files in the project's directories. All the past versions can be directly compared with each other.
         \end{itemize}
     \end{itemize}
     \begin{itemize}
     \item How to work on the same code or manuscript files simultaneously with collaborators?
         \begin{itemize}
-        \item VCS were built for distributed collaborative work: Collaborators work on their local copies and "push" and "pull" material to and from each other or a central "repository". VCS keeps precise track of who has done what, when, and (possibly) why.
+        \item Git was designed for distributed collaborative work: Collaborators work on their local copies and "push" and "pull" material to and from each other or a central "repository". Git keeps precise track of who has done what, when, and (possibly) why.
         \end{itemize}
     \end{itemize}
     \begin{itemize}
     \item How to share my work in an organized manner with others?
         \begin{itemize}
-        \item VCS requires committing to a common organization scheme with collaborators, making it easier to keep everyone "on the same page" with what goes where and how to contribute to specific parts of the project. Sharing the project with others is built into VCS, and can be facilitated with online services such as GitHub.
+        \item Git enforces a common organization scheme among collaborators, making it easier to keep everyone "on the same page" with what goes where, and how to contribute to specific parts of the project. Sharing the project with others is built into Git, and can be facilitated with online services such as GitHub.
         \end{itemize}
     \end{itemize}
 \end{tcolorbox}
-
-The core concepts of version control are that contributors to a project create small checkpoints of the changes they make to the source code (or manuscript text, data, etc.), and then submit those changes to the VCS. The VCS maintains a history of all these little checkpoints, and the exact state of the project at each of these checkpoints. See Figure \@ref(fig:git-diagram) for a diagram of the typical VCS workflow.
-
-Some popular Version Control Systems are SVN, Mercurial, and Git. In this tutorial, we focus on the most widely used (in science) of these, called Git. Git is especially good for scientific collaboration because of online tools (GitHub) that allow seamless collaboration even for very large research teams.
 
 ## The Git Version Control System
 
