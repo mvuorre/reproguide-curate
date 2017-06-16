@@ -402,7 +402,7 @@ Managing projects (and Git repositories) with R Studio is centered on the idea o
 knitr::include_graphics("images/rstudio-project-1.png")
 ```
 
-One of these files is `.gitignore` which we covered above. The other file is and .Rproj file, which indicates that the folder is the home folder for an R (Studio) project. Users don't interact with this file, but when opened, it is simply a plain text file containing the project's settings (these can be modified through Tools -> Project Options in R Studio).
+One of these files is `.gitignore` which we covered above. The other file is an `.Rproj` file, which indicates that the folder is the home folder for an R (Studio) project. Users don't interact with this file directly, but if opened, it is a plain text file containing the project's settings (these can be modified through Tools -> Project Options in R Studio).
 
 ## Using Git with R Studio
 
@@ -414,7 +414,7 @@ knitr::include_graphics("images/rstudio-git-1.png")
 
 ### Add and Commit changes
 
-To mark this milestone of creating a project, let's commit these changes to Git. The workflow is exactly the same as when using Git from the terminal, but we now have some visually appealing helpers. To begin committing these changes, click on "Commit" in the Git tab. This brings up another window where we can select files to add into the staging area (the `.gitignore` file in Figure \@ref(fig:rstudio-git-2) is staged by checking the box). Once all the desired files (here we chose both) are staged, we write a short commit message as detailed above, and click the "Commit" button.
+To mark this milestone of creating a project, commit all the changes so far (new files, new project) to Git. The workflow is exactly the same as when using Git from the terminal, but there are now some visually appealing helpers. To begin committing these changes, click on "Commit" in the Git tab. This brings up another window where you can select files to add into the staging area (the files in Figure \@ref(fig:rstudio-git-2) are staged by checking the boxes on the names' left). Once all the desired files (here we chose both) are staged, you can write a short commit message in the appropriate text box, and click the "Commit" button. The text highlighted in green in the bottom part of Figure \@ref(fig:rstudio-git-2) indicates the lines of text that were changed in the selected file (`.gitignore`). These lines are all green because the file is new to Git and therefore each change is an addition (the files are unimportant R project files which users can safely ignore.)
 
 ```{r rstudio-git-2, fig.cap = "Creating a Git commit with R Studio."}
 knitr::include_graphics("images/rstudio-git-2.png")
@@ -422,7 +422,7 @@ knitr::include_graphics("images/rstudio-git-2.png")
 
 ### Add a remote GitHub repository
 
-When creating the R Project, there was an option for creating the project from an existing Git repository. Because we didn't do this, we must now manually instruct Git that this repo should have a remote in GitHub. This is done exactly as above, and we must use command line functions. After you've created a new repository on GitHub, navigate to the project's folder on your computer with the command line navigator of your choice, and execute the following commands:
+When creating the R Project, there was an option for creating the project from an existing Git repository. Because we didn't do this, we must now manually instruct Git that this project should have a remote GitHub repository. This is done exactly as above, using the command line functions. After you've created a new repository on GitHub, navigate to the project's folder with the command line shell (or you can click on "More" in R Studio's Git tab, and then "Shell", which opens a new shell window in the correct location), and execute the following commands (but replace <username> and <reponame> with the correct names):
 
 ```bash
 git remote add origin https://github.com/<username>/<reponame>.git
