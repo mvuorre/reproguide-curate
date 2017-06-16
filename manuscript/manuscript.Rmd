@@ -294,19 +294,29 @@ After this last commit, you can at any time come back to this commit with `git l
 
 This possibility of "rewinding history" is especially useful for files that might go under multiple revisions (manuscripts, analysis files), or if you are interested when and in what order the files were created---and who created or changed them. One might consider committing a power analysis as a small personal pre-registration of a part of the research plan.
 
+### Try a new feature
+
+We often find that making some changes to a project didn't have the desired effect: The manuscript ended weaker or the analysis didn't work anymore. Git allows great flexibility in trying new features, then undoing the changes[^git-branches]. Starting with an empty staging area, you could start modifying a file (e.g. `plan_n.R`), and after a while find out that the changes were not for good. At this point it is common to press "Undo" in the text editor, but if the file has been saved multiple times or multiple files have been changed, it is difficult to get to the starting point by simply using the "Undo" button. Instead, with Git you can **checkout** the file's previous version from history. To undo all changes to `plan_n.R` (since the last commit), run
+
+```bash
+git checkout experiment-1/analysis/plan_n.R
+```
+
+Notice that you have to write the full path of the file (relative to the project's root) so Git knows precisely which file you want to checkout from history. With these example operations, we have discussed the main Git operations as outlined in Figure \@ref(fig:git-diagram): Make changes to files, **add** to staging area, **commit** to history; **checkout** from history to undo changes. 
+
 # Collaborating
 
-The true advantages of using a VCS such as Git become apparent when we consider projects with more than one contributor. For example, consider a project where data is collected at multiple sites, and these files are then saved onto a centralized server, or shared through a service that automatically merges files from multiple sources (such as the popular Dropbox service). If two or more sites accidentally save a data file with the same name (e.g. `data-001.csv`), and these changes are automatically merged, the later file will simply overwrite the earlier file. Disaster!
+The true advantages of using Git become apparent when we consider projects with more than one contributor. For example, consider a project where data is collected at multiple sites, and these files are then saved onto a centralized server, or shared through a service that automatically merges files from multiple sources (such as the popular Dropbox service). If two or more sites accidentally save a data file with the same name (e.g. `data-001.csv`), and these changes are automatically merged, the later file will simply overwrite the earlier file. Disaster!
 
-Or consider a data analysis where two or more people work simultaneously on some complicated analysis. If user A and B have the same file open on multiple computers, after a while when user B saves the file, user A's version of the file will be overwritten. Disaster!
+Alternatively, consider a data analysis where two or more people work simultaneously on some complicated analysis. If user A and B are making changes to the same file and user B saves the file, user A's version of the file will be overwritten. Disaster!
 
-Git and other VCSs were specifically designed to allow (and facilitate) multi-site collaboration on extremely complex projects, as for example required by leading software companies such as Apple and Microsoft. Next, we'll illustrate how collaborating on a Git project works in practice.
+Git and other VCSs, on the other hand, were specifically designed to allow (and facilitate) multi-site collaboration on arbitrarily complex projects: Microsoft Windows is developed on a Git platform. Git is especially helpful in scientific collaboration, a topic to which we turn next.
 
-There are many ways in which a team could collaborate on a Git project (e.g. <https://www.atlassian.com/git/tutorials/comparing-workflows>), and here we focus on a common one, called the "Centralized Workflow". 
+There are many ways in which a team could collaborate on a Git project (e.g. <https://www.atlassian.com/git/tutorials/comparing-workflows>); here we focus on a common one, called the "Centralized Workflow" where one virtual copy of the project is considered the central node, and all contributors interact with this central node, instead of directly with each other. 
 
 ## Overview of the Centralized Git Workflow
 
-In this workflow, a central repository hosted on a research team's server, or an online service like GitHub (<https://github.com/>), is used to pull and push (see Table \@ref(tab:git-commands)) information to and from local repositories. First, one user creates this central repository, then other users clone a local copy (see Table \@ref(tab:git-commands)). All changes are first created, added, and committed locally as detailed above, and only then **pushed** to the central repository. To get changes that other users have pushed to the central repository, a user **pulls** changes from it.
+In this workflow, a central project hosted on a research team's server, or an online service like GitHub (<https://github.com/>), is used to send and receive information from and to local projects. Because the word "project" can now refer to virtual copies of projects, they are instead commonly referred to as **repositories**. First, one user creates this central repository, then other users **clone** a local copy of it (see Table \@ref(tab:git-commands)). Contributors, including the one who created the central repository, then work on their local projects as detailed above, and after committing **push** their changes to the central repository. To get changes that other users have pushed to the central repository, contributors **pull** changes from it.
 
 ```{r git-diagram-collaborate, fig.cap = "A diagram illustrating the typical collaborative Git workflow with a remote repository (e.g. GitHub). Verbs indicated in bold text are Git operations and explained in detail in the main text.", out.width="6in"}
 knitr::include_graphics("../data/git-diagram-collaborate.png")
@@ -316,41 +326,37 @@ Setting up a centralized Git repository on a research team's private server is r
 
 ## GitHub
 
-GitHub is one of the 100 most popular website worldwide, and hosts over 60 million software projects with a total of over 20 million users (<https://github.com/about>). We chose GitHub for collaboration because it is already the de-facto standard in VCS collaboration among scientists, it offers free private (see below) repositories for students, and has many attractive features, some of which we will detail below.
+GitHub is one of the 100 most popular website worldwide, and hosts over 60 million software projects with a total of over 20 million users (<https://github.com/about>). We chose GitHub for collaboration because it is already the de-facto standard in VCS collaboration among scientists, it offers free private (see below) repositories for students, and repositories from GitHub can easily be connected to projects hosted on the Open Science Framework (<https://osf.io>).
 
 Anyone wanting to use GitHub must first create a free user account at <https://github.com>. After the user account has been set up, and the user has logged in, creating a new repository at GitHub is self evident (there is a big green button labeled "New repository"). You must create the GitHub account with the same email address as you used above when configuring your local Git (or re-configure your local Git to use your the email address that you used to register for GitHub).
 
 ### Create a new GitHub repository
 
-Although we are creating a new repository here, the goal is to create an online "remote" for the running example within this tutorial, and therefore the specific steps are slightly different than what they would be if a brand new repository was needed. 
-
-For the current example, after clicking "New repository", we simply enter a name, which can be anything, but for consistency we call the GitHub repository `git-example`. After entering the name, click "Create repository", and the next step is to link the new remote to the local repository. The required steps are detailed on screen when you do this at GitHub, but here we would execute the following command in the command line:
+Although we are creating a new repository here, the goal is to create an online "remote" repository for the running example within this tutorial. Because of this, do not check the "Initialize this repository with a README" (you already created one in the local repository), do not add a .gitignore or a license. For the current example, after clicking "New repository", we simply enter a name, which can be anything but for consistency we call the GitHub repository `git-example`---the same name as our local project folder. After entering the name, click "Create repository". The next step is to link the new remote to the local repository, and the required steps are detailed on screen when you do this at GitHub:
 
 ```bash
 git remote add origin https://github.com/<username>/<reponame>.git
 ```
 
-Where `<username>` and `<reponame>` should be replaced with the user's GitHub username, and the GitHub repository name. Once the connection is set up, we can **push** local changes to the GitHub remote:
+Where `<username>` and `<reponame>` are the user's GitHub username, and the GitHub repository name. The correct address is visible in the GitHub page that opens after creating the repository. Once the connection is set up, we can **push** local changes to the GitHub remote:
 
 ```bash
 git push -u origin master
 ```
 
-The `-u origin master` are only required for the first push, as they set up the connection. For pushing any changes collowing this, simply type `git push` after adding and committing locally.
-
-The team has now created the remote Central repository, and other users can start contributing to it. 
+The `-u origin master` are only required for the first push, as they set up the connection. Running this command will send your local repository to the GitHub repository. For pushing changes collowing this initial push, simply type `git push` after adding and committing locally. You have now created the remote Central repository, and other users can start contributing to it. 
 
 ### Contributing to a Central (GitHub) repository
 
-Once another team member has set up Git on their own computer, and signed up for GitHub, they need to **clone** the remote GitHub repository onto their local computer. [TODO actually check that these steps are correct with a 'fresh' computer.]
-
-To clone a repository, the new user must first navigate to an appropriate location on the computer where they would like to create the repository on their computer, for example their `username/Documents` folder. Once the appropriate location is found, cloning will create a new folder for the repo inside this folder.
+Once another team member has set up Git on their own computer, and signed up for GitHub, they need to **clone** the remote GitHub repository onto their local computer. To clone a repository, the new user must first navigate to an appropriate location on the computer where they would like to save the project on their computer, for example their `User/Documents` folder. Once the appropriate location is found, cloning will create a new folder for the repository inside this folder.
 
 ```bash
 git clone https://github.com/<username>/<reponame>.git
 ```
 
-These new contributors can then work on their local copies as detailed in earlier parts of this tutorial; making changes, adding, and committing. After committing their changes, they can update the status of the Central Git repo by pushing their changes to it:
+To find out the correct link to enter to `git clone`, you can navigate your web browser to the repository's GitHub address (e.g. <https://github.com/mvuorre/reproguide-curate> for this tutorial's repository) and click the big green "Clone or download" button; the complete address is in the text box. 
+
+New contributors can then work on their local copies as detailed in earlier parts of this tutorial; making changes, adding, committing, and pushing. After committing their changes, they can update the status of the Central Git repo by pushing their changes to it:
 
 ```bash
 git push
@@ -358,25 +364,27 @@ git push
 
 ### Obtaining other's changes from Central repo
 
-Just as you must manually push your own local changes to the remote repository, you must also obtain others' changes by **pulling** them from the central repo. Before starting to work on your proposed change, pull the remote changes with [TODO see if it needs to be rebased]:
+Just as you must manually push your own local changes to the remote repository, you must also obtain others' changes by **pulling** them from the central repo. Pulling is indicated as the first step in the collaborative workflow in Figure \@ref(fig:git-diagram-collaborate), because it is important that you start working on the most up to date version of the project (e.g. you don't want to reinvent the wheel or make unnecessary conflicting changes). Before starting to work on your proposed changes, pull the remote changes with:
 
 ```bash
 git pull
 ```
 
-The way in which users, and their local repositories, interact with the central repository by pushing and pulling is the cornerstone of collaboration on GitHub, and thoughtful use of these commands allows for complex workflows without any important code (data, ideas in manuscript, analysis code) being ever overwritten. However, there is no automatic way for a computer to tell what changes to prioritize: If two users have worked on the same code, and they both attempt to push their changes, the user to do this later will have to resolve the **conflict**.
+The way in which users and their local repositories interact with the central repository by pushing and pulling is the cornerstone of collaboration on GitHub, and thoughtful use of these commands allows for complex workflows without any important code (data, ideas in manuscript, analysis code) ever being overwritten. However, there is no automatic way for a computer to tell what changes to prioritize: If two or more users have worked on the same code and then attempt to push their changes, it is possible that they have made changes that conflict with each other. If this happens, and it will, there is no need to worry; you simply need to know how to resolve the conflict.
 
 ### Resolving a conflict
 
-If user A has pushed changes to the central repository while user B was working on the same code, user B's push will result in a merge conflict. That is just a natural consequence of two individuals working simultaneously on the same idea. User B simply needs to first merge the changes in the remote repository to her own code by pulling from the remote. Once the conflict has been manually resolved (and user B's code updated with the pull), user B can push changes from her local repository to the central repository. How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial. For more information, see e.g. <https://www.atlassian.com/git/tutorials/comparing-workflows>. The GitHub customer service is also very responsive to users' help requests.
+If user A has pushed changes to the central repository while user B was working on the same code, user B's later push can result in conflict. That is just a natural consequence of two individuals working simultaneously on the same idea, and then writing different code in the same location in the file. When this happens, user B needs to first pull the most up to date changes from the remote repository to her local code, and then inspect the code for problems (which will be apparent, Git will insert pointers to where the conflict is occurring.) Once user B's local code is updated with the pull, and the conflict manually resolved, user B can push changes from her local repository to the central repository. 
+
+How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial. For more information, see e.g. <https://www.atlassian.com/git/tutorials/comparing-workflows>. The GitHub customer service is also very responsive to users' help requests. Most importantly, even in the event of merge conflicts, all committed changes are saved in Git's history and can be retrieved.
 
 ## Private or public collaboration?
 
-By default, all GitHub repositories are public, meaning that anyone with an internet connection can use their web browser to inspect the contents of your repository, or even clone it to their computer. This may sound intimidating to researchers who are used to working in a more private context, and clearly necessitates planning and thought with respect to issues such as data privacy and sharing sensitive materials. However, for many projects---including the writing of this tutorial---we see very few downsides to working "in the open".
+By default, all GitHub repositories are public: Anyone with an internet connection can use their web browser to inspect the contents of your repository, or even clone it to their computer. This may sound unfamiliar to researchers used to working more privately, and clearly necessitates planning and thought with respect to issues such as data privacy and sharing sensitive materials. However, for many projects---including the writing of this tutorial---we see very few downsides to working "in the open".
 
-There are two alternatives to working in a public GitHub repository: One, which we won't cover here, is to not use GitHub but instead place the central repository on the research team's shared server. The second option is to change the repository's settings on GitHub (this can be done when the repository is first created or afterwards) to private. Private repositories, and their contents, are only accessible to invited team members, and are therefore ideal for small teams who would like to work without revealing their master plans to the public just yet.
+There are two alternatives to working in a public GitHub repository: One, which we won't cover here, is to not use GitHub but instead place the central repository on the research team's shared but private server. The second option is to make the repository private on GitHub (this can be done when the repository is first created or afterwards by clicking Settings on the repository's website). Private repositories, and their contents, are only accessible to invited team members, and are therefore ideal for small teams who would like to work without revealing their master plans to the public just yet. For example, you might initially choose to work in a private repository, and only make it public once you feel the material is mature enough for public consumption.
 
-To make a GitHub repository private, navigate to the repository's website with a web browser (e.g. <https://github.com/<username>/<reponame>>), and click "Settings", then "Make this repository private". Once one user has set the central GitHub repository to as private, anyone wishing to clone, push, pull, or view the repo must provide their GitHub username and password. Only if they match an invited team members username and password can the user access the repository.
+To make a GitHub repository private, navigate to the repository's website with a web browser, and click "Settings", then "Make this repository private". Once one user has set the central GitHub repository to private mode, anyone wishing to clone, push, pull, or view the repo must provide their GitHub username and password. Only if they match an invited team members username and password can the user access the repository.
 
 # Using Git from IDE
 
@@ -460,6 +468,7 @@ commands %>%
 [^git-link-submodules]: For advanced users, Git *submodules* allow linking projects to each other, or organizing more complex projects into projects and their sub-projects (<https://git-scm.com/book/en/v2/Git-Tools-Submodules>).
 [^git-cheat-sheet]: It helps to have a Git command cheat sheet (<https://services.github.com/resources/cheatsheets/>) printed and taped on your wall, but it contains many more commands than are needed for the basic use of Git.
 [^tier-link]: <http://www.projecttier.org/tier-protocol/specifications/>
+[^git-branches]: A particularly powerful approach for trying new features is **branching**: The project can be duplicated to a new branch and modified, then merged back to the main branch after work on the new feature is complete---or the new branch can be discarded if the work ended unsatisfactory. Branches are outside the scope of this tutorial, for more information see the Git website (<https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell>).
 
 # References
 
