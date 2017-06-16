@@ -429,15 +429,11 @@ git remote add origin https://github.com/<username>/<reponame>.git
 git push -u origin master
 ```
 
-After executing these commands, you can use all Git and GitHub features from R Studio without having to use the command line.
-
-### Further examples
-
-- Born open data [@rouder_what_2015]
+After executing these commands, you can use all Git and GitHub features from R Studio. This is especially useful because the R Studio IDE offers a complete environment for project management, data analysis, and manuscript preparation with the R Markdown and knitr R packages [@allaire_rmarkdown:_2016; @xie_knitr:_2016]. Psychologists will be especially interested in the papaja package for creating APA formatted manuscripts (@aust_papaja:_2016; the source code of this manuscript, which was prepared with the papaja package, can be found at <https://github.com/mvuorre/reproguide-curate>).
 
 # Git Summary
 
-## Overview of Git Commands
+Table \@ref(tab:git-commands) gives the main Git commands and their purported use in roughly the order in which they would be used in a typical workflow. Help on how to use each command is available by appending `--help` to each command (e.g. `git commit --help`). When printed in the command line, some help pages run for several pages, press the spacebar to move to the next page, or `q` to quit looking at the help page. In Box 2 we give links to online materials that we have found particularly helpful in learning Git and teaching it to others.
 
 ```{r git-commands, results = 'asis', warning = F}
 commands <- read_csv("data/git-commands.csv")
@@ -458,6 +454,23 @@ commands %>%
     \item \href{https://git-scm.com/book/en/v2}{Pro Git book}, a complete manual of Git (\url{https://git-scm.com/book/en/v2}).
 \end{itemize}
 \end{tcolorbox}
+
+# Discussion
+
+We have presented an introductory tutorial on using the Git version Control System for curating and collaborating on research assets in behavioral sciences. Although this tutorial includes enough material to get started and manage most operations, Git (and GitHub) is a vast ecosystem with endless opportunities. For example, the concept of "Born open data", where research data is automatically posted online upon collection, is made very easy with the Git + GitHub workflow [@rouder_what_2015]. Another important feature of this workflow, which we did not cover, relates to disseminating scientific knowledge. The Git + GitHub workflow, especially when used from R Studio, makes it easy for researchers to create accessible documents in .pdf, website, blog post and other formats for facilitating communicating their research.
+
+Some limitations of using Git (and GitHub) are that it requires some initial learning up front, and human intervention at various steps when changes are committed, pushed, etc. Other common collaboration and "versioning" systems, such as Dropbox seem to manage these operations automatically and without requiring any time investment in learning the tools. Why, then, should researchers spend their valuable time in learning to use Git (or other VCSs) instead of alternatives (e.g. Dropbox). 
+
+First, Dropbox doesn't save detailed information on who did what and when at each change point in a file's history: Although files' past versions are saved for 30 days (for free account users), it is impossible to tell what exactly changed between versions, and therefore finding the desired version of a file can be particularly difficult. With Git, you can easily `git log` back in time and see what happened at each change-point (especially if you took the time to write informative commit messages.)
+
+Second, we offer that the investment---which may itself be smaller than many might think---to learning Git can end up turning into saved time for more complex projects, because Git never loses track of a project's history, and allows for multiple collaborators to seamlessly work together on the same files. Collaborators don't need to give a file to one person to work on while all others wait for these changes.
+
+Third, the realities of scientific collaboration are too complex to easily narrow down to a model in which files are automatically updated across multiple computers, such as they are when using an "automatic" service like Dropbox. Sharing complex ideas and code across multiple collaborators will ultimately always require some form of human oversight and communication, and this insight has been recognized and implemented by software developers, and Git's tools for merging complex ideas from multiple sources.
+
+Finally, it is important to note that Version Control and backups of one's work are not the same thing. Although Git allows for keeping track of the history of one's project, it is not a physical or virtual backup of that work. Researchers should also maintain best practices in backing up their research assets in multiple physical locations, and possibly online as well.
+
+The challenges to reproducibility are many, and they have only recently received the targeted attention they deserve for the reliability of empirical sciences. Curating research assets and focusing on the scientific workflow is important for ensuring the continuity of one's work and improves efforts for a cumulative and reliable science.
+
 \newpage
 
 [^git-version]: As of the writing of this article, the current version of Git is 2.13.1.
