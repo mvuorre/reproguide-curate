@@ -35,7 +35,8 @@ header-includes:
 ```{r include = FALSE}
 library(knitr)  # Make sure that knit directory is project root
 opts_chunk$set(
-    fig.align = "center"
+    fig.align = "center",
+    root.dir = "../"
 )
 library(papaja)
 library(tidyverse)
@@ -435,7 +436,7 @@ After executing these commands, you can use all Git and GitHub features from R S
 
 Table \@ref(tab:git-commands) gives the main Git commands and their purported use in roughly the order in which they would be used in a typical workflow. Help on how to use each command is available by appending `--help` to each command (e.g. `git commit --help`). When printed in the command line, some help pages run for several pages, press the spacebar to move to the next page, or `q` to quit looking at the help page. In Box 2 we give links to online materials that we have found particularly helpful in learning Git and teaching it to others.
 
-```{r git-commands, results = 'asis', warning = F}
+```{r git-commands, results = 'asis', warning = F, error=T}
 commands <- read_csv("data/git-commands.csv")
 commands %>% 
     apa_table(
