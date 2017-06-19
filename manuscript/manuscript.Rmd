@@ -118,9 +118,23 @@ Even if you already have Git installed (some computers do) it is good practice t
 
 ## Git setup
 
-Once you have installed Git, you can be use it from the command line or through a GUI--there are various GUIs for using Git, and below we will explain how to use the R Studio Git GUI. First, it is important to learn a few basic Git commands from the OSs command line. The command line is a text-based interface for interacting with your computer, and its functionality greatly extends that of the standard way of interacting with the computer by clicking and pointing with a mouse.
+Once you have installed Git, you can use it from the computer's command line or through a GUI---there are various GUIs for using Git, and below we will explain how to use the R Studio Git GUI. First, it is important to learn a few basic Git commands from the OSs command line, because it is simultaneously the most basic and most flexible interface to Git's functionality. Understanding the basic Git commands as entered through the computer's command line facilitates understanding its more advanced uses, and is highly recommended, hence we begin using Git from the command line.
 
-To access the command line interface, you need to use a command line "shell" application. Mac users can open the built-in app *Terminal*, and Windows users can download and use one of many alternatives, such as Microsoft PowerShell (<https://msdn.microsoft.com/powershell>). After opening the shell app, you can type in commands to access the interface. For example typing `ls` (hit Return to execute) lists the files in the current folder. Some users may find using a text-based command line interface unfamiliar, but to get started with Git, there are only two required configuration commands which you need to run once, and the basic functionality requires using only four commands[^cli-links]. However, users can also read through the first part of the tutorial without executing the commands and simply focus on the workflow; we show how to use Git with a GUI in the second part of the tutorial.
+### The command line
+
+The command line is a text-based interface for interacting with your computer, and its functionality greatly extends that of the standard way of interacting with the computer by clicking and pointing with a mouse. Many advanced techniques require using your computer through a command line, and it is very helpful in e.g. scripting and scheduling tasks on your computer. Here, we introduce the command line in just enough detail so that you can navigate folders on the computer, and set up Git's basic configuration (identify Git's user).
+
+To access the command line interface, you need to use a command line "shell" application. Mac users can open the built-in app *Terminal*, and Windows users can use Git Bash, which is provided with the Git for Windows program. After opening the shell app, you can type in commands and execute them by pressing Return (Mac) or Enter (Windows). 
+
+For example typing and executing `ls` in the command line lists the files in the current folder. First, you will want to know how to navigate the folders on your computer (a task that is typically done by clicking folders in Finder (Mac) or File Explorer (Windows)). Typically, when you open up your command line shell, you begin in the user's home directory. Depending on your operating system, the home directory is often represented with a `~` on the left side of the cursor. To ask for the current working directory, you can use the function `pwd`. To move up in the directory hierarchy (into the folder that contains the current directory), you can use `cd ..` (note the space). To move into a folder that is inside the current working directory, you can use `cd folder` where `folder` is the name of the desired folder. These command line functions are illustrated in Figure \@ref(fig:cli-intro).
+
+```{r cli-intro, fig.cap="The Terminal command line shell. The functions are explained in more detail in the text. You command line interface might look slightly different because of different user names, operating systems, and command line shell applications."}
+knitr::include_graphics("images/terminal-commands.png")
+```
+
+Some users may find using a text-based command line interface unfamiliar, but to get started with Git, there are two required configuration commands which you need to run once, and the basic functionality requires using only four commands[^cli-links]. However, users can also read through the first part of the tutorial without executing the commands and simply focus on the workflow; we show how to use Git with a GUI in the second part of the tutorial.
+
+### Setting Git user info
 
 The first step in using Git is making Git aware of who is using the computer. You need to set the user name and email address by entering a few basic commands in the command line. First, to show the current user information, type `git config --global user.name`, and hit return. This should not return anything, unless a previous user of the computer has set the global Git user name. 
 
