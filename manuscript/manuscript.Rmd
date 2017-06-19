@@ -138,19 +138,23 @@ Some users may find using a text-based command line interface unfamiliar, but to
 
 The first step in using Git is making Git aware of who is using the computer. You need to set the user name and email address by entering a few basic commands in the command line. First, to show the current user information, type `git config --global user.name`, and hit return. This should not return anything, unless a previous user of the computer has set the global Git user name. 
 
-Each Git command starts with the word `git`, then a command (such as `config`), and then arguments to the command, such as `--global` (for global configuration) followed by the `user.name` variable name to show the global user name. For detailed instructions on how to use Git commands, you can type `git --help`. For help on how to use the `git config` command, type `git config --help`.
+Each Git command starts with the word `git`, then a command (such as `config`), and then arguments to the command, such as `--global` (for global configuration) followed by the `user.name` variable name to show the global user name. 
 
-To ensure that Git knows who you are, type `git config --global user.name "User Name"` (where User Name is your name) in the command line, and hit return. This command maps `"User Name"` to Git's global `user.name` variable. If you now re-run the first command (`git config --global user.name`), the command line will return the name you entered as `"User Name"`. The user name can be anything you'd like, but it is probably a good idea to use your real name so that potential collaborators know who you are. The second piece of information is your email address, which is entered by `git config --global user.email "email@address.com"` (where `"email@address.com"` is your email address). You can verify that the correct email address was saved by typing `git config --global user.email` in the Terminal, and hit return. 
+```{r git-setup, fig.cap="Setting up Git's configuration using the command line. Notice that for these configuration commands, the current working directory does not matter (we did them in the user's home directory, indicated by \~)."}
+knitr::include_graphics("images/git-setup.png")
+```
 
-Once this information is entered, Git will know who you are, and is able to track who is doing what and when within a project, which is especially helpful when you are collaborating with other people, or when you are working on multiple computers.
+To ensure that Git knows who you are, type `git config --global user.name "User Name"` (where User Name is your name) in the command line, and hit return. This command maps `"User Name"` to Git's global `user.name` variable. If you now re-run the first command (`git config --global user.name`), the command line will return the name you entered as `"User Name"`. The user name can be anything you'd like, but it is probably a good idea to use your real name so that potential collaborators know who you are. The second piece of information is your email address, which is entered by `git config --global user.email "email@address.com"` (where `"email@address.com"` is your email address). You can verify that the correct email address was saved by typing `git config --global user.email` in the Terminal, and hit return. These commands are illustrated in Figure \@ref(fig:cli-intro).
+
+Once this information is entered, Git will know who you are, and is able to track who is doing what and when within a project, which is especially helpful when you are collaborating with other people, or when you are working on multiple computers. For detailed instructions on how to use Git commands, you can type `git --help`. For help on how to use the `git config` command, type `git config --help`.
 
 # Using Git
 
-The first operating principle of Git is that your work is organized into independent projects, which Git calls *repositories*[^git-link-submodules]. A repository is a folder on your computer which is version controlled by Git (you can tell if a folder is "monitored" by git by checking if the folder, or any of its parent folders, contains a hidden `.git` directory). Everything that happens inside a repository is tracked by Git, but you have full control of what is committed to Git's history and when. Because you have full control of what and when is committed to history, there is a small set of operations you need to know[^git-cheat-sheet].
+The first operating principle of Git is that your work is organized into independent projects, which Git calls *repositories*[^git-link-submodules]. A repository is a folder on your computer which is version controlled by Git[^git-folder]. Everything that happens inside a repository is tracked by Git, but you have full control of what is committed to Git's history and when. Because you have full control of what and when is committed to history, there is a small set of operations you need to know[^git-cheat-sheet].
 
 Briefly, when you work in a Git repository (make changes to files within it), Git monitors the state of each file, and when they change Git knows that they differ from the previously logged state. If you are happy with the current changes, you **add** the changed files to Git's "staging area". If you then are certain that the changes in the staging area are desirable, you **commit** the changes. These two operations are the backbone of using Git to store the state of the project whenever meaningful changes are made. Importantly, each commit in the repository's history contains information to recover the full state of the project at that point in time. Users can always go back to an earlier version by **checking out** a previous state from Git's history. This core of the Git workflow is illustrate in Figure \@ref(fig:git-diagram).
 
-```{r git-diagram, fig.cap = "A diagram illustrating the typical Git workflow. Verbs indicated in bold text are Git operations and explained in detail in the main text."}
+```{r git-diagram, fig.cap = "A diagram illustrating the typical Git workflow. Verbs indicated in bold text are Git operations and explained in detail in the main text. In brief, the typical Git workflow consists of making changes to files in the project (such as editing a manuscript.) Once the revised version of the file is saved, the user adds the changed file to the staging area. Many files can be added to the staging area, if desired. Once the changes in the staging area reflect a conceptual entity, such as edits to an image file and its accompanying caption in the manuscript, the user then commits the changes to Git's history. These commits are accompanied with short commit messages that describe the changes made in that commit. Finally, when needed, changes to files can be discarded by checking out an earlier version of the file from Git's history."}
 knitr::include_graphics("../data/git-diagram.png")
 ```
 
@@ -158,26 +162,36 @@ To understand the Git workflow in practice, we now turn to a practical example u
 
 ## Organizing files and folders
 
-Implementing reproducibility into the scientific workflow is less time-consuming and effortful if it is planned from the onset of the project, rather than added to the project after all the work has been completed. It is therefore important to organize the project keeping a few key goals in mind (here, we follow guidelines such as the Project TIER recommendations[^tier-link]): The files and folders should have easy to understand names (avoid idiosynchratic naming schemes), and the names should indicate the purposes of the files and folders. 
+Implementing reproducibility into the scientific workflow is less time-consuming and effortful if it is planned from the onset of the project, rather than added to the project after all the work has been completed. It is therefore important to organize the project keeping a few key goals in mind (here, we follow guidelines such as the Project TIER recommendations[^tier-link]): The files and folders should have easy to understand names (avoid idiosynchratic naming schemes), and the names should indicate the purposes of the files and folders. We illustrate some good and not-so-good practices in Figure \@ref(fig:organizing-files).
 
-The first step is to create a home folder for the project. This folder should have an immediately recognizable name, and should be placed somewhere on your computer where you can find it. We call the example project `git-example`. All the materials related to this project will be placed in subfolders of the home directory, but for now `git-example` is just an empty folder waiting to be filled with data, code, and documents. To make the example concrete, you can follow the tutorial by typing out the following commands on your own computer.
+```{r organizing-files, fig.cap = "Organizing one's project helps potential collaborators (including oneself in the future) to quickly and reliably find the correct files. Some bad practices (left panel) include having multiple versions of each file, increasing the potential for e.g. accidentally using the wrong data for the analysis, or forgetting which version was used in the analysis. Better practices (right panel) organize the data to subfolders with meaningful names, and have one file per purpose. These files are then versioned using Git, eschewing the need for multiple files, thereby reducing potential for mistakes."}
+knitr::include_graphics("images/git-diagram.png")
+```
+
+The first step is to create a home folder for the project. This folder should have an immediately recognizable name, and should be placed somewhere on your computer where you can find it. We call the example project `git-example`. All the materials related to this project will be placed in subfolders of the home directory, but for now `git-example` is just an empty folder waiting to be filled with data, code, and documents. To make the example concrete, we recommend that you follow the tutorial along on your own computer.
 
 ## Initializing a Git repository
 
-Next, you need to create a new folder for the Git repository. First, choose an appropriate folder on your computer (such as `User/Documents/`) where you'd like to create the project. You can either use the system's file navigator (Finder / File Explorer) to create this folder, or the following commands in the command line: Navigate to the desired folder by using `cd Documents` to move into the `Documents` folder (assuming it exists in the folder where you currently are), and `cd ..` to move out of the folder (to its containing folder.) Once you are in the folder where you want to create the project, type `mkdir git-example` to make the `git-example` directory, then `cd git-example` to move into it. Once you are in the project's home folder (you can verify where you are by typing `pwd`), you want to turn the folder into a project by initializing Git:
+Next, you need to create a new folder for the Git repository. First, choose an appropriate folder on your computer (such as `User/Documents/`) where you'd like to create the project. You can either use the system's file navigator (Finder / File Explorer) to create this folder, or use the command line: Navigate to the desired folder by using `cd Documents` to move into the `Documents` folder (assuming it exists in the folder where you currently are). Use `cd ..` to move out of a folder (to its containing folder), if needed. Once you are in the folder where you want to create the project, type `mkdir git-example` to make the `git-example` directory, then `cd git-example` to move into it. Once you are in the project's home folder (you can verify where you are by typing `pwd`), you want to turn the folder into a project by initializing Git with the `git init` command. These commands are shown in \@ref(fig:initialize-git)
 
-```bash
-> git init
+```{r git-initialize, fig.cap = "Creating and navigating to a folder, and initializing it as a Git repository."}
+knitr::include_graphics("images/git-diagram.png")
 ```
 
-This command initializes the folder as a Git repository, and the only change so far has been the addition of a hidden `.git` folder inside `git-example` (and a `.gitattributes` file. Users can ignore these hidden files and folders, however they can be shown by typing `ls -la`.) Now that the folder is initialized as a Git repository, Git monitors any changes within it, and allows you to add and commit these changes (Figure \@ref(fig:git-diagram).) 
+Instead of screenshots, for the rest of the tutorial we present the commands as follows:
+
+```bash
+$ git init
+```
+
+Where each command is preceded by a `$` symbol. To help remember the commands, we recommend simply typing them out, instead of copy-pasting. The `git init` command initializes the folder as a Git repository, and the only change so far has been the addition of a hidden `.git` folder inside `git-example` (and possibly a `.gitattributes` file. Users can ignore these hidden files and folders, however they can be shown by the `ls -la` command.) Now that the folder is initialized as a Git repository, Git monitors any changes within it, and allows you to add and commit these changes (Figure \@ref(fig:git-diagram).) 
 
 ## Adding a file to Git
 
-Every project (repository) should contain a brief note explaining what the project is about and who to contact. This note is usually called a readme, and therefore our first contribution to this project will be a README file (this file is so important that it has become standard practice to write it in capital letters). The README file should be a plain text `.txt` file (i.e. not created with Microsoft Word) that can be read with a simple text editor. You can create this file with any text editor (e.g. the TextEdit and Notepad apps which allow for creating plain text files are installed by default on Mac and Windows OS respectively). We created the file with some text in it, and it can now be seen in the `git-example` folder, either by using the system file viewer or `ls` in the command line. Because we added this file to a Git repository, Git is also aware of it. To see what files have changed since the last status change in the repository (there clearly has been only this one), you can ask for Git's **status**:
+Every project (repository) should contain a brief note explaining what the project is about and who to contact. This note is usually called a readme, and therefore our first contribution to this project will be a README file (this file is so important that it has become standard practice to write it in capital letters). The README file should be a plain text `.txt` file (i.e. not created with Microsoft Word) that can be read with a simple text editor[^plain-text]. You can create this file with any text editor (e.g. the TextEdit and Notepad apps which allow for creating plain text files are installed by default on Mac and Windows OS respectively). We created the file with some text in it, and it can now be seen in the `git-example` folder, either by using the system file viewer or `ls` in the command line. Because we added this file to a Git repository, Git is also aware of it. To see what files have changed since the last status change in the repository (there clearly has been only this one), you can ask for Git's **status**. We present commands prepended with `$` symbols, and output printed without preceding characters:
 
 ```bash
-> git status
+$ git status
 
 On branch master
 Initial commit
@@ -190,13 +204,13 @@ nothing added to commit but untracked files present (use "git add" to track)
 The relevant output returned from executing this command is the "Untracked files:" part. There, Git tells that there is an untracked file (README) in the repository. To start tracking changes in this file, we **add** it to Git by using the command `git add` followed by either a `.` (for adding all untracked files) or `README` for only tracking the `README` file. 
 
 ```bash
-> git add README
+$ git add README
 ```
 
 We've now added this file to the staging area (Figure \@ref(fig:git-diagram)), and if we are happy with changes to the file's status, we can **commit** the file to Git's history. Commits are essential Git operations: They signify meaningful changes to the repository, and can be later browsed and compared to one another. As such, it is helpful to attach a small message to each commit, describing why that commit was made. Here, we've created a README file, and our commit command would look as follows:
 
 ```bash
-> git commit -m "Add README file."
+$ git commit -m "Add README file."
 ```
 
 The quoted text after the `-m` argument is the *commit message*. Entering this command to the command line returns a brief description of the commit, such as how many files changed, and how many characters inside those files were inserted and deleted. 
@@ -206,7 +220,7 @@ The quoted text after the `-m` argument is the *commit message*. Entering this c
 The `git-example` project (or rather, Git) now keeps track of all and any changes to README. To illustrate, you can change the text in the README file with a text editor, save the file, and then ask for Git's status with `git status` on the command line:
 
 ```bash
-> git status
+$ git status
 
 On branch master
 Changes not staged for commit:
@@ -216,11 +230,11 @@ Changes not staged for commit:
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
-Git can tell that the README file has changed. It is often useful to know exactly *how* a file has changed, before committing it. To view **diff**erences to a file not yet committed, use `git diff <file>`. It shows changes within `<file>`, line by line, highlighting removals with red and added lines with green. Once you are happy with the changes, you can repeat the add and commit steps from above to permanently record the current state of the project to Git's log (below we use the `.` shortcut for adding all changes):
+Git can tell that the README file has changed. It is often useful to know exactly *how* a file has changed, before committing it. To view **diff**erences to a file not yet committed, use `git diff <file>`. It shows changes within `<file>`, line by line, highlighting removals with red and added lines with green. Once you are happy with the changes, you can repeat the add and commit steps from above to permanently record the current state of the project to Git's log (below we use the `.` shortcut for adding all changes[^dot-shortcut]):
 
 ```bash
-> git add .
-> git commit -m "Populate README with project description."
+$ git add .
+$ git commit -m "Populate README with project description."
 ```
 
 ## What does Git know?
@@ -228,7 +242,7 @@ Git can tell that the README file has changed. It is often useful to know exactl
 The real importance of these somewhat abstract steps becomes apparent when we consider the Git **log**. To reveal the commit log of your repository, call:
 
 ```bash
-> git log
+$ git log
 ```
 
 The main outputs of this command show that each commit is identified with a unique hash code (long alphanumeric string), which we can use to call for further information (see below); an author; a date and time; and the short commit message. Executing `git log` on our example project at this stage returns this:
@@ -248,7 +262,7 @@ Date:   Tue Jun 13 17:14:14 2017 -0400
 To see what exactly changed in the last commit (the log has latest commits at the top), you can call `git show` with the commit's hash (only relevant parts of output shown below):
 
 ```bash
-> git show 60cbe5c9b4a78e500314f791080381030577a035
+$ git show 60cbe5c9b4a78e500314f791080381030577a035
 commit 60cbe5c9b4a78e500314f791080381030577a035
 Author: Matti Vuorre <mv2521@columbia.edu>
 Date:   Tue Jun 13 17:20:27 2017 -0400
@@ -306,11 +320,11 @@ Re-running `git status` now only shows the `plan_n.R` file (and the newly create
 Because there are now two untracked files that are not in .gitignore (`.gitignore` and `plan_n.R`), and you usually should aim to maintain a clean history for the project, you can create two separate commits: One for the Git ignore file, and one for the power analysis file. 
 
 ```bash
-git add .gitignore
-git commit -m "Added .gitignore file"
+$ git add .gitignore
+$ git commit -m "Added .gitignore file"
 
-git add .
-git commit -m "Completed power analysis"
+$ git add .
+$ git commit -m "Completed power analysis"
 ```
 
 After this last commit, you can at any time come back to this commit with `git log` or `git show` and see what was inside the newly created power analysis file when it was first created. For instance, if new information suggests that you should change the assumed effect size in the power analysis, you can simply edit and save the file, then add and commit the changes to Git with a helpful message that logs this important event in Git's history.
@@ -322,7 +336,7 @@ This possibility of "rewinding history" is especially useful for files that migh
 We often find that making some changes to a project didn't have the desired effect: The manuscript ended weaker or the analysis didn't work anymore. Git allows great flexibility in trying new features, then undoing the changes[^git-branches]. Starting with an empty staging area, you could start modifying a file (e.g. `plan_n.R`), and after a while find out that the changes were not for good. At this point it is common to press "Undo" in the text editor, but if the file has been saved multiple times or multiple files have been changed, it is difficult to get to the starting point by simply using the "Undo" button. Instead, with Git you can **checkout** the file's previous version from history. To undo all changes to `plan_n.R` (since the last commit), run
 
 ```bash
-git checkout experiment-1/analysis/plan_n.R
+$ git checkout experiment-1/analysis/plan_n.R
 ```
 
 Notice that you have to write the full path of the file (relative to the project's root) so Git knows precisely which file you want to checkout from history. With these example operations, we have discussed the main Git operations as outlined in Figure \@ref(fig:git-diagram): Make changes to files, **add** to staging area, **commit** to history; **checkout** from history to undo changes. 
@@ -358,13 +372,13 @@ Anyone wanting to use GitHub must first create a free user account at <https://g
 Although we are creating a new repository here, the goal is to create an online "remote" repository for the running example within this tutorial. Because of this, do not check the "Initialize this repository with a README" (you already created one in the local repository), do not add a .gitignore or a license. For the current example, after clicking "New repository", we simply enter a name, which can be anything but for consistency we call the GitHub repository `git-example`---the same name as our local project folder. After entering the name, click "Create repository". The next step is to link the new remote to the local repository, and the required steps are detailed on screen when you do this at GitHub:
 
 ```bash
-git remote add origin https://github.com/<username>/<reponame>.git
+$ git remote add origin https://github.com/<username>/<reponame>.git
 ```
 
 Where `<username>` and `<reponame>` are the user's GitHub username, and the GitHub repository name. The correct address is visible in the GitHub page that opens after creating the repository. Once the connection is set up, we can **push** local changes to the GitHub remote:
 
 ```bash
-git push -u origin master
+$ git push -u origin master
 ```
 
 The `-u origin master` are only required for the first push, as they set up the connection. Running this command will send your local repository to the GitHub repository. For pushing changes collowing this initial push, simply type `git push` after adding and committing locally. You have now created the remote Central repository, and other users can start contributing to it. 
@@ -374,7 +388,7 @@ The `-u origin master` are only required for the first push, as they set up the 
 Once another team member has set up Git on their own computer, and signed up for GitHub, they need to **clone** the remote GitHub repository onto their local computer. To clone a repository, the new user must first navigate to an appropriate location on the computer where they would like to save the project on their computer, for example their `User/Documents` folder. Once the appropriate location is found, cloning will create a new folder for the repository inside this folder.
 
 ```bash
-git clone https://github.com/<username>/<reponame>.git
+$ git clone https://github.com/<username>/<reponame>.git
 ```
 
 To find out the correct link to enter to `git clone`, you can navigate your web browser to the repository's GitHub address (e.g. <https://github.com/mvuorre/reproguide-curate> for this tutorial's repository) and click the big green "Clone or download" button; the complete address is in the text box. 
@@ -382,7 +396,7 @@ To find out the correct link to enter to `git clone`, you can navigate your web 
 New contributors can then work on their local copies as detailed in earlier parts of this tutorial; making changes, adding, committing, and pushing. After committing their changes, they can update the status of the Central Git repo by pushing their changes to it:
 
 ```bash
-git push
+$ git push
 ```
 
 ### Obtaining other's changes from Central repo
@@ -390,7 +404,7 @@ git push
 Just as you must manually push your own local changes to the remote repository, you must also obtain others' changes by **pulling** them from the central repo. Pulling is indicated as the first step in the collaborative workflow in Figure \@ref(fig:git-diagram-collaborate), because it is important that you start working on the most up to date version of the project (e.g. you don't want to reinvent the wheel or make unnecessary conflicting changes). Before starting to work on your proposed changes, pull the remote changes with:
 
 ```bash
-git pull
+$ git pull
 ```
 
 The way in which users and their local repositories interact with the central repository by pushing and pulling is the cornerstone of collaboration on GitHub, and thoughtful use of these commands allows for complex workflows without any important code (data, ideas in manuscript, analysis code) ever being overwritten. However, there is no automatic way for a computer to tell what changes to prioritize: If two or more users have worked on the same code and then attempt to push their changes, it is possible that they have made changes that conflict with each other. If this happens, and it will, there is no need to worry; you simply need to know how to resolve the conflict.
@@ -448,8 +462,8 @@ knitr::include_graphics("images/rstudio-git-2.png")
 When creating the R Project, there was an option for creating the project from an existing Git repository. Because we didn't do this, we must now manually instruct Git that this project should have a remote GitHub repository. This is done exactly as above, using the command line functions. After you've created a new repository on GitHub, navigate to the project's folder with the command line shell (or you can click on "More" in R Studio's Git tab, and then "Shell", which opens a new shell window in the correct location), and execute the following commands (but replace <username> and <reponame> with the correct names):
 
 ```bash
-git remote add origin https://github.com/<username>/<reponame>.git
-git push -u origin master
+$ git remote add origin https://github.com/<username>/<reponame>.git
+$ git push -u origin master
 ```
 
 After executing these commands, you can use all Git and GitHub features from R Studio. This is especially useful because the R Studio IDE offers a complete environment for project management, data analysis, and manuscript preparation with the R Markdown and knitr R packages [@allaire_rmarkdown:_2016; @xie_knitr:_2016]. Psychologists will be especially interested in the papaja package for creating APA formatted manuscripts (@aust_papaja:_2016; the source code of this manuscript, which was prepared with the papaja package, can be found at <https://github.com/mvuorre/reproguide-curate>).
@@ -508,6 +522,9 @@ The challenges to reproducibility are many, and they have only recently received
 [^git-branches]: A particularly powerful approach for trying new features is **branching**: The project can be duplicated to a new branch and modified, then merged back to the main branch after work on the new feature is complete---or the new branch can be discarded if the work ended unsatisfactory. Branches are outside the scope of this tutorial, for more information see the Git website (<https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell>).
 [^subversion]: <https://subversion.apache.org/>
 [^mercurial]: <https://www.mercurial-scm.org/>
+[^git-folder]: There are no visible changes to a folder once it is tracked by Git. Once Git is initialized in a folder, the only change is that a hidden folder, called `.git` is added, but users do not need to interact with it directly.
+[^plain-text]: Plain text has many advantages over proprietary file formats such as Microsoft Word's .docx files. Briefly, plain text is both human and computer readable (.docx are unreadable without a copy of Microsoft Word), is both forward and backward compatible (there will always, and has always been, software capable of reading it), and plain text takes very little space. The file extension of plain text doesn't matter much, but we recommend using either `.txt` because it is widely recognized, `.md` for markdown syntax, or in the case of a readme file, simply not using any file extension.
+[^dot-shortcut]: For the `.` shortcut to work, you must currently be in the project's root directory. If you are not in the root directory, you can use `-A` shortcut instead; however, we recommend that you always ensure that you are in the project's root directory when running any Git commands.
 
 # References
 
