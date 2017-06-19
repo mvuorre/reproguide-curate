@@ -140,7 +140,7 @@ The first step in using Git is making Git aware of who is using the computer. Yo
 
 Each Git command starts with the word `git`, then a command (such as `config`), and then arguments to the command, such as `--global` (for global configuration) followed by the `user.name` variable name to show the global user name. 
 
-```{r git-setup, fig.cap="Setting up Git's configuration using the command line. Notice that for these configuration commands, the current working directory does not matter (we did them in the user's home directory, indicated by \~)."}
+```{r git-setup, fig.cap="Setting up Git's configuration using the command line. Notice that for these configuration commands, the current working directory does not matter (we did them in the user's home directory, indicated by \\~)."}
 knitr::include_graphics("images/git-setup.png")
 ```
 
@@ -165,7 +165,7 @@ To understand the Git workflow in practice, we now turn to a practical example u
 Implementing reproducibility into the scientific workflow is less time-consuming and effortful if it is planned from the onset of the project, rather than added to the project after all the work has been completed. It is therefore important to organize the project keeping a few key goals in mind (here, we follow guidelines such as the Project TIER recommendations[^tier-link]): The files and folders should have easy to understand names (avoid idiosynchratic naming schemes), and the names should indicate the purposes of the files and folders. We illustrate some good and not-so-good practices in Figure \@ref(fig:organizing-files).
 
 ```{r organizing-files, fig.cap = "Organizing one's project helps potential collaborators (including oneself in the future) to quickly and reliably find the correct files. Some bad practices (left panel) include having multiple versions of each file, increasing the potential for e.g. accidentally using the wrong data for the analysis, or forgetting which version was used in the analysis. Better practices (right panel) organize the data to subfolders with meaningful names, and have one file per purpose. These files are then versioned using Git, eschewing the need for multiple files, thereby reducing potential for mistakes."}
-knitr::include_graphics("images/git-diagram.png")
+knitr::include_graphics("images/project-organization.png")
 ```
 
 The first step is to create a home folder for the project. This folder should have an immediately recognizable name, and should be placed somewhere on your computer where you can find it. We call the example project `git-example`. All the materials related to this project will be placed in subfolders of the home directory, but for now `git-example` is just an empty folder waiting to be filled with data, code, and documents. To make the example concrete, we recommend that you follow the tutorial along on your own computer.
@@ -175,7 +175,7 @@ The first step is to create a home folder for the project. This folder should ha
 Next, you need to create a new folder for the Git repository. First, choose an appropriate folder on your computer (such as `User/Documents/`) where you'd like to create the project. You can either use the system's file navigator (Finder / File Explorer) to create this folder, or use the command line: Navigate to the desired folder by using `cd Documents` to move into the `Documents` folder (assuming it exists in the folder where you currently are). Use `cd ..` to move out of a folder (to its containing folder), if needed. Once you are in the folder where you want to create the project, type `mkdir git-example` to make the `git-example` directory, then `cd git-example` to move into it. Once you are in the project's home folder (you can verify where you are by typing `pwd`), you want to turn the folder into a project by initializing Git with the `git init` command. These commands are shown in \@ref(fig:initialize-git)
 
 ```{r git-initialize, fig.cap = "Creating and navigating to a folder, and initializing it as a Git repository."}
-knitr::include_graphics("images/git-diagram.png")
+knitr::include_graphics("images/git-initialize.png")
 ```
 
 Instead of screenshots, for the rest of the tutorial we present the commands as follows:
@@ -285,17 +285,10 @@ Although you have now seen the fundamentals of using Git to track the states of 
 
 ## (Slightly More) Advanced Git
 
-For example, after working for a while on the project, you could have added two files inside well-organized subfolders of the project. The project would like this when viewed with a file explorer:
+For example, after working for a while on the project, you could have added two files inside well-organized subfolders of the project. The project would like Figure \@ref(fig:advanced-project) when viewed with a file explorer:
 
-```bash
-git-example/
-|-- admin/
-    |-- ethics-info.pdf
-|-- experiment-1/
-    |-- analysis/
-        |-- plan_n.R
-|-- manuscript/
-|-- README
+```{r advanced-project, fig.cap = "A project with more components."}
+knitr::include_graphics("images/advanced-project.png")
 ```
 
 Running `git status` now tells that there are two new files (possible empty folders are ignored). That is, since the previous commit, two files have been added to the project; one a pdf with some administrative information (`ethics-info.pdf`), the other one is an R [@r_core_team_r:_2017] script for a pre-planned power analysis (`plan_n.R`). You would probably like to track any changes to the power analysis script, but the ethics information file isn't really something that you need to keep track of---at least for this example. It would be laborious to constantly keep ignoring it when committing changes to Git (especially if we'd like to commit multiple files simultaneously with `git add .`) Git has an elegant solution to specifying which files to keep track of. Because by default all files are monitored, Git uses a special file for instructing which files are to be *ignored*.
