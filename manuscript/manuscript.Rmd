@@ -114,7 +114,7 @@ Git[^git-name], unlike the operating system's (OS) default file viewer (Mac's Fi
 
 ## Installing Git
 
-Even if you already have Git installed (some computers do) it is good practice to install the latest version[^git-version], which can be downloaded as a standalone program from <https://git-scm.com/download>. For Mac users, the easiest way to install or update Git to the latest version is to download the installer from <http://git-scm.com/download/mac>, and install it like any other program. Windows users can download the Git software installer from <http://git-scm.com/download/win>. Linux (and other) users can download Git and find further install instructions at the Git website (<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>). 
+Even if you already have Git installed (some computers do) it is good practice to install the latest version[^git-version], which can be downloaded as a standalone program from <https://git-scm.com/download>. For Mac users, the easiest way to install or update Git to the latest version is to download the installer from <http://git-scm.com/download/mac>, and install it like any other program. Similarly, Windows users can download the Git software installer from <http://git-scm.com/download/win> and install it like any other application. Linux (and other) users can download Git and find further install instructions at the Git website (<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>). 
 
 ## Git setup
 
