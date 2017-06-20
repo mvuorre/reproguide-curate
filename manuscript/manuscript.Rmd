@@ -364,7 +364,7 @@ This operation of checking out earlier versions is very useful not only for undo
 
 To return to an earlier state of the project, you can use the `git checkout` command. For example, the display above shows that in commit `a73f2ec`, you had added `file.txt`. If you would like to see the project at that commit, type `git checkout a73f2ec`. This command instantly checks out the file(s) at that point in history, and you can view them. This is very helpful if, for example, you would like to quickly run an earlier version of a statistical analysis. After you have viewed this old version of the project, you can return to the current version with `git checkout master`.
 
-Neither of these operations---checking out an earlier version of a file or of the entire project---affects the history of the project, and are therefore "safe", in the sense that your project's history won't be overwritten. However, checking out an earlier version of a specific file changes the current state of the project (the current version of the file is temporarily overwritten with the old version), so it is good practice to carefully keep track of the current version of your file before making further commits.
+Both of these operations---checking out an earlier version of a file or of the entire project---are "safe" in the sense that your project's history won't be affected. However, checking out an earlier version of a specific file changes the current state of the project (the current version of the file is temporarily overwritten with the old version), so it is good practice to carefully keep track of the current version of your file before making further commits.
 
 # Collaborating
 
