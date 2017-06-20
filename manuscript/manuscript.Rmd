@@ -394,13 +394,13 @@ Anyone wanting to use GitHub must first create a free user account at <https://g
 
 ### Create a new GitHub repository
 
-Although we are creating a new repository here, the goal is to create an online "remote" repository for the running example within this tutorial. Because of this, do not check the "Initialize this repository with a README" (you already created one in the local repository), do not add a .gitignore or a license. For the current example, after clicking "New repository", we simply enter a name, which can be anything but for consistency we call the GitHub repository `git-example`---the same name as our local project folder. After entering the name, click "Create repository". The next step is to link the new remote to the local repository, and the required steps are detailed on screen when you do this at GitHub:
+Although we are creating a new repository here, the goal is to create an online "remote" repository for the running example within this tutorial, so that you can "push" your current local repository to the GitHub remote. Because of this, do not check the "Initialize this repository with a README" (you already created one in the local repository), and do not add a .gitignore or a license. For the current example, after clicking "New repository", you are asked to enter a name for the repository, which can be anything. For consistency we call the GitHub repository `git-example`---the same name as our local project folder. After entering the name, click "Create repository". The next step is to link the new remote to the local repository, using the following commands (they are also visible on the website that opens after you have created the repository on GitHub):
 
 ```bash
-$ git remote add origin https://github.com/<username>/<reponame>.git
+$ git remote add origin https://github.com/username/reponame.git
 ```
 
-Where `<username>` and `<reponame>` are the user's GitHub username, and the GitHub repository name. The correct address is visible in the GitHub page that opens after creating the repository. Once the connection is set up, we can **push** local changes to the GitHub remote:
+Where `username` and `reponame` are the user's GitHub username, and the GitHub repository name. The correct address is visible in the GitHub page that opens after creating the repository. Once the connection is set up, we can **push** local changes to the GitHub remote:
 
 ```bash
 $ git push -u origin master
@@ -408,12 +408,12 @@ $ git push -u origin master
 
 The `-u origin master` are only required for the first push, as they set up the connection. Running this command will send your local repository to the GitHub repository. For pushing changes collowing this initial push, simply type `git push` after adding and committing locally. You have now created the remote Central repository, and other users can start contributing to it. 
 
-### Contributing to a Central (GitHub) repository
+### Contributing to a central (GitHub) repository
 
 Once another team member has set up Git on their own computer, and signed up for GitHub, they need to **clone** the remote GitHub repository onto their local computer. To clone a repository, the new user must first navigate to an appropriate location on the computer where they would like to save the project on their computer, for example their `User/Documents` folder. Once the appropriate location is found, cloning will create a new folder for the repository inside this folder.
 
 ```bash
-$ git clone https://github.com/<username>/<reponame>.git
+$ git clone https://github.com/username/reponame.git
 ```
 
 To find out the correct link to enter to `git clone`, you can navigate your web browser to the repository's GitHub address (e.g. <https://github.com/mvuorre/reproguide-curate> for this tutorial's repository) and click the big green "Clone or download" button; the complete address is in the text box. 
@@ -424,7 +424,9 @@ New contributors can then work on their local copies as detailed in earlier part
 $ git push
 ```
 
-### Obtaining other's changes from Central repo
+Finally, you can also clone GitHub repositories even if you are not aiming to contribute to a project. Hosting projects on GitHub is attractive for precisely the reason that other people can easily clone (download) your work to build and advance on what you have been working on.
+
+### Obtaining other's changes from the central repo
 
 Just as you must manually push your own local changes to the remote repository, you must also obtain others' changes by **pulling** them from the central repo. Pulling is indicated as the first step in the collaborative workflow in Figure \@ref(fig:git-diagram-collaborate), because it is important that you start working on the most up to date version of the project (e.g. you don't want to reinvent the wheel or make unnecessary conflicting changes). Before starting to work on your proposed changes, pull the remote changes with:
 
@@ -434,11 +436,88 @@ $ git pull
 
 The way in which users and their local repositories interact with the central repository by pushing and pulling is the cornerstone of collaboration on GitHub, and thoughtful use of these commands allows for complex workflows without any important code (data, ideas in manuscript, analysis code) ever being overwritten. However, there is no automatic way for a computer to tell what changes to prioritize: If two or more users have worked on the same code and then attempt to push their changes, it is possible that they have made changes that conflict with each other. If this happens, and it will, there is no need to worry; you simply need to know how to resolve the conflict.
 
-### Resolving a conflict
+## Resolving conflicts in collaborative work
 
-If user A has pushed changes to the central repository while user B was working on the same code, user B's later push can result in conflict. That is just a natural consequence of two individuals working simultaneously on the same idea, and then writing different code in the same location in the file. When this happens, user B needs to first pull the most up to date changes from the remote repository to her local code, and then inspect the code for problems (which will be apparent, Git will insert pointers to where the conflict is occurring.) Once user B's local code is updated with the pull, and the conflict manually resolved, user B can push changes from her local repository to the central repository. 
+If user A has pushed changes to the central repository while user B was working on the same code (recall that we use the word code to mean any text written on a computer, to this could be e.g. a manuscript), user B's later push can result in a *conflict*. That is just a natural consequence of two individuals working simultaneously on the same idea, and then writing different code in the same location in the file. When this happens, user B needs to first pull the most up to date changes from the remote repository to her local code, and then inspect the code for problems (which will be apparent, Git will insert pointers to where the conflict is occurring.) Once user B's local code is updated with the pull, and the conflict manually resolved, user B can push changes from her local repository to the central repository. 
 
-How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial. For more information, see e.g. <https://www.atlassian.com/git/tutorials/comparing-workflows>. The GitHub customer service is also very responsive to users' help requests. Most importantly, even in the event of merge conflicts, all committed changes are saved in Git's history and can be retrieved.
+To explain this example in more detail, let's assume that a new collaborator (User B) has made changes to the README file in the `git-example` project, shown below, and pushed the changes to the central repository. For brevity, we only show the first few lines of this file:
+
+```bash
+# Example Git Project
+Hello world!
+This example project illustrates the use of Git.
+```
+
+If User A then changed the `README` file (first few lines shown below) in a different way, there would likely be a conflict:
+
+```bash
+# Example Git Project
+Here are some changes.
+This example project illustrates the use of Git.
+```
+
+If this user now commits the changes locally:
+
+```bash
+$ git add .
+$ git commit -m "Some meaningful changes"
+```
+
+and then attempts to `git push` the changes to the central repository, an error will appear:
+
+```bash
+$ git push
+error: failed to push some refs
+hint: Updates were rejected because the remote contains work that you do
+not have locally. This is usually caused by another repository pushing
+to the same ref. You may want to first integrate the remote changes
+(e.g., 'git pull ...') before pushing again.
+```
+
+As is usually the case, Git also returns a list of helpful hints, which we can follow to succesfully resolve the conflict. Git suggests that we first integrate the remote changes: We need to first obtain the latest version of the file(s) from the central repository, add the proposed changes, and push that version. So, first obtain the latest changes with
+
+```bash
+$ git pull --rebase
+```
+
+You can `pull` without the `--merge` argument, but this would create an unnecessary commit message [^pull-rebase], and we therefore recommend adding this argument. At this point, Git is in rebasing mode, allowing User A to resolve the conflict before pushing her changes. Running `git status` returns (only relevant output shown):
+
+```bash
+$ git status
+rebase in progress; onto bada506
+You are currently rebasing branch 'master' on 'bada506'.
+  (fix conflicts and then run "git rebase --continue")
+Unmerged paths:
+  (use "git reset HEAD <file>..." to unstage)
+  (use "git add <file>..." to mark resolution)
+	both modified:   README
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+The workflow here is: 1. Edit the file so that both contributor's contributions are incorporated in the desired manner, 2. 
+
+The file currently looks like this:
+
+```bash
+# Example Git Project
+<<<<<<< HEAD
+Hello world!
+=======
+Here are some proposed changes.
+>>>>>>> Some meaningful changes
+```
+
+`<<<<<<< HEAD` indicates the current status of the project, which is the latest version of the remote branch. You can see that these are User B's changes, i.e. "Hello world!". The `======` separates the two conflicting lines of text. "Here are some proposed changes." is the change that you are currently trying to integrate to the project, with it's commit message `>>>>>>> Some meaningful changes`. You can then edit the file manually to reflect the desired state of the project, e.g.:
+
+```bash
+# Example Git Project
+Here are some proposed changes: Hello world!
+This example project illustrates the use of Git.
+```
+
+Then save the file and add the changes as usually with `git add README` (or whatever the file you were editing). Importantly, because in this conflict situation Git is in merge mode (which can be aborted with `git rebase --abort` to reject the central repository's changes and return back to the latest local version), you should not commit, but instead complete the "re-basing" with `git rebase --continue`. This command returns a reminder telling the user which local commit is being applied on top of the changes the user pulled from the central repository (e.g. "`Applying: Some meaningful changes`"), and returns Git to it's normal mode. The final step is then to use `git push` to send the local changes to the central repository.
+
+How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial[^more-on-conflicts]. Most importantly, even in the event of merge conflicts, all committed changes are saved in Git's history and can be retrieved, so experimenting with different approaches to resolving conflicts is safe.
 
 ## Private or public collaboration?
 
@@ -447,6 +526,8 @@ By default, all GitHub repositories are public: Anyone with an internet connecti
 There are two alternatives to working in a public GitHub repository: One, which we won't cover here, is to not use GitHub but instead place the central repository on the research team's shared but private server. The second option is to make the repository private on GitHub (this can be done when the repository is first created or afterwards by clicking Settings on the repository's website). Private repositories, and their contents, are only accessible to invited team members, and are therefore ideal for small teams who would like to work without revealing their master plans to the public just yet. For example, you might initially choose to work in a private repository, and only make it public once you feel the material is mature enough for public consumption.
 
 To make a GitHub repository private, navigate to the repository's website with a web browser, and click "Settings", then "Make this repository private". Once one user has set the central GitHub repository to private mode, anyone wishing to clone, push, pull, or view the repo must provide their GitHub username and password. Only if they match an invited team members username and password can the user access the repository.
+
+At the time of this writing, GitHub offers five private repositories for free[^github-private]. To obtain more private repositories, you need to register for a paid account.
 
 # Using Git from IDE
 
@@ -535,6 +616,7 @@ The challenges to reproducibility are many, and they have only recently received
 
 \newpage
 
+<!-- Footnotes -->
 [^csv]: `.csv` stands for comma separated values, and is a plain text file commonly used to store two-dimensional data.
 [^git-version]: As of the writing of this article, the current version of Git is 2.13.1.
 [^git-name]: The creator of Git, Linus Torvalds, named Git after himself as "the stupid content tracker" (@mcmillan_after_2005; <https://git-scm.com/docs/git.html>)
@@ -552,7 +634,10 @@ The challenges to reproducibility are many, and they have only recently received
 [^dot-shortcut]: For the `.` shortcut to work, you must currently be in the project's root directory. If you are not in the root directory, you can use `-A` shortcut instead; however, we recommend that you always ensure that you are in the project's root directory when running any Git commands.
 [^when-to-commit]: It is entirely up to the user to decide what to commit and when. However, it is best practice to commit often while making incremental changes. Each commit should aim to solve one problem, introduce one new idea, or---more generally---do one thing. This way, when the commit history is reviewed later, it is easy to find and come back to a specific change.
 [^undoing-more-info]: For more information on undoing changes, see <https://www.atlassian.com/git/tutorials/undoing-changes>.
-[^undo-the-revert]: If, for some reason, you preferred the latest version after all, you can undo the revert process by `git checkout HEAD file.txt`, instead of adding and committing the older version. This function checks out the current state ("HEAD") which contained the bad changes.
+[^undo-the-revert]: If, for some reason, you preferred the latest version after all, you can undo the revert process by `git checkout HEAD file.txt`, instead of adding and committing the older version. This function checks out the current state ("`HEAD`") which contained the bad changes.
+[^pull-rebase]: For more information, see <https://www.atlassian.com/git/tutorials/comparing-workflows>.
+[^github-private]: To obtain the free repositories, fill out the request form at <https://education.github.com/discount_requests/new>.
+[^more-on-conflicts]: Covering all different types of file conflicts is outside the scope of this tutorial. Although the instructions provided herein will help in most common use case scenarios, readers can refer to the following websites for more information: <https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line/> and <https://www.atlassian.com/git/tutorials/comparing-workflows>. The GitHub customer service is also very responsive to users' help requests, which can include questions on code conflicts.
 
 # References
 
