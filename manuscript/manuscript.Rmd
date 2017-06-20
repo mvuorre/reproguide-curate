@@ -361,9 +361,9 @@ The true advantages of using Git become apparent when we consider projects with 
 
 Alternatively, consider a data analysis where two or more people work simultaneously on some complicated analysis, and share their work using a similar system as in the above example. If user A and B are making changes to the same file and user B saves the file, user A's version of the file will be overwritten. Disaster!
 
-Git and other VCSs, on the other hand, were specifically designed to allow (and facilitate) multi-site collaboration on arbitrarily complex projects: Microsoft Windows---which we assume is a fairly complex and collaborative project---is developed on a Git platform. We believe that Git can be especially helpful in scientific collaboration, a topic to which we turn next.
+Git and other VCSs, on the other hand, were specifically designed to allow (and facilitate) multi-site collaboration on arbitrarily complex projects: Microsoft Windows---which we assume is a fairly complex and collaborative project---is developed on a Git platform [@harry_largest_2017]. We believe that Git can be especially helpful in scientific collaboration, a topic to which we turn next.
 
-There are many ways in which a team could collaborate on a Git project; here we focus on a common one, called the "Centralized Workflow" where one virtual copy of the project is considered central, and all contributors interact with this central copy, instead of directly with each other. 
+There are many ways in which a team could collaborate on a Git project; here we focus on a common one, called "Centralized Workflow", where one virtual copy of the project is considered central, and all contributors interact with this central copy, instead of directly with each other. 
 
 ## Overview of the Centralized Git Workflow
 
