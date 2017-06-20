@@ -285,17 +285,17 @@ Although you have now seen the fundamentals of using Git to track the states of 
 
 ## (Slightly More) Advanced Git
 
-For example, after working for a while on the project, you could have added two files inside well-organized subfolders of the project. The project would like Figure \@ref(fig:advanced-project) when viewed with a file explorer:
+For example, after working for a while on the project, you could have added two files inside well-organized subfolders of the project. The project would like Figure \@ref(fig:advanced-project) when viewed with a file explorer.
 
 ```{r advanced-project, fig.cap = "A project with more components."}
 knitr::include_graphics("images/advanced-project.png")
 ```
 
-Running `git status` now tells that there are two new files (possible empty folders are ignored). That is, since the previous commit, two files have been added to the project; one a pdf with some administrative information (`ethics-info.pdf`), the other one is an R [@r_core_team_r:_2017] script for a pre-planned power analysis (`plan_n.R`). You would probably like to track any changes to the power analysis script, but the ethics information file isn't really something that you need to keep track of---at least for this example. It would be laborious to constantly keep ignoring it when committing changes to Git (especially if we'd like to commit multiple files simultaneously with `git add .`) Git has an elegant solution to specifying which files to keep track of. Because by default all files are monitored, Git uses a special file for instructing which files are to be *ignored*.
+Running `git status` now tells that there are two new files (possible empty folders are ignored). That is, since the previous commit, two files have been added to the project; one a pdf with some administrative information (`ethics-info.pdf`), the other one is an R [@r_core_team_r:_2017] script for a pre-planned power analysis (`plan_n.R`). You would probably like to track any changes to the power analysis script, but the ethics information file isn't really something that you need to keep track of---at least for this example. It would be laborious to constantly keep ignoring it when committing changes to Git (especially if you'd like to add multiple files simultaneously with `git add .`) Git has an elegant solution to specifying which files to keep track of. Because by default all files are monitored, Git uses a special file for instructing which files are to be *ignored*.
 
 ### Make Git Ignore Files
 
-To make Git ignore files, you simply add a plain text file called `.gitignore` to the home folder of the repository. You can use any text editor to create this file. Each row of this file should specify a file or a folder (or a regular expression) that Git should ignore. In the current example you could make Git ignore the `admin/` folder entirely, and any file with the .pdf extension inside `manuscript/`. The example .gitignore file would look like this (lines beginning with `#` are comments):
+To make Git ignore files, you simply add a plain text file called `.gitignore` to the home folder of the repository. You can use any text editor to create this file. Each row of this file should specify a file or a folder (or a regular expression) that Git should ignore. In the current example you could make Git ignore the `admin/` folder entirely, and any file with the .pdf extension inside `manuscript/`. The example `.gitignore` file would look like this (lines beginning with `#` are comments, and only read by humans):
 
 ```bash
 # Ignore everything inside the 'admin' folder
@@ -308,9 +308,9 @@ manuscript/*.pdf
 analysis/sandbox.R
 ```
 
-Re-running `git status` now only shows the `plan_n.R` file (and the newly created .gitignore file, which is also under version control, naturally.) 
+Re-running `git status` now only shows the `plan_n.R` file (and the newly created `.gitignore` file, which is also under version control, naturally.) 
 
-Because there are now two untracked files that are not in .gitignore (`.gitignore` and `plan_n.R`), and you usually should aim to maintain a clean history for the project, you can create two separate commits: One for the Git ignore file, and one for the power analysis file. 
+Because there are now two untracked files that are not specified to be ignored in `.gitignore` (`.gitignore` and `plan_n.R`), and you usually should aim to maintain a clean commit history for the project, you can create two separate commits: One for the `.gitignore` file, and one for the power analysis file.[^when-to-commit]
 
 ```bash
 $ git add .gitignore
@@ -320,7 +320,7 @@ $ git add .
 $ git commit -m "Completed power analysis"
 ```
 
-After this last commit, you can at any time come back to this commit with `git log` or `git show` and see what was inside the newly created power analysis file when it was first created. For instance, if new information suggests that you should change the assumed effect size in the power analysis, you can simply edit and save the file, then add and commit the changes to Git with a helpful message that logs this important event in Git's history.
+After this last commit you can, at any time in the future, come back to this commit with `git log` or `git show` and see what was inside the newly created power analysis file when it was first created. For instance, if new information suggests that you should change the assumed effect size in the power analysis, you can simply edit and save the file, then add and commit the changes to Git with a helpful message that logs this important event in Git's history.
 
 This possibility of "rewinding history" is especially useful for files that might go under multiple revisions (manuscripts, analysis files), or if you are interested when and in what order the files were created---and who created or changed them. One might consider committing a power analysis as a small personal pre-registration of a part of the research plan.
 
@@ -518,6 +518,7 @@ The challenges to reproducibility are many, and they have only recently received
 [^git-folder]: There are no visible changes to a folder once it is tracked by Git. Once Git is initialized in a folder, the only change is that a hidden folder, called `.git` is added, but users do not need to interact with it directly.
 [^plain-text]: Plain text has many advantages over proprietary file formats such as Microsoft Word's .docx files. Briefly, plain text is both human and computer readable (.docx are unreadable without a copy of Microsoft Word), is both forward and backward compatible (there will always, and has always been, software capable of reading it), and plain text takes very little space. The file extension of plain text doesn't matter much, but we recommend using either `.txt` because it is widely recognized, `.md` for markdown syntax, or in the case of a readme file, simply not using any file extension.
 [^dot-shortcut]: For the `.` shortcut to work, you must currently be in the project's root directory. If you are not in the root directory, you can use `-A` shortcut instead; however, we recommend that you always ensure that you are in the project's root directory when running any Git commands.
+[^when-to-commit]: It is entirely up to the user to decide what to commit and when. However, it is best practice to commit often while making incremental changes. Each commit should aim to solve one problem, introduce one new idea, or---more generally---do one thing. This way, when the commit history is reviewed later, it is easy to find and come back to a specific change.
 
 # References
 
