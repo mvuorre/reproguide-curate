@@ -300,10 +300,8 @@ To make Git ignore files, you simply add a plain text file called `.gitignore` t
 ```bash
 # Ignore everything inside the 'admin' folder
 admin/
-
 # Ignore all .pdf files in the 'manuscript' folder
 manuscript/*.pdf
-
 # Ignore a specific file in a specific folder
 analysis/sandbox.R
 ```
@@ -315,7 +313,6 @@ Because there are now two untracked files that are not in .gitignore (`.gitignor
 ```bash
 $ git add .gitignore
 $ git commit -m "Added .gitignore file"
-
 $ git add .
 $ git commit -m "Completed power analysis"
 ```
