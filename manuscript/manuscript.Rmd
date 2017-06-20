@@ -60,7 +60,7 @@ Further, although they are sometimes erroneously conflated [@open_science_collab
 
 Given this broad definition of reproducibility, it is easy to recognize that many projects fall between the extremes of completely reproducible and not reproducible at all. A completely reproducible project would provide consumers the entire raw data set with detailed and unambiguous instructions to analyze it (usually as computer code). This degree of reproducibility is very rare in Psychology [@wicherts_poor_2006; @vanpaemel_are_2015], although data sharing has become more common in recent years in journals that award authors who do so with special badges [@kidwell_badges_2016]. However, even when authors (report to) share data, the shared data sets sometimes turn out to be incorrect, not usable, incomplete, or not available at all [@kidwell_badges_2016]. This suggests that reproducibility requires more than good intentions. What, then, are some specific challenges to reproducibility?
 
-## Challenges to reproducibility
+## Challenges to Reproducibility
 
 Evidence suggests that the level of reproducibility within Psychology is not very high. One survey of leading Psychology journals found that 34-58% of articles published between 1985 and 2013 had at least one inconsistently reported *p*-value [@nuijten_prevalence_2015]: Upon recalculation, the authors couldn't obtain the same *p*-values from the reported test statistics, and therefore these 34-58% of articles were, to some degree, non-reproducible (the inferential statistics could not be reproduced).
 
@@ -160,7 +160,7 @@ knitr::include_graphics("../data/git-diagram.png")
 
 To understand the Git workflow in practice, we now turn to a practical example using a hypothetical project. Git can be added to a project at any stage of the project's life cycle, but to most clearly show its use, we begin with an empty project with nothing in it.
 
-## Organizing files and folders
+## Organizing Files and Folders
 
 Implementing reproducibility into the scientific workflow is less time-consuming and effortful if it is planned from the onset of the project, rather than added to the project after all the work has been completed. It is therefore important to organize the project keeping a few key goals in mind (here, we follow guidelines such as the Project TIER recommendations[^tier-link]): The files and folders should have easy to understand names (avoid idiosynchratic naming schemes), and the names should indicate the purposes of the files and folders. We illustrate some good and not-so-good practices in Figure \@ref(fig:organizing-files).
 
@@ -170,7 +170,7 @@ knitr::include_graphics("images/project-organization.png")
 
 The first step is to create a home folder for the project. This folder should have an immediately recognizable name, and should be placed somewhere on your computer where you can find it. We call the example project `git-example`. All the materials related to this project will be placed in subfolders of the home directory, but for now `git-example` is just an empty folder waiting to be filled with data, code, and documents. Because the folder structure on a computer is easy to think of as a tree, a project's home folder---or any folder that has subfolders---is also known as the *root* directory. In what follows we use the terms home directory and root (directory) interchangeably. To make the example concrete, we recommend that you follow the tutorial along on your own computer.
 
-## Initializing a Git repository
+## Initializing a Git Repository
 
 Next, you need to create a new folder for the Git repository. First, choose an appropriate folder on your computer (such as `User/Documents/`) where you'd like to create the project. You can either use the system's file navigator (Finder / File Explorer) to create this folder, or use the command line: Navigate to the desired folder by using `cd Documents` to move into the `Documents` folder (assuming it exists in the folder where you currently are). Use `cd ..` to move out of a folder (to its containing folder), if needed. Once you are in the folder where you want to create the project, type `mkdir git-example` to make the `git-example` directory, then `cd git-example` to move into it. Once you are in the project's home folder (you can verify where you are by typing `pwd`), you want to turn the folder into a project by initializing Git with the `git init` command. These commands are shown in \@ref(fig:initialize-git)
 
@@ -186,7 +186,7 @@ $ git init
 
 Where each command is preceded by a `$` symbol. To help remember the commands, we recommend simply typing them out, instead of copy-pasting. The `git init` command initializes the folder as a Git repository, and the only change so far has been the addition of a hidden `.git` folder inside `git-example` (and possibly a `.gitattributes` file. Users can ignore these hidden files and folders, however they can be shown by the `ls -la` command.) Now that the folder is initialized as a Git repository, Git monitors any changes within it, and allows you to add and commit these changes (Figure \@ref(fig:git-diagram).) 
 
-## Adding a file to Git
+## Adding a File to Git
 
 Every project (repository) should contain a brief note explaining what the project is about and who to contact. This note is usually called a readme, and therefore our first contribution to this project will be a README file (this file is so important that it has become standard practice to write it in capital letters). The README file should be a plain text `.txt` file (i.e. not created with Microsoft Word) that can be read with a simple text editor[^plain-text]. You can create this file with any text editor (e.g. the TextEdit and Notepad apps which allow for creating plain text files are installed by default on Mac and Windows OS respectively). We created the file with some text in it, and it can now be seen in the `git-example` folder, either by using the system file viewer or `ls` in the command line. Because we added this file to a Git repository, Git is also aware of it. To see what files have changed since the last status change in the repository (there clearly has been only this one), you can ask for Git's **status**. We present commands prepended with `$` symbols, and output printed without preceding characters:
 
@@ -215,7 +215,7 @@ $ git commit -m "Add README file."
 
 The quoted text after the `-m` argument is the *commit message*. Entering this command to the command line returns a brief description of the commit, such as how many files changed, and how many characters inside those files were inserted and deleted. 
 
-## Keeping track of changes to a file with Git
+## Keeping Track of Changes with Git
 
 The `git-example` project (or rather, Git) now keeps track of all and any changes to README. To illustrate, you can change the text in the README file with a text editor, save the file, and then ask for Git's status with `git status` on the command line:
 
@@ -237,7 +237,7 @@ $ git add .
 $ git commit -m "Populate README with project description."
 ```
 
-## What does Git know?
+## What Does Git Know?
 
 The real importance of these somewhat abstract steps becomes apparent when we consider the Git **log**. To reveal the commit log of your repository, call:
 
@@ -293,7 +293,7 @@ knitr::include_graphics("images/advanced-project.png")
 
 Running `git status` now tells that there are two new files (possible empty folders are ignored). That is, since the previous commit, two files have been added to the project; one a pdf with some administrative information (`ethics-info.pdf`), the other one is an R [@r_core_team_r:_2017] script for a pre-planned power analysis (`plan_n.R`). You would probably like to track any changes to the power analysis script, but the ethics information file isn't really something that you need to keep track of---at least for this example. It would be laborious to constantly keep ignoring it when committing changes to Git (especially if you'd like to add multiple files simultaneously with `git add .`) Git has an elegant solution to specifying which files to keep track of. Because by default all files are monitored, Git uses a special file for instructing which files are to be *ignored*.
 
-### Make Git Ignore Files
+### Make Git ignore files
 
 To make Git ignore files, you simply add a plain text file called `.gitignore` to the home folder of the repository. You can use any text editor to create this file. Each row of this file should specify a file or a folder (or a regular expression) that Git should ignore. In the current example you could make Git ignore the `admin/` folder entirely, and any file with the .pdf extension inside `manuscript/`. The example `.gitignore` file would look like this (lines beginning with `#` are comments, and only read by humans):
 
@@ -331,7 +331,7 @@ $ git checkout experiment-1/analysis/plan_n.R
 
 Notice that you have to write the full path of the file (relative to the project's root) so Git knows precisely which file you want to checkout from history. With these example operations, we have discussed the main Git operations as outlined in Figure \@ref(fig:git-diagram): Make changes to files, **add** to staging area, **commit** to history; **checkout** from history to undo changes. 
 
-### Undoing committed changes
+### Undo committed changes
 
 Another common scenario is that a user makes changes to a file, adds the changes to the staging area, and commits them to Git's history, and only then realizes that the changes weren't good. If you have committed changes to a file, and would like to revert back to an older version of the file, you could **checkout** the file's earlier version, and then commit the older version. [^undoing-more-info] For example, suppose you have made bad changes to a file called `file.txt`, and committed the changes to history, and would then like to undo the bad changes by reverting to an older version of the file. First, view the history with `git log` (here we use the `--oneline` argument to make the output more concise):
 
@@ -529,7 +529,7 @@ To make a GitHub repository private, navigate to the repository's website with a
 
 At the time of this writing, GitHub offers five private repositories for free[^github-private]. To obtain more private repositories, you need to register for a paid account.
 
-# Using Git from IDE
+# Using Git with a Graphical Interface
 
 Above, we have detailed how to use Git from the computer's command line, but not all users are comfortable---although there is no reason not to be!---with this mode of interacting with their computers. We chose to introduce Git from the command line because eventually users might want to use it for more complicated operations (and it is required for setting the user's information). However, there are various graphical user interfaces (GUIs) available for Git which allow point-and-click interacting with Git.
 
@@ -555,7 +555,7 @@ Once the R Project has been created, R Studio has a "Git" tab in the top-right p
 knitr::include_graphics("images/rstudio-git-1.png")
 ```
 
-### Add and Commit changes
+### Add and commit changes
 
 To mark this milestone of creating a project, commit all the changes so far (new files, new project) to Git. The workflow is exactly the same as when using Git from the terminal, but there are now some visually appealing helpers. To begin committing these changes, click on "Commit" in the Git tab. This brings up another window where you can select files to add into the staging area (the files in Figure \@ref(fig:rstudio-git-2) are staged by checking the boxes on the names' left). Once all the desired files (here we chose both) are staged, you can write a short commit message in the appropriate text box, and click the "Commit" button. The text highlighted in green in the bottom part of Figure \@ref(fig:rstudio-git-2) indicates the lines of text that were changed in the selected file (`.gitignore`). These lines are all green because the file is new to Git and therefore each change is an addition (the files are unimportant R project files which users can safely ignore.)
 
