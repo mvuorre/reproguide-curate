@@ -434,13 +434,15 @@ Just as you must manually push your own local changes to the remote repository, 
 $ git pull
 ```
 
-The way in which users and their local repositories interact with the central repository by pushing and pulling is the cornerstone of collaboration on GitHub, and thoughtful use of these commands allows for complex workflows without any important code (data, ideas in manuscript, analysis code) ever being overwritten. However, there is no automatic way for a computer to tell what changes to prioritize: If two or more users have worked on the same code and then attempt to push their changes, it is possible that they have made changes that conflict with each other. If this happens, and it will, there is no need to worry; you simply need to know how to resolve the conflict.
+The way in which users and their local repositories interact with the central repository by pushing and pulling is the cornerstone of collaboration on GitHub, and thoughtful use of these commands allows for complex workflows without any important code (data, ideas in manuscript, analysis code) ever being overwritten. However, there is no automatic way for a computer to tell what changes to prioritize: If two or more users have worked on the same code and then attempt to push their changes, it is possible that they have made changes which conflict with each other. If this happens, and it will, there is no need to worry; you simply need to know how to resolve the conflict.
 
 ## Resolving conflicts in collaborative work
 
-If user A has pushed changes to the central repository while user B was working on the same code (recall that we use the word code to mean any text written on a computer, to this could be e.g. a manuscript), user B's later push can result in a *conflict*. That is just a natural consequence of two individuals working simultaneously on the same idea, and then writing different code in the same location in the file. When this happens, user B needs to first pull the most up to date changes from the remote repository to her local code, and then inspect the code for problems (which will be apparent, Git will insert pointers to where the conflict is occurring.) Once user B's local code is updated with the pull, and the conflict manually resolved, user B can push changes from her local repository to the central repository. 
+There are many types of conflicts that may appear in collaborative work, such as multiple users creating files with the same name but different content, or multiple users working on the same code (recall that we use the word code to mean any text written on a computer, to this could be e.g. a manuscript) and creating changes that conflict with each other. We use this latter situation as an example in explaining how to resolve conflicts in collaborative work.
 
-To explain this example in more detail, let's assume that a new collaborator (User B) has made changes to the README file in the `git-example` project, shown below, and pushed the changes to the central repository. For brevity, we only show the first few lines of this file:
+Consider the following scenario. Two collaborators, User A and User B, are working on the same project (they collaborate on a repository on GitHub, with local repositories as detailed above.) At some point, they might be working on the same file---such as writing a manuscript together---and find that they have made changes that conflict with each other. More formally, let's assume that both users are making changes to a file, and User B happens to add and commit his changes locally and push them to the central repository before User A does. When User A then attempts to push her changes to the local repository---and the changes are incompatible with User B's changes---a **conflict** will happen. That is just a natural consequence of two individuals working simultaneously on the same idea, and then writing different code in the same location in the file. When this happens, user A needs to first integrate the latest version of the project from the central repository to her local project, such that it reflects both collaborators' edits, and then push the new "merged" version to the central repository. Let's look at what this workflow entails in a little more detail.
+
+First, let's assume that a collaborator (User B) has made changes to the `README` file in the `git-example` project and pushed the changes to the central repository. For brevity, only show the first few lines of this file:
 
 ```bash
 # Example Git Project
@@ -448,7 +450,7 @@ Hello world!
 This example project illustrates the use of Git.
 ```
 
-If User A then changed the `README` file (first few lines shown below) in a different way, there would likely be a conflict:
+At the same time, User A might have changed her local version of the `README` file to look like this:
 
 ```bash
 # Example Git Project
@@ -456,31 +458,26 @@ Here are some changes.
 This example project illustrates the use of Git.
 ```
 
-If this user now commits the changes locally:
+If User A now commits the changes locally, and attempts to push the changes to the central repository, an error will appear
 
 ```bash
 $ git add .
 $ git commit -m "Some meaningful changes"
-```
-
-and then attempts to `git push` the changes to the central repository, an error will appear:
-
-```bash
 $ git push
 error: failed to push some refs
-hint: Updates were rejected because the remote contains work that you do
-not have locally. This is usually caused by another repository pushing
-to the same ref. You may want to first integrate the remote changes
-(e.g., 'git pull ...') before pushing again.
+hint: Updates were rejected because the remote contains work that you
+do not have locally. This is usually caused by another repository 
+pushing to the same ref. You may want to first integrate the remote 
+changes (e.g., 'git pull ...') before pushing again.
 ```
 
-As is usually the case, Git also returns a list of helpful hints, which we can follow to succesfully resolve the conflict. Git suggests that we first integrate the remote changes: We need to first obtain the latest version of the file(s) from the central repository, add the proposed changes, and push that version. So, first obtain the latest changes with
+As is usually the case, Git also returns a hint on what to do, which you can follow to succesfully resolve the conflict. Git suggests that we first integrate the remote changes: We need to first obtain the latest version of the file(s) from the central repository, add the proposed changes to the latest version of the file (the one containing User B's changes), and push that version.  You can first obtain the latest changes from the central repository:
 
 ```bash
 $ git pull --rebase
 ```
 
-You can `pull` without the `--merge` argument, but this would create an unnecessary commit message [^pull-rebase], and we therefore recommend adding this argument. At this point, Git is in rebasing mode, allowing User A to resolve the conflict before pushing her changes. Running `git status` returns (only relevant output shown):
+You can `git pull` without the `--rebase` argument, but that would create an unnecessary commit message and would lead to a slightly different workflow[^pull-rebase]; we recommend using the `--rebase` argument. At this point, Git is in rebasing mode, allowing User A to resolve the conflict before pushing her changes. Running `git status` returns (only relevant output shown):
 
 ```bash
 $ git status
@@ -494,9 +491,7 @@ Unmerged paths:
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
-The workflow here is: 1. Edit the file so that both contributor's contributions are incorporated in the desired manner, 2. 
-
-The file currently looks like this:
+Git again shows a helpful (if not rather jargony) message; the relevant point is that the repository is in "re-basing" mode (technically, you are re-basing your current version (`master`) onto User B's latest contribution, identified with `bada506`). The next step is to manually edit the conflicted file to reflect both User A's and User B's changes. Of course, the user who is doing the re-basing (i.e. merging or resolving the conflict) may simply decide to edit the file to reflect only her changes, completely rejecting User B's changes. When viewed with a text editor, the conflicting `README` file now looks like this:
 
 ```bash
 # Example Git Project
@@ -507,7 +502,7 @@ Here are some proposed changes.
 >>>>>>> Some meaningful changes
 ```
 
-`<<<<<<< HEAD` indicates the current status of the project, which is the latest version of the remote branch. You can see that these are User B's changes, i.e. "Hello world!". The `======` separates the two conflicting lines of text. "Here are some proposed changes." is the change that you are currently trying to integrate to the project, with it's commit message `>>>>>>> Some meaningful changes`. You can then edit the file manually to reflect the desired state of the project, e.g.:
+The first line of the file was identical across the two Users' versions of the file, and therefore remains the same. However, after the first line, there is first a line (`<<<<<<< HEAD`) indicating that what follows are the to-be-integrated lines of text. Anything after this line up to the `======` line is the to-be-integrated text from the central repository. We can see that this is simply the line of text that User B created ("Hello world!"). After the separating line (`======`) are User A's local changes, followed by those changes' commit message ("Some meaningful changes") prepended with a `>>>>>>>`. User A can then edit this file however she chooses, using the tags to help her see which are her lines of code (text), which are User B's. For example, the result might look as follows:
 
 ```bash
 # Example Git Project
@@ -515,9 +510,16 @@ Here are some proposed changes: Hello world!
 This example project illustrates the use of Git.
 ```
 
-Then save the file and add the changes as usually with `git add README` (or whatever the file you were editing). Importantly, because in this conflict situation Git is in merge mode (which can be aborted with `git rebase --abort` to reject the central repository's changes and return back to the latest local version), you should not commit, but instead complete the "re-basing" with `git rebase --continue`. This command returns a reminder telling the user which local commit is being applied on top of the changes the user pulled from the central repository (e.g. "`Applying: Some meaningful changes`"), and returns Git to it's normal mode. The final step is then to use `git push` to send the local changes to the central repository.
+Then, User A can save the file and add the changes as usually with `git add README`. Importantly, Git is in merge mode (which can be aborted with `git rebase --abort` to reject the central repository's changes and return User A back to her latest local version), User A should not commit, but instead should complete the "re-basing" with `git rebase --continue`. 
 
-How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial[^more-on-conflicts]. Most importantly, even in the event of merge conflicts, all committed changes are saved in Git's history and can be retrieved, so experimenting with different approaches to resolving conflicts is safe.
+```bash
+$ git rebase --continue
+Applying: Some meaningful changes
+```
+
+This command returns a reminder telling User A which local commit is being applied on top of the changes she pulled from the central repository, and then returns Git to it's normal mode from rebase mode. The final step is then to use `git push` to send the local changes to the central repository.
+
+How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial[^more-on-conflicts]. Most importantly, even in the event of merge conflicts, all committed changes are saved in Git's history and can be retrieved, so experimenting with different approaches to resolving conflicts is safe. 
 
 ## Private or public collaboration?
 
@@ -637,7 +639,7 @@ The challenges to reproducibility are many, and they have only recently received
 [^undo-the-revert]: If, for some reason, you preferred the latest version after all, you can undo the revert process by `git checkout HEAD file.txt`, instead of adding and committing the older version. This function checks out the current state ("`HEAD`") which contained the bad changes.
 [^pull-rebase]: For more information, see <https://www.atlassian.com/git/tutorials/comparing-workflows>.
 [^github-private]: To obtain the free repositories, fill out the request form at <https://education.github.com/discount_requests/new>.
-[^more-on-conflicts]: Covering all different types of file conflicts is outside the scope of this tutorial. Although the instructions provided herein will help in most common use case scenarios, readers can refer to the following websites for more information: <https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line/> and <https://www.atlassian.com/git/tutorials/comparing-workflows>. The GitHub customer service is also very responsive to users' help requests, which can include questions on code conflicts.
+[^more-on-conflicts]: Covering all different types of file conflicts is outside the scope of this tutorial. Although the instructions provided herein will help in most common use case scenarios, readers can refer to the following websites for more information: <https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line/> and <https://www.atlassian.com/git/tutorials/comparing-workflows>. You can also resolve conflicts on GitHub (<https://help.github.com/articles/resolving-a-merge-conflict-on-github/>), and the GitHub customer service is very responsive to users' help requests, which can include questions on code conflicts.
 
 # References
 
