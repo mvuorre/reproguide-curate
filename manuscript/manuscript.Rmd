@@ -168,7 +168,7 @@ Implementing reproducibility into the scientific workflow is less time-consuming
 knitr::include_graphics("images/project-organization.png")
 ```
 
-The first step is to create a home folder for the project. This folder should have an immediately recognizable name, and should be placed somewhere on your computer where you can find it. We call the example project `git-example`. All the materials related to this project will be placed in subfolders of the home directory, but for now `git-example` is just an empty folder waiting to be filled with data, code, and documents. To make the example concrete, we recommend that you follow the tutorial along on your own computer.
+The first step is to create a home folder for the project. This folder should have an immediately recognizable name, and should be placed somewhere on your computer where you can find it. We call the example project `git-example`. All the materials related to this project will be placed in subfolders of the home directory, but for now `git-example` is just an empty folder waiting to be filled with data, code, and documents. Because the folder structure on a computer is easy to think of as a tree, a project's home folder---or any folder that has subfolders---is also known as the *root* directory. In what follows we use the terms home directory and root (directory) interchangeably. To make the example concrete, we recommend that you follow the tutorial along on your own computer.
 
 ## Initializing a Git repository
 
@@ -330,6 +330,41 @@ $ git checkout experiment-1/analysis/plan_n.R
 ```
 
 Notice that you have to write the full path of the file (relative to the project's root) so Git knows precisely which file you want to checkout from history. With these example operations, we have discussed the main Git operations as outlined in Figure \@ref(fig:git-diagram): Make changes to files, **add** to staging area, **commit** to history; **checkout** from history to undo changes. 
+
+### Undoing committed changes
+
+Another common scenario is that a user makes changes to a file, adds the changes to the staging area, and commits them to Git's history, and only then realizes that the changes weren't good. If you have committed changes to a file, and would like to revert back to an older version of the file, you could **checkout** the file's earlier version, and then commit the older version. [^undoing-more-info] For example, suppose you have made bad changes to a file called `file.txt`, and committed the changes to history, and would then like to undo the bad changes by reverting to an older version of the file. First, view the history with `git log` (here we use the `--oneline` argument to make the output more concise):
+
+```bash
+$ git log --oneline
+4c64f11 Bad changes to file.txt
+039d6ff Good changes to file.txt
+a73f2ec Add file.txt
+```
+
+Recall in `git log` returns most recent changes at the top, and notice that the `--oneline` argument has also made the commit hash codes shorter and thus easier to read and write. Here we can see that commit `039d6ff` has a good version of the file, and subsequent changes in commit `4c64f11` were bad (you would of course not commit "bad changes", but here the message is informative for clarity). To revert `file.txt` to it's good state in commit `039d6ff`, you can use use `git checkout <hash> <filename>`, which here would be:
+
+```bash
+$ git checkout 039d6ff file.txt
+```
+
+Now asking for `git status` reveals that `file.txt` has been modified in the working directory (its current state is as it was in the good commit `039d6ff`). You can now add and commit these changes with `git add file.txt`, then `git commit -m "Undid bad changes to file.txt"` (type a commit message suitable for your situation).[^undo-the-revert] `git log --oneline` would then show:
+
+```bash
+$ git log --oneline
+bcbb123 Undid bad changes to file.txt
+4c64f11 Bad changes to file.txt
+039d6ff Good changes to file.txt
+a73f2ec Add file.txt
+```
+
+This operation of checking out earlier versions is very useful not only for undoing changes, but for viewing older versions of files as well. However, if you would only like to view past states of the project, instead of reverting / undoing to an earlier state, you can checkout an earlier version of the repository, as explained below.
+
+### Going to an earlier version of the project
+
+To return to an earlier state of the project, you can use the `git checkout` command. For example, the display above shows that in commit `a73f2ec`, you had added `file.txt`. If you would like to see the project at that commit, type `git checkout a73f2ec`. This command instantly checks out the file(s) at that point in history, and you can view them. This is very helpful if, for example, you would like to quickly run an earlier version of a statistical analysis. After you have viewed this old version of the project, you can return to the current version with `git checkout master`.
+
+Neither of these operations---checking out an earlier version of a file or of the entire project---affects the history of the project, and are therefore "safe", in the sense that your project's history won't be overwritten. However, checking out an earlier version of a specific file changes the current state of the project (the current version of the file is temporarily overwritten with the old version), so it is good practice to carefully keep track of the current version of your file before making further commits.
 
 # Collaborating
 
@@ -516,6 +551,8 @@ The challenges to reproducibility are many, and they have only recently received
 [^plain-text]: Plain text has many advantages over proprietary file formats such as Microsoft Word's .docx files. Briefly, plain text is both human and computer readable (.docx are unreadable without a copy of Microsoft Word), is both forward and backward compatible (there will always, and has always been, software capable of reading it), and plain text takes very little space. The file extension of plain text doesn't matter much, but we recommend using either `.txt` because it is widely recognized, `.md` for markdown syntax, or in the case of a readme file, simply not using any file extension.
 [^dot-shortcut]: For the `.` shortcut to work, you must currently be in the project's root directory. If you are not in the root directory, you can use `-A` shortcut instead; however, we recommend that you always ensure that you are in the project's root directory when running any Git commands.
 [^when-to-commit]: It is entirely up to the user to decide what to commit and when. However, it is best practice to commit often while making incremental changes. Each commit should aim to solve one problem, introduce one new idea, or---more generally---do one thing. This way, when the commit history is reviewed later, it is easy to find and come back to a specific change.
+[^undoing-more-info]: For more information on undoing changes, see <https://www.atlassian.com/git/tutorials/undoing-changes>.
+[^undo-the-revert]: If, for some reason, you preferred the latest version after all, you can undo the revert process by `git checkout HEAD file.txt`, instead of adding and committing the older version. This function checks out the current state ("HEAD") which contained the bad changes.
 
 # References
 
