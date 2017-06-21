@@ -1,6 +1,8 @@
 # Curating Research Assets with git and R Studio
 
-This is a repository for a git tutorial to be submitted to Advances in Methods and Practices in Psychological Science ([AMPPS](https://www.psychologicalscience.org/publications/ampps)). See [here](https://www.psychologicalscience.org/publications/ampps/ampps-submission-guidelines) for AMPPS publication guidelines.
+GitHub repository for a Git tutorial for Psychologists and Behavioral Scientists.
+
+Authors: [Matti Vuorre](mv2521@columbia.edu) & James P. Curley
 
 ## How to contribute
 
@@ -8,9 +10,9 @@ The manuscript is written in [R Markdown](http://rmarkdown.rstudio.com/) with th
 
 ### References & Citations
 
-References are in a bibfile in `references.bib`. I manage citations with a combination of [Zotero](https://www.zotero.org/), [citr](https://github.com/crsh/citr) R Studio add-in, and [Better Bib(La)Tex](https://github.com/crsh/citr#better-biblatex-integration). With these, citations are automatically formatted and added from Zotero to the `references.bib` file.
+References are in `references.bib`. We manage citations with a combination of [Zotero](https://www.zotero.org/), [citr](https://github.com/crsh/citr) R Studio add-in, and [Better Bib(La)Tex](https://github.com/crsh/citr#better-biblatex-integration). With these, citations are automatically formatted and added from Zotero to the `references.bib` file.
 
-### Other materials
+### Other materials on how to use Git(Hub)
 
 Lots of good stuff on the web:
 
@@ -24,23 +26,6 @@ Lots of good stuff on the web:
 - <http://kbroman.org/github_tutorial/pages/rstudio.html>
 - <http://happygitwithr.com/>
 - <http://ohshitgit.com/>
-    - How to fix mistakes with Git
+    - How to fix mistakes with Git (warning: strong language)
     
-Once this repo is public, its history can be viewed (with brilliant fx) here: <http://starlogs.net/#mvuorre/reproguide-curate>
-
-# Topics (roadmap)
-
-We plan to cover broadly these topics in roughly this order:
-
-- Introduction
-    - Reproducibility: What and how
-    - git: What problem does it solve and how
-    - git: microscopic history and overview, alternatives
-- Organizing a project for reproducibility
-    - Small example project, contrast to messy one
-- git for curating materials
-    - Walkthrough of important commands, create & commit README
-    - R Studio IDE as git interface
-- GitHub for organizing materials across time and space
-- Possible other topics to include:
-    - GitHub? Collaborating?
+See this repository's commit history with nice FX at <http://starlogs.net/#mvuorre/reproguide-curate>.
