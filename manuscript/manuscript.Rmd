@@ -587,7 +587,7 @@ One of these files is `.gitignore` which we covered above. The other file is an 
 
 Once the R Project has been created, R Studio has a "Git" tab in the top-right panel of the GUI. At first, this tab shows the two new files in the repository, and some buttons with familiar looking names ("Commit", "Push", etc.)
 
-```{r rstudio-git-1, fig.cap = "R Studio's Git tab for a newly created project."}
+```{r rstudio-git-1, fig.cap = "R Studio's Git tab for a newly created project. The Git tab in R Studio has buttons for Git commands covered in this tutorial, such as viewing Git's history, diffs, and commits."}
 knitr::include_graphics("images/rstudio-git-1.png")
 ```
 
