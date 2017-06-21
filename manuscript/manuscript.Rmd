@@ -367,7 +367,7 @@ There are many ways in which a team could collaborate on a Git project; here we 
 
 ## Overview of the Centralized Git Workflow
 
-In this workflow, a central project hosted on a research team's server, or an online service like GitHub (<https://github.com/>), is used to send and receive information from and to local projects. Because the word "project" can now refer to virtual copies of projects, they are instead commonly referred to as **repositories**. First, one user creates this central repository, then other users **clone** local copies of it (see Table \@ref(tab:git-commands)). Contributors, including the one who created the central repository, then work on their local projects as detailed above, and after committing, **push** their changes to the central repository. To get changes which other users have pushed to the central repository, contributors **pull** changes from it.
+In this workflow, a central project hosted on a research team's server, or an online service like GitHub (<https://github.com/>), is used to send and receive information from and to local projects. Because the word "project" can now refer to virtual copies of projects, they are instead commonly referred to as **repositories**. First, one user creates this central repository, then other users **clone** local copies of it (see Box 2). Contributors, including the one who created the central repository, then work on their local projects as detailed above, and after committing, **push** their changes to the central repository. To get changes which other users have pushed to the central repository, contributors **pull** changes from it.
 
 ```{r git-diagram-collaborate, fig.cap = "A diagram illustrating the typical collaborative Git workflow with a remote repository (e.g. GitHub). Verbs indicated in bold text are Git operations and explained in detail in the main text.", out.width="6in"}
 knitr::include_graphics("../data/git-diagram-collaborate.png")
@@ -612,22 +612,49 @@ After executing these commands, you can use all Git and GitHub features from R S
 
 # Git Summary
 
-Table \@ref(tab:git-commands) gives the main Git commands and their purported use in roughly the order in which they would be used in a typical workflow. Help on how to use each command is available by appending `--help` to each command (e.g. `git commit --help`). When printed in the command line, some help pages run for several pages, press the spacebar to move to the next page, or `q` to quit looking at the help page. In Box 2 we give links to online materials that we have found particularly helpful in learning Git and teaching it to others.
+Box 2 describes the main Git commands and their purported use in roughly the order in which they would be used in a typical workflow. Help on how to use each command is available by appending `--help` to each command (e.g. `git commit --help`). When printed in the command line, some help pages run for several pages, press the spacebar to move to the next page, or `q` to quit looking at the help page. In Box 3 we give links to online materials that we have found particularly helpful in learning Git and teaching it to others.
 
-```{r git-commands, results = 'asis', warning = F, error=T}
-commands <- read_csv("data/git-commands.csv")
-commands %>% 
-    apa_table(
-        caption = "Main Git commands.",
-        note = "Source: https://help.github.com/articles/github-glossary/ and https://services.github.com/on-demand/downloads/github-git-cheat-sheet.pdf",
-        landscape = FALSE)
-```
+<!-- Box 2. Git summary -->
+\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\footnotesize, title=Box x. Main Git commands]
+\begin{itemize}
+    \item Initialize a local repository (\texttt{git init}) 
+        \begin{itemize}
+        \item Create a local Git repository inside a folder on your computer. In effect, this command turns the local folder into a Git repository.
+        \end{itemize}
+    \item Obtain a copy of a remote (GitHub) repository to local computer (\texttt{git clone URL}) 
+        \begin{itemize}
+        \item Create a local Git repository from a pre-existing remote Git repository, such as one hosted on GitHub.
+        \end{itemize}
+    \item Add changes to Git's staging area (\texttt{git add file}) 
+        \begin{itemize}
+        \item Once a file has been edited or created in the local project, it needs to be added to Git's staging area. Multiple files can be added simultaneously using the \texttt{.} shortcut (\texttt{git add .}). Once the files have been added, they can be saved to Git's history.
+        \end{itemize}
+    \item Save changes from staging area to Git's history (\texttt{git commit}) 
+        \begin{itemize}
+        \item A commit creates a snapshot of the project's current state by adding the most recent changes (which have been added to the staging area) to Git's history. Commits should be accompanied with short, descriptive messages to describe the changes introduced in that commit (\texttt{git commit -m "Commit message"})
+        \end{itemize}
+    \item Show Git's history (\texttt{git log}) 
+        \begin{itemize}
+        \item Git's log is a list of all the commits made in the current repository, and as such is a description of the project's history. The history can be very long and span multiple pages; to move forward one page, press the spacebar, or "q" to quit viewing the log. To view the log in a more concise form, add the \texttt{--oneline} argument (\texttt{git log --oneline}).
+        \end{itemize}
+    \item Send locally committed changes to remote repository (\texttt{git push}) 
+        \begin{itemize}
+        \item In the centralized workflow for collaboration as described in this tutorial, collaborators work on their own local repositories, and periodically send the changes that they have made to the central (remote) repository.
+        \end{itemize}
+    \item Receive changes from the remote repository (\texttt{git pull}) 
+        \begin{itemize}
+        \item To keep the local repository up-to-date with other collaborators' changes, users must periodically pull changes from the remote (central) repository. It is good practice to pull the most up-to-date version of the project every time before making changes, to avoid unnecessary conflicts.
+        \end{itemize}
+\end{itemize}
+For more information, see Box 3.
+\end{tcolorbox}
 
-<!-- Box 2. Further resources for learning Git -->
-\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\footnotesize, title=Box 2. Further resources for learning Git]
+<!-- Box 3. Further resources for learning Git -->
+\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\footnotesize, title=Box 3. Further resources for learning Git]
 \begin{itemize}
     \item \href{https://www.git-tower.com/blog/workflow-of-version-control}{Basic VCS workflow}, an infographic explaining how VCS works (\url{https://www.git-tower.com/blog/workflow-of-version-control}).
     \item \href{https://services.github.com/resources/cheatsheets/}{GitHub's Git cheat sheet} is available in multiple languages and contains the most used Git commands (\url{https://services.github.com/resources/cheatsheets/}).
+\item \href{https://help.github.com/articles/github-glossary/}{GitHub's Git glossary} describes Git's most common commands (\url{https://help.github.com/articles/github-glossary/}).
     \item \href{https://try.github.io}{TryGit}, an interactive website for learning the basics of Git (\url{https://try.github.io}).
     \item \href{http://r-pkgs.had.co.nz/git.html}{Git + GitHub} in an R programming context (\url{http://r-pkgs.had.co.nz/git.html}).
     \item \href{https://git-scm.com/book/en/v2}{Pro Git book}, a complete manual of Git (\url{https://git-scm.com/book/en/v2}).
