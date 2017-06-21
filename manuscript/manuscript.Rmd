@@ -381,6 +381,7 @@ GitHub is one of the 100 most popular website worldwide, and hosts over 60 milli
 
 Anyone wanting to use GitHub must first create a free user account at <https://github.com>. After the user account has been set up, and the user has logged in, creating a new repository at GitHub is self-evident (there is a big green button labeled "New repository"). You must create the GitHub account with the same email address as you used above when configuring your local Git (or re-configure your local Git to use your the email address that you used to register for GitHub).
 
+
 ### Create a new GitHub repository
 
 Although we describe how to create a new repository, the goal here is to create an online "remote" repository for the running example within this tutorial, so that you can "push" your current local repository to the GitHub remote. Because of this, on GitHub, do not check the "Initialize this repository with a README" (you already created one in the local repository if you followed the steps above on your own computer), and do not add a .gitignore or a license. For the current example, after clicking "New repository", you are asked to enter a name for the repository, which can be anything. For consistency we call the GitHub repository `git-example`---the same name as our local project folder. After entering the name, click "Create repository". The next step is to link the new remote to the local repository, using the following commands (they are also visible on the website that opens after you have created the repository on GitHub):
@@ -396,6 +397,49 @@ $ git push -u origin master
 ```
 
 The `-u origin master` arguments are only required for the first push, as they set up the connection. Running this command will send your local repository to the GitHub repository. For pushing changes collowing this initial push, simply type `git push` after adding and committing locally. You have now created the remote central repository, and other users can start contributing to it. 
+
+### Create a GitHub repository from an existing project
+
+Alternatively, we may already have a project with several  files in it that is not yet a Git repository and that we wish to share with others. To do this, first login to your GitHub account and create a new repository. This can be done by clicking on the large green button called `New` under the `Repositories` tab. On the next page enter the repostiory name in the textbox and choose whether to make the repository public or private. The name of the repository should match the name of the top-level folder of the project we wish to share. We recommend not checking the box for adding a README or adding a `.gitignore` file or license at this point. These can be added after completing the setup. Next open the command line (e.g. the Terminal for Mac users, Git Bash for Windows users) and change the current working directory to the top-folder containing the local project to share. 
+
+First initialize the local directory as a Git repository:
+
+
+```bash
+$ git init
+```
+
+Now add all files to the staging area:
+
+```bash
+$ git add .
+```
+Commit these files including a comment such as 'First commit':
+
+```bash
+$ git commit -m "First commit"
+```
+
+To push the local files to Github we follow the same step as the previous section where `username` and `reponame` are the user's GitHub username, and the GitHub repository name.
+
+
+```bash
+$ git remote add origin https://github.com/username/reponame.git
+```
+
+We then verify the new repository:
+
+```bash
+$ git remote -v
+```
+We can then push all files to GitHub with the first commit:
+
+
+```bash
+$ git push origin master
+```
+
+Like when sharing a git repository created from scratch, after these steps all users can contribute modifications to the central GitHub repository by pushing changes with  `git push` after adding and committing locally. 
 
 ### Contributing to a central (GitHub) repository
 
@@ -423,7 +467,7 @@ Just as you must manually push your own local changes to the remote repository, 
 $ git pull
 ```
 
-The way in which users and their local repositories interact with the central repository by pushing and pulling is the cornerstone of collaboration on GitHub, and thoughtful use of these commands allows for complex workflows without any important code (data, ideas in manuscript, analysis code) ever being overwritten. However, there is no automatic way for a computer to tell what changes to prioritize: If two or more users have worked on the same code and then attempt to push their changes, it is possible that they have made changes which conflict with each other. If this happens, there is no need to worry; you simply need to know how to resolve the conflict.
+The way in which users and their local repositories interact with the central repository by pushing and pulling is the cornerstone of collaboration on GitHub, and thoughtful use of these commands allows for complex workflows without any important code (data, ideas in manuscript, analysis code) ever being overwritten. For instance, prior to restarting work on a project it is often worth checking if any files have changed in the central repository by checking the status of your local repository with `git status` as described above. It is also worthwhile in commiting and pushing changes made after each period of work. However, there is no automatic way for a computer to tell what changes to prioritize: If two or more users have worked on the same code and then attempt to push their changes, it is possible that they have made changes which conflict with each other. If this happens, there is no need to worry; you simply need to know how to resolve the conflict.
 
 ## Resolving conflicts in collaborative work
 
@@ -509,6 +553,9 @@ Applying: Some meaningful changes
 This command returns a reminder telling User A which local commit is being applied on top of the changes she pulled from the central repository, and then returns Git to it's normal mode from rebase mode. The final step is then to use `git push` to send the local changes to the central repository.
 
 How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial[^more-on-conflicts]. Most importantly, even in the event of conflicts, all committed changes are saved in Git's history and can be retrieved, so experimenting with different approaches to resolving conflicts is safe. 
+
+
+
 
 ## Private or public collaboration?
 
