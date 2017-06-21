@@ -390,7 +390,7 @@ Although we describe how to create a new repository, the goal here is to create 
 $ git remote add origin https://github.com/username/reponame.git
 ```
 
-Where `username` and `reponame` are the user's GitHub username, and the GitHub repository name. The correct address is visible in the GitHub page that opens after creating the repository. Once the connection is set up, we can **push** local changes to the GitHub remote:
+Where `username` and `reponame` are the user's GitHub username, and the GitHub repository name. The correct address is visible in the GitHub page that opens after creating the repository. Once you have added the GitHub remote to the local repository, you can verify that the correct address was given with the command `git remote -v`. Once the connection is set up, we can **push** local changes to the GitHub remote:
 
 ```bash
 $ git push -u origin master
@@ -400,46 +400,44 @@ The `-u origin master` arguments are only required for the first push, as they s
 
 ### Create a GitHub repository from an existing project
 
-Alternatively, we may already have a project with several  files in it that is not yet a Git repository and that we wish to share with others. To do this, first login to your GitHub account and create a new repository. This can be done by clicking on the large green button called `New` under the `Repositories` tab. On the next page enter the repostiory name in the textbox and choose whether to make the repository public or private. The name of the repository should match the name of the top-level folder of the project we wish to share. We recommend not checking the box for adding a README or adding a `.gitignore` file or license at this point. These can be added after completing the setup. Next open the command line (e.g. the Terminal for Mac users, Git Bash for Windows users) and change the current working directory to the top-folder containing the local project to share. 
+Alternatively, we may already have a project with several files in it that is not yet a Git repository and that we wish to share with others. To do this, first login to your GitHub account and create a new repository. This can be done by clicking on the large green button called `New` under the `Repositories` tab. On the next page enter the repository name in the textbox and choose whether to make the repository public or private. The name of the repository should match the name of the top-level folder of the project you wish to share. We recommend not checking the box for adding a README or adding a `.gitignore` file or license at this point. These can be added after completing the setup. Next open the command line (e.g. the Terminal for Mac users, Git Bash for Windows users) and change the current working directory to the home directory of the project you wish to share. 
 
 First initialize the local directory as a Git repository:
-
 
 ```bash
 $ git init
 ```
 
-Now add all files to the staging area:
+Now add all files to the staging area (if there are files or folders that you would not like to include, see the above section on how to make Git ignore files with the `.gitignore` file):
 
 ```bash
 $ git add .
 ```
-Commit these files including a comment such as 'First commit':
+Commit these files including a comment such as "First commit":
 
 ```bash
 $ git commit -m "First commit"
 ```
 
-To push the local files to Github we follow the same step as the previous section where `username` and `reponame` are the user's GitHub username, and the GitHub repository name.
-
+To push the local files to Github we follow the same steps as in the previous section where `username` and `reponame` are the user's GitHub username, and the GitHub repository name.
 
 ```bash
 $ git remote add origin https://github.com/username/reponame.git
 ```
 
-We then verify the new repository:
+You can then verify the new repository:
 
 ```bash
 $ git remote -v
 ```
-We can then push all files to GitHub with the first commit:
 
+And then push all files to GitHub with the first commit:
 
 ```bash
 $ git push origin master
 ```
 
-Like when sharing a git repository created from scratch, after these steps all users can contribute modifications to the central GitHub repository by pushing changes with  `git push` after adding and committing locally. 
+Like when sharing a git repository created from scratch, after these steps all users can contribute modifications to the central GitHub repository by pushing changes with `git push` after adding and committing locally. 
 
 ### Contributing to a central (GitHub) repository
 
