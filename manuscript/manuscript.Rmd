@@ -399,13 +399,13 @@ The `-u origin master` arguments are only required for the first push, as they s
 
 ### Contributing to a central (GitHub) repository
 
-Once another team member has set up Git on their own computer, and signed up for GitHub, they need to **clone** the remote GitHub repository onto their local computer. To clone a repository, the new user must first navigate to an appropriate location on the computer where they would like to save the project on their computer, for example their `User/Documents` folder. Once the appropriate location is found, cloning will create a new folder for the repository inside this folder.
+Once another team member has set up Git on their own computer, and signed up for GitHub, they need to **clone** the remote GitHub repository onto their local computer. To clone a repository, the new user must first navigate to an appropriate location on the computer where they would like to save the project on their computer, for example their `User/Documents` folder. Once the appropriate location is found, cloning will create a new folder for the repository inside this folder. Use `git clone` to clone a repository from a URL:
 
 ```bash
 $ git clone https://github.com/username/reponame.git
 ```
 
-To find out the correct link to enter to `git clone`, you can navigate your web browser to the repository's GitHub address (e.g. <https://github.com/mvuorre/reproguide-curate> for this tutorial's repository) and click the big green "Clone or download" button; the complete address is in the text box. 
+To find out the correct URL to enter to `git clone`, you can navigate your web browser to the repository's GitHub address (e.g. <https://github.com/mvuorre/reproguide-curate> for this tutorial's repository) and click the big green "Clone or download" button; the complete address is in the text box. 
 
 New contributors can then work on their local copies as detailed in earlier parts of this tutorial; making changes, adding, committing, and pushing. After committing their changes, they can update the status of the central Git repo by pushing their changes to it:
 
@@ -413,7 +413,7 @@ New contributors can then work on their local copies as detailed in earlier part
 $ git push
 ```
 
-You can also clone GitHub repositories if you are not aiming to contribute to a project. Hosting projects on GitHub is attractive for precisely the reason that other people can easily clone (download) your work to build and advance on what you have been working on.
+You can also clone GitHub repositories if you are not aiming to contribute to a project. Hosting projects on GitHub is attractive because other people can easily clone (download) your work to build on, and contribute to, your work.
 
 ### Obtaining other's changes from the central repo
 
@@ -423,15 +423,15 @@ Just as you must manually push your own local changes to the remote repository, 
 $ git pull
 ```
 
-The way in which users and their local repositories interact with the central repository by pushing and pulling is the cornerstone of collaboration on GitHub, and thoughtful use of these commands allows for complex workflows without any important code (data, ideas in manuscript, analysis code) ever being overwritten. However, there is no automatic way for a computer to tell what changes to prioritize: If two or more users have worked on the same code and then attempt to push their changes, it is possible that they have made changes which conflict with each other. If this happens, and it will, there is no need to worry; you simply need to know how to resolve the conflict.
+The way in which users and their local repositories interact with the central repository by pushing and pulling is the cornerstone of collaboration on GitHub, and thoughtful use of these commands allows for complex workflows without any important code (data, ideas in manuscript, analysis code) ever being overwritten. However, there is no automatic way for a computer to tell what changes to prioritize: If two or more users have worked on the same code and then attempt to push their changes, it is possible that they have made changes which conflict with each other. If this happens, there is no need to worry; you simply need to know how to resolve the conflict.
 
 ## Resolving conflicts in collaborative work
 
-There are many types of conflicts that may appear in collaborative work, such as multiple users creating files with the same name but different content, or multiple users working on the same code (recall that we use the word code to mean any text written on a computer, to this could be e.g. a manuscript) and creating changes that conflict with each other. We use this latter situation as an example in explaining how to resolve conflicts in collaborative work.
+Many different types of conflicts may appear in collaborative work, such as multiple users creating files with the same name but different content, or multiple users working on the same code (recall that we use the word code to mean any text written on a computer, e.g. text in a manuscript) and creating changes that conflict with each other. We use this latter situation as an example to explain how to resolve conflicts in collaborative work.
 
 Consider the following scenario. Two collaborators, User A and User B, are working on the same project (they collaborate on a repository on GitHub, with local repositories as detailed above.) At some point, they might be working on the same file---such as writing a manuscript together---and find that they have made changes that conflict with each other. More formally, let's assume that both users are making changes to a file, and User B happens to add and commit his changes locally and push them to the central repository before User A does. When User A then attempts to push her changes to the local repository---and the changes are incompatible with User B's changes---a **conflict** will happen. That is just a natural consequence of two individuals working simultaneously on the same idea, and then writing different code in the same location in the file. When this happens, user A needs to first integrate the latest version of the project from the central repository to her local project, such that it reflects both collaborators' edits, and then push the new "merged" version to the central repository. Let's look at what this workflow entails in a little more detail.
 
-First, let's assume that a collaborator (User B) has made changes to the `README` file in the `git-example` project and pushed the changes to the central repository. For brevity, only show the first few lines of this file:
+First, let's assume that a collaborator (User B) has made changes to the `README` file in the `git-example` project and pushed the changes to the central repository. For brevity, we only show the first few lines of this file:
 
 ```bash
 # Example Git Project
@@ -460,13 +460,13 @@ pushing to the same ref. You may want to first integrate the remote
 changes (e.g., 'git pull ...') before pushing again.
 ```
 
-As is usually the case, Git also returns a hint on what to do, which you can follow to succesfully resolve the conflict. Git suggests that we first integrate the remote changes: We need to first obtain the latest version of the file(s) from the central repository, add the proposed changes to the latest version of the file (the one containing User B's changes), and push that version.  You can first obtain the latest changes from the central repository:
+As is usually the case, Git also returns a hint on what to do, which you can follow to succesfully resolve the conflict. Git suggests that User A first integrates the remote changes: She needs to first obtain the latest version of the file(s) from the central repository, add the proposed changes to the latest version of the file (the one containing User B's changes), and push that version.  She can first obtain the latest changes from the central repository:
 
 ```bash
 $ git pull --rebase
 ```
 
-You can `git pull` without the `--rebase` argument, but that would create an unnecessary commit message and would lead to a slightly different workflow[^pull-rebase]; we recommend using the `--rebase` argument. At this point, Git is in rebasing mode, allowing User A to resolve the conflict before pushing her changes. Running `git status` returns (only relevant output shown):
+You can `git pull` without the `--rebase` argument, but that would create an unnecessary commit message and lead to a slightly different workflow[^pull-rebase]; we recommend using the `--rebase` argument. At this point, Git is in rebasing mode, allowing User A to resolve the conflict before pushing her changes. Running `git status` returns (only relevant output shown):
 
 ```bash
 $ git status
@@ -491,7 +491,7 @@ Here are some proposed changes.
 >>>>>>> Some meaningful changes
 ```
 
-The first line of the file was identical across the two Users' versions of the file, and therefore remains the same. However, after the first line, there is first a line (`<<<<<<< HEAD`) indicating that what follows are the to-be-integrated lines of text. Anything after this line up to the `======` line is the to-be-integrated text from the central repository. We can see that this is simply the line of text that User B created ("Hello world!"). After the separating line (`======`) are User A's local changes, followed by those changes' commit message ("Some meaningful changes") prepended with a `>>>>>>>`. User A can then edit this file however she chooses, using the tags to help her see which are her lines of code (text), which are User B's. For example, the result might look as follows:
+The first line of the file was identical across the two Users' versions of the file, and therefore remains the same. However, after the first line, there is first a line (`<<<<<<< HEAD`) indicating that what follows are the to-be-integrated lines of text. Anything after this line up to the `======` line is the to-be-integrated text from the central repository. We can see that this is simply the line of text that User B created ("Hello world!"). After the separating line (`======`) are User A's local changes, followed by those changes' commit message ("Some meaningful changes") prepended with a `>>>>>>>`. User A can then edit this file however she chooses, using the tags to help her see which are her lines of code (text), and which are User B's. For example, the result might look as follows:
 
 ```bash
 # Example Git Project
@@ -499,7 +499,7 @@ Here are some proposed changes: Hello world!
 This example project illustrates the use of Git.
 ```
 
-Then, User A can save the file and add the changes as usually with `git add README`. Importantly, Git is in merge mode (which can be aborted with `git rebase --abort` to reject the central repository's changes and return User A back to her latest local version), User A should not commit, but instead should complete the "re-basing" with `git rebase --continue`. 
+Then, User A can save the file and add the changes with `git add README`. Importantly, Git is in rebasing mode (which can be aborted with `git rebase --abort` to reject the central repository's changes and return User A back to her latest local version), and therefore User A should not commit, but instead complete the "re-basing" with `git rebase --continue`. 
 
 ```bash
 $ git rebase --continue
@@ -508,7 +508,7 @@ Applying: Some meaningful changes
 
 This command returns a reminder telling User A which local commit is being applied on top of the changes she pulled from the central repository, and then returns Git to it's normal mode from rebase mode. The final step is then to use `git push` to send the local changes to the central repository.
 
-How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial[^more-on-conflicts]. Most importantly, even in the event of merge conflicts, all committed changes are saved in Git's history and can be retrieved, so experimenting with different approaches to resolving conflicts is safe. 
+How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial[^more-on-conflicts]. Most importantly, even in the event of conflicts, all committed changes are saved in Git's history and can be retrieved, so experimenting with different approaches to resolving conflicts is safe. 
 
 ## Private or public collaboration?
 
@@ -588,6 +588,22 @@ commands %>%
     \item \href{https://git-scm.com/book/en/v2}{Pro Git book}, a complete manual of Git (\url{https://git-scm.com/book/en/v2}).
 \end{itemize}
 \end{tcolorbox}
+
+## Deleting a Git Repository
+
+Finally, users may sometimes choose to delete their Git repositories. Deleting a project is as simple as moving the containing folder(s) to Trash, which also deletes the Git project (the Git project is contained in a hidden `.git` file in the project's home folder.) If you wish to only delete the Git repository, but keep the project itself, you can delete the `.git` folder. Because the folder is hidden, it will not show up in the default graphical file explorer. You can remove this folder using the command line by navigating to the project's root folder, and using the following command:
+
+```bash
+rm -rf .git
+```
+
+We recommend caution with this operation, as it will permanently delete the `.git` folder, which may contain important information. To verify that the folder was deleted, you can list all the files and folders in the current working directory, including hidden ones, with the following command:
+
+```bash
+ls -la
+```
+
+To delete a repository on GitHub, use your internet browser to navigate to the repository's GitHub address, click Settings, then "Delete this repository". Be aware that if anyone has cloned this project to their computer, you cannot delete their cloned versions.
 
 # Discussion
 
