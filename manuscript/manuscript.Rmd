@@ -32,6 +32,7 @@ class             : "doc, 12pt, draftfirst"  # man / jou / doc
 output            : papaja::apa6_pdf
 header-includes:
    - \usepackage{tcolorbox}
+   - \usepackage{paralist}
 ---
 
 ```{r include = FALSE}
@@ -86,24 +87,24 @@ VCS greatly simplifies and streamlines this workflow: With VCS, there would be o
 
 <!-- Examples of problems in psychology solved by Git. -->
 \begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\footnotesize, title=Box 1. How Git facilitates the scientific workflow.]
-    \begin{itemize}
+    \begin{compactitem}
     \item How to try different ways of visualizing and modeling data while keeping track of the different versions---and the differences between them?
-        \begin{itemize}
+        \begin{compactitem}
         \item Git saves each version of the analysis, allowing testing new features without losing previous versions or proliferating files in the project's directories. All the past versions can be directly compared with each other, and retrieved from the Git's history.
-        \end{itemize}
-    \end{itemize}
-    \begin{itemize}
+        \end{compactitem}
+    \end{compactitem}
+    \begin{compactitem}
     \item How to work on the same code or manuscript files simultaneously with collaborators?
-        \begin{itemize}
+        \begin{compactitem}
         \item Git was designed for distributed collaborative work: Collaborators work on their local copies and "push" and "pull" material to and from each other or a central "repository". Git keeps precise track of who has done what, when, and (possibly) why. Git never loses information or overwrites work with another collaborator's work, but allows for many authors to work on the same ideas simultaneously.
-        \end{itemize}
-    \end{itemize}
-    \begin{itemize}
+        \end{compactitem}
+    \end{compactitem}
+    \begin{compactitem}
     \item How to share my work easily and in an organized manner with others?
-        \begin{itemize}
+        \begin{compactitem}
         \item Git enforces a common organization scheme among collaborators, making it easier to keep everyone "on the same page" with what goes where, and how to contribute to specific parts of the project. Sharing the project with others is built into Git, and can be facilitated with online services such as GitHub: Once a project uses Git, it can be very easily copied to GitHub, from where others can easily download the entire project onto their local computers.
-        \end{itemize}
-    \end{itemize}
+        \end{compactitem}
+    \end{compactitem}
 \end{tcolorbox}
 
 ## The Git Version Control System
@@ -616,49 +617,49 @@ Box 2 describes the main Git commands and their purported use in roughly the ord
 
 <!-- Box 2. Git summary -->
 \begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\footnotesize, title=Box x. Main Git commands]
-\begin{itemize}
+\begin{compactitem}
     \item Initialize a local repository (\texttt{git init}) 
-        \begin{itemize}
+        \begin{compactitem}
         \item Create a local Git repository inside a folder on your computer. In effect, this command turns the local folder into a Git repository.
-        \end{itemize}
+        \end{compactitem}
     \item Obtain a copy of a remote (GitHub) repository to local computer (\texttt{git clone URL}) 
-        \begin{itemize}
+        \begin{compactitem}
         \item Create a local Git repository from a pre-existing remote Git repository, such as one hosted on GitHub.
-        \end{itemize}
+        \end{compactitem}
     \item Add changes to Git's staging area (\texttt{git add file}) 
-        \begin{itemize}
+        \begin{compactitem}
         \item Once a file has been edited or created in the local project, it needs to be added to Git's staging area. Multiple files can be added simultaneously using the \texttt{.} shortcut (\texttt{git add .}). Once the files have been added, they can be saved to Git's history.
-        \end{itemize}
+        \end{compactitem}
     \item Save changes from staging area to Git's history (\texttt{git commit}) 
-        \begin{itemize}
+        \begin{compactitem}
         \item A commit creates a snapshot of the project's current state by adding the most recent changes (which have been added to the staging area) to Git's history. Commits should be accompanied with short, descriptive messages to describe the changes introduced in that commit (\texttt{git commit -m "Commit message"})
-        \end{itemize}
+        \end{compactitem}
     \item Show Git's history (\texttt{git log}) 
-        \begin{itemize}
+        \begin{compactitem}
         \item Git's log is a list of all the commits made in the current repository, and as such is a description of the project's history. The history can be very long and span multiple pages; to move forward one page, press the spacebar, or "q" to quit viewing the log. To view the log in a more concise form, add the \texttt{--oneline} argument (\texttt{git log --oneline}).
-        \end{itemize}
+        \end{compactitem}
     \item Send locally committed changes to remote repository (\texttt{git push}) 
-        \begin{itemize}
+        \begin{compactitem}
         \item In the centralized workflow for collaboration as described in this tutorial, collaborators work on their own local repositories, and periodically send the changes that they have made to the central (remote) repository.
-        \end{itemize}
+        \end{compactitem}
     \item Receive changes from the remote repository (\texttt{git pull}) 
-        \begin{itemize}
+        \begin{compactitem}
         \item To keep the local repository up-to-date with other collaborators' changes, users must periodically pull changes from the remote (central) repository. It is good practice to pull the most up-to-date version of the project every time before making changes, to avoid unnecessary conflicts.
-        \end{itemize}
-\end{itemize}
+        \end{compactitem}
+\end{compactitem}
 For more information, see Box 3.
 \end{tcolorbox}
 
 <!-- Box 3. Further resources for learning Git -->
 \begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\footnotesize, title=Box 3. Further resources for learning Git]
-\begin{itemize}
+\begin{compactitem}
     \item \href{https://www.git-tower.com/blog/workflow-of-version-control}{Basic VCS workflow}, an infographic explaining how VCS works (\url{https://www.git-tower.com/blog/workflow-of-version-control}).
     \item \href{https://services.github.com/resources/cheatsheets/}{GitHub's Git cheat sheet} is available in multiple languages and contains the most used Git commands (\url{https://services.github.com/resources/cheatsheets/}).
 \item \href{https://help.github.com/articles/github-glossary/}{GitHub's Git glossary} describes Git's most common commands (\url{https://help.github.com/articles/github-glossary/}).
     \item \href{https://try.github.io}{TryGit}, an interactive website for learning the basics of Git (\url{https://try.github.io}).
     \item \href{http://r-pkgs.had.co.nz/git.html}{Git + GitHub} in an R programming context (\url{http://r-pkgs.had.co.nz/git.html}).
     \item \href{https://git-scm.com/book/en/v2}{Pro Git book}, a complete manual of Git (\url{https://git-scm.com/book/en/v2}).
-\end{itemize}
+\end{compactitem}
 \end{tcolorbox}
 
 ## Deleting a Git Repository
