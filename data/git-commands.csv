@@ -1,9 +1,0 @@
-Operation,What it does,Command
-Initialize,Turns a local folder into a Git repository,git init
-Clone,Create a local copy of an existing remote repository,git clone <url>
-Add,Adds files (or changes to file) to Git's staging area,git add <file / .> 
-Commit,Save changes in staging area to version control,git commit -m '<message>'
-Show log,Reveal a timeline of the repository's past commits,git log
-Compare,Compare two versions of a file to each other,git diff
-Push,Send committed local changes to a remote repository,git push
-Pull,Download changes from remote repository to local,git pull
