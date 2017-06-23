@@ -699,6 +699,10 @@ The challenges to reproducibility are many, and they have only recently received
 \end{compactitem}
 \end{tcolorbox}
 
+# Acknowledgments
+
+The authors would like to thank Travis Riddle and Judy Xu for feedback on earlier drafts of this manuscript.
+
 \newpage
 
 <!-- Footnotes -->
