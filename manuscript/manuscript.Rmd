@@ -48,7 +48,7 @@ library(tidyverse)
 \newpage
 # Introduction
 
-Lack of reproducibility is increasingly recognized as a problem across scientific disciplines, and calls for changing the scientific workflow to enhance reproducibility have been published in a wide range of research areas, including Biology [@markowetz_five_2015], Ecology [@ihle_striving_2017], Neuroscience [@eglen_toward_2017] and Psychology [@munafo_manifesto_2017]. However, although calls to focus on reproducibility are now commonplace on the pages of leading scientific journals [e.g. @baker_1500_2016], only a small minority of researchers are familiar with the tools and practices that enable implementing reproducibility in their workflows. Therefore, although there now is a broad consensus that efforts to improve reproducibility are important, materials instructing researchers in using them are lacking. 
+Lack of reproducibility is increasingly recognized as a problem across scientific disciplines, and calls for changing the scientific workflow to enhance reproducibility have been published in a wide range of research areas, including Biology [@markowetz_five_2015], Ecology [@ihle_striving_2017], Neuroscience [@eglen_toward_2017] and Psychology [@munafo_manifesto_2017]. Although these calls to focus on reproducibility are now commonplace on the pages of leading scientific journals [e.g. @baker_1500_2016], only a small minority of researchers---to our knowledge---are familiar with the tools and practices that enable implementing reproducibility in their workflows. Therefore, although there now is a broad consensus that efforts to improve reproducibility are important, materials instructing researchers in using them are lacking. 
 
 ## Reproducibility
 
@@ -78,7 +78,7 @@ Fortunately for the empirical sciences, challenges related to organizing and cur
 
 Version Control Systems (VCS) are computer programs designed for tracking changes to computer code, and collaborating on the code with others. VCS were initially developed by software engineers for writing code collaboratively[^vcs-collaborate], but are increasingly being adopted to enhance workflows outside computer science. To help understand why, it is helpful to think of "code" more broadly as any text written on a computer: Manuscripts, books, statistical analysis scripts, source code of computerized experiments, and even data files are "code" or have source code, which is just plain text written on a computer, and which can benefit from version control. Going forward, when we use the word "code" in this tutorial, we mean it in this broad sense (e.g. this manuscript's source "code" was written on a computer, and was version controlled.)
 
-For example, computerized behavioral experiments are usually written with computer programming languages such as MATLAB or Python. The experiment's source code (text written by humans, but interpreted by computers to e.g. display stimuli to participants) may have multiple authors and usually goes through multiple versions. Keeping track of the versions of the program and changes to the code, and allowing many authors to contribute to it (without breaking the experimental program) are problems that VCSs were specifically designed for. It might be less obvious that writing a manuscript is quite similar, at least as far as the computer is concerned: Multiple authors write multiple versions of a text document, and sometimes previous versions need to be inspected, and the text needs to be "merged" across the many authors. Even less obvious is that datasets are often plain text: In most computerized behavioral experiments, the output data are numbers and text written into a text file. These text files can be version controlled (and researchers would usually not want to see that their raw data files have changed after they were created---VCS allows verifying that they haven't changed because their history is logged.)
+For example, computerized behavioral experiments are usually written with computer programming languages such as MATLAB or Python. The experiment's source code (text written by humans but interpreted by computers to e.g. display stimuli to participants) may have multiple authors and go through multiple versions. Keeping track of the versions of the program and changes to the code, and allowing many authors to contribute to it (without breaking the experimental program) are problems that VCSs were specifically designed for. It might be less obvious that writing a manuscript is quite similar, at least as far as the computer is concerned: Multiple authors write multiple versions of a text document, and sometimes previous versions need to be inspected, and the text needs to be "merged" across the many authors. Even less obvious is that datasets are often plain text: In most computerized behavioral experiments, the output data are numbers and text written into a text file. These text files can be version controlled (and researchers would usually not want to see that their raw data files have changed after they were created---VCS allows verifying that they haven't changed because their history is logged.)
 
 The core concepts of version control are that contributors to a project create small checkpoints of the changes they make to the source code---analogous to saving an intermediate version of a file on the computer's hard disk---and then submit those changes to the VCS. The VCS maintains a history of changes to the code between these little checkpoints, and therefore allows coming back to any earlier version by browsing the history. These concepts---i.e. the typical Git workflow---is illustrated in Figure \@ref(fig:git-diagram).
 
@@ -106,9 +106,9 @@ How to share work easily, safely, and in an organized manner?
 
 ## The Git Version Control System
 
-Version control software has a long history in software engineering, and there are many VCS programs. Some popular ones are Apache Subversion[^subversion], Mercurial[^mercurial], and Git[^git-name]. In this tutorial, we focus on Git because it is already increasing in popularity within the scientific community, and is especially good for scientific collaboration because of online tools (GitHub) which allow seamless collaboration even for very large research teams. Further, Git is free and open source, works on Windows, Mac, and Linux operating systems (among others). 
+Version control software has a long history in software engineering, and there are many VCS programs. Some popular ones are Apache Subversion[^subversion], Mercurial[^mercurial], and Git[^git-name]. In this tutorial, we focus on Git because it is already increasing in popularity within the scientific community, and is especially good for scientific collaboration because of online tools which allow seamless collaboration even for very large research teams. One of these online tools is GitHub, which we discuss in more detail below. Further, Git is free and open source, works on Windows, Mac, and Linux operating systems (among others). 
 
-Git, unlike the operating system's (OS) default file viewer (Mac's Finder, Windows' File Explorer), is not a point-and-click program for navigating files and folders on a computer. Instead, Git adds functionality to the existing file system, by making available a specific set of commands---either executed from the command line, or through a graphical user interface (GUI)---which allow keeping track of files and their history, and distributing the files across multiple computers and users. Because Git is a standalone program not usually included in standard OS installs, users must first download and install the Git software on their computers. 
+Git, unlike the operating system's (OS) default file viewer (Mac's Finder, Windows' File Explorer), is not a point-and-click program for navigating files and folders on a computer. Instead, Git adds functionality to the existing file system, by making available a specific set of commands---either executed from the command line, or through a graphical point-and-click user interface (GUI)---which allow keeping track of files and their history, and distributing the files across multiple computers and users. Because Git is a standalone program not usually included in standard OS installs, users must first download and install the Git software on their computers. 
 
 ## Installing Git
 
@@ -122,7 +122,20 @@ Once you have installed Git, you can use it from the computer's command line or 
 
 The command line is a text-based interface for interacting with your computer, and its functionality greatly extends that of the standard way of interacting with the computer by clicking and pointing with a mouse. Many advanced techniques require using your computer through a command line, and it is very helpful in e.g. scripting and scheduling tasks on your computer. Here, we introduce the command line in just enough detail so that you can navigate folders on the computer, and set up Git's basic configuration (identify Git's user).
 
-To access the command line interface, you need to use a command line "shell" application. Mac users can open the built-in app Terminal, and Windows users can use the Git Bash application, which is installed with the Windows Git program. After opening the command line shell, you can type in commands and execute them by pressing Return (Mac) or Enter (Windows). 
+To access the command line interface, you need to use a command line "shell" application. Mac users can open the built-in app Terminal, and Windows users can use the Git Bash application, which is installed with the Windows Git program. After opening the command line shell, you can type in commands and execute them by pressing Return (Mac) or Enter (Windows). The most common command line functions are listed in Table \@ref(tab:cli-commands-table).
+
+```{r cli-commands-table, results = 'asis'}
+cli_tab <- tibble(
+    Command = c("pwd", "cd ..", "cd folder", "ls"),
+    Result = c("Show current directory.",
+               "Move out of current directory (up one level).",
+               "Move into folder (must be inside current directory).",
+               "List files and folders in current directory.")
+)
+apa_table(cli_tab, 
+          caption = "Basic command line functions and their output.", 
+          note = "Execute the commands in your command line shell application by pressing Return (Mac) or Enter (Windows).")
+```
 
 First, you need to know how to navigate the folders on your computer (a task that is typically done by clicking folders in Finder (Mac) or File Explorer (Windows)). This is important because whenever you execute commands in the command line, they are executed in a specific directory. Usually, when you open up your command line shell, you begin in the user's home directory (or folder, we use these terms interchangeably). Depending on your operating system, the home directory is usually represented with a `~` on the left side of the cursor. To ask for the current working directory, you can use the function `pwd`. To move up in the directory hierarchy (into the folder that contains the current directory), you can use `cd ..` (note the space). To move into a folder that is inside the current working directory, you can use `cd folder` where `folder` is the name of the desired folder. These command line functions are illustrated in Figure \@ref(fig:cli-intro) with the Mac Terminal application.
 
@@ -198,7 +211,7 @@ Instead of screenshots, for the rest of the tutorial we present the commands as 
 $ git init
 ```
 
-In these code listings, each command is preceded by a `$` symbol. To help remember the commands, we recommend typing them out, instead of copy-pasting. The `git init` command initializes the folder as a Git repository, and the only change so far has been the addition of a hidden `.git` folder inside `git-example` (and possibly a `.gitattributes` file. Users can ignore these hidden files and folders, however they can be shown with the `ls -la` command.) Now that the folder is initialized as a Git repository, Git monitors any changes within it, and allows you to add and commit these changes (Figure \@ref(fig:git-diagram).) 
+In these code listings, each command is preceded by a `$` symbol to indicate that they are inputs to the command line. The command line typically displays this symbol (some versions might use another symbol, such as `>`) on the current line where commands can be entered. Do not type the `$` symbol as part of the command. To help remember the commands, we recommend typing them out, instead of copy-pasting. The `git init` command initializes the folder as a Git repository, and the only change so far has been the addition of a hidden `.git` folder inside `git-example` (and possibly a `.gitattributes` file. Users can ignore these hidden files and folders, however they can be shown with the `ls -la` command.) Now that the folder is initialized as a Git repository, Git monitors any changes within it, and allows you to add and commit these changes (Figure \@ref(fig:git-diagram).) 
 
 ## Adding a File to Git
 
@@ -286,7 +299,31 @@ diff --git a/README b/README
 +This example project illustrates the use of Git.
 ```
 
-This output is a detailed log of all changes in that commit. From top, it lists the author, the message, and then the commit's "**diff**" (i.e. what differs in the new version vs the old version of the file.) The current diff shows that one file received two additional lines of text (the part wrapped in `@` symbols), and then the additions themselves (the lines prepended with `+`).
+This output is a detailed log of the changes in that commit. From top, it lists the commit's author, date, message, and then the commit's "**diff**". The diff is a detailed description of the changes introduced in that commit, explained in more detail below. The diff's first line tells that the following output is a git diff, and the origin of the changes was the `README` file (`a/README`), and the destination was the same file (`b/README`): 
+
+```bash
+diff --git a/README b/README
+```
+
+These two file names could be different if the content from a file was moved to another file with a different name, or if a file was moved. The next two lines expand the information presented in the previous line:
+
+```bash
+--- a/README
++++ b/README
+```
+
+The first and second line in this output show the file which received deletions (lines were removed, `---`) and the file which received additions (lines were added, `+++`). Alternatively, if a file was moved or renamed, these lines would indicate that. Following these lines, the output shows where the changes were made:
+
+```bash
+@@ -0,0 +1,2 @@
+```
+
+The `-0,0` indicates where in the initial version of the file the changes were made; the first number indicates the first line of changes, the second indicates for how many following lines the changes continued. This output is a little awkward, but because the file was initially empty, the changes must have occurred on the 0th line. The second pair of numbers (`+1,2`) indicates that the added text begins on line 1, and covers two lines of text. The last two lines of the output indicated the changes in the text. The two added lines are prepended with `+` symbols to indicate that these lines were added:
+
+```bash
++# Example Git Project
++This example project illustrates the use of Git.
+```
 
 Although you have now seen the fundamentals of using Git to track the states of (and therefore changes to) a repository, this overly simplistic example doesn't allow full appreciation of the benefits of using Git for version control. To better illustrate Git's functioning, we now fast-forward in the hypothetical example project to a stage where more files and materials have been created.
 
@@ -320,7 +357,7 @@ $ git commit -m "Completed power analysis"
 
 After this last commit you can, at any time in the future, come back to this commit with `git log` or `git show` and see what was inside the newly created power analysis file when it was first created. For instance, if new information suggests that you should change the assumed effect size in the power analysis, you can simply edit and save the file, then add and commit the changes to Git with a helpful message that logs this important event in Git's history.
 
-This possibility of "rewinding history" is especially useful for files that might go under multiple revisions (manuscripts, analysis files), or if you are interested in when and in what order the files were created---and who created or changed them. One might consider committing a power analysis file to Git as a small personal pre-registration of a part of the research plan.
+This possibility of "rewinding history" is especially useful for files that might go under multiple revisions (manuscripts, analysis files), or if you are interested in when and in what order the files were created---and who created or changed them. One might consider committing a power analysis file to Git as a small personal pre-registration of a part of the research plan. Below, we show some useful ways in which Git can be used to "rewind" the commit history.
 
 ### Try a new feature
 
@@ -371,7 +408,7 @@ Both of these operations---checking out an earlier version of a file or of the e
 
 The true advantages of using Git become apparent when we consider projects with more than one contributor. For example, consider a project where data is collected at multiple sites, and the data files are then saved onto a central server, or shared through a service that automatically merges files from multiple sources (such as the popular Dropbox service). If two or more sites accidentally save a data file with the same name to the server (or Dropbox), and these changes are then automatically merged, the later file will simply overwrite the earlier file. Disaster! Alternatively, consider a data analysis where two or more people work simultaneously on some complicated analysis script, and share their work using a similar system as in the above example. If user A and B are making changes to the same file and user B saves the file, user A's version of the file will be overwritten. Disaster!
 
-Git and other VCSs, on the other hand, were specifically designed to allow (and facilitate) multi-site collaboration on arbitrarily complex projects: Microsoft Windows---which we assume is a fairly complex and collaborative project---is developed on a Git platform [@harry_largest_2017]. We believe that Git can be especially helpful in scientific collaboration, a topic to which we turn next.
+Git and other VCSs, on the other hand, were specifically designed to allow (and facilitate) multi-site collaboration on arbitrarily complex projects: Microsoft Windows is developed on a Git platform collaboratively by about 4,000 engineers [@harry_largest_2017]. We believe that Git can be especially helpful in scientific collaboration, a topic to which we turn next.
 
 There are many ways in which a team could collaborate on a Git project; here we focus on a common one, called "centralized workflow", where one virtual copy of the project is considered central, and all contributors interact with this central copy, instead of directly with each other. 
 
@@ -439,9 +476,11 @@ You can then verify the new repository:
 
 ```bash
 $ git remote -v
+origin	https://github.com/username/reponame.git (fetch)
+origin	https://github.com/username/reponame.git (push)
 ```
 
-And then push all files to GitHub with the first commit:
+The two lines of output indicate the remote repository from where changes are to be received, and from they are to be sent, respectively. These should usually be the same address. You can then push all files to GitHub with the first commit:
 
 ```bash
 $ git push -u origin master
@@ -516,7 +555,7 @@ As is usually the case, Git also returns a hint on what to do, which you can fol
 $ git pull --rebase
 ```
 
-You can `git pull` without the `--rebase` argument, but that would create an unnecessary commit message and lead to a slightly different workflow[^pull-rebase]; we recommend using the `--rebase` argument. At this point, Git is in "rebasing" mode, allowing User A to resolve the conflict before pushing her changes. Running `git status` returns (only relevant output shown):
+The `--rebase` argument turns Git into rebasing mode, meaning that you are now applying your local commits on top of the "base" obtained from the remote repository. You can `git pull` without the `--rebase` argument, but that would create an unnecessary commit message and lead to a slightly different workflow[^pull-rebase]; we recommend using the `--rebase` argument. At this point, Git is in "rebasing" mode, allowing User A to resolve the conflict before pushing her changes. Running `git status` returns (only relevant output shown):
 
 ```bash
 $ git status
@@ -619,37 +658,37 @@ Box 2 describes the main Git commands and their purported use in roughly the ord
 
 <!-- Box 2. Git summary -->
 \begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 2. Main Git commands]
-Initialize a local repository (\texttt{git init}) 
+\textbf{\texttt{git init}}: Initialize a local repository. 
     \begin{compactitem}
     \item Create a local Git repository inside a folder on your computer. In effect, this command turns the local folder into a Git repository.
     \end{compactitem}
 \vspace{.5em}
-Obtain a copy of a remote (GitHub) repository to local computer (\texttt{git clone URL}) 
+\textbf{\texttt{git clone URL}}: Obtain a copy of a remote (GitHub) repository to local computer.
     \begin{compactitem}
     \item Create a local Git repository from a pre-existing remote Git repository, such as one hosted on GitHub.
     \end{compactitem}
 \vspace{.5em}
-Add changes to Git's staging area (\texttt{git add file}) 
+\textbf{\texttt{git add file}}: Add changes in \texttt{file} to Git's staging area. 
     \begin{compactitem}
     \item Once a file has been edited or created in the local project, it needs to be added to Git's staging area. Multiple files can be added simultaneously using the \texttt{.} shortcut (\texttt{git add .}). Once the files have been added, they can be saved to Git's history.
     \end{compactitem}
 \vspace{.5em}
-Save changes from staging area to Git's history (\texttt{git commit}) 
+\textbf{\texttt{git commit}}: Save changes from staging area to Git's history. 
     \begin{compactitem}
     \item A commit creates a snapshot of the project's current state by adding the most recent changes (which have been added to the staging area) to Git's history. Commits should be accompanied with short, descriptive messages to describe the changes introduced in that commit (\texttt{git commit -m "Commit message"})
     \end{compactitem}
 \vspace{.5em}
-Show Git's history (\texttt{git log}) 
+\textbf{\texttt{git log}}: Show Git's history.
     \begin{compactitem}
     \item Git's log is a list of all the commits made in the current repository, and as such is a description of the project's history. The history can be very long and span multiple pages; to move forward one page, press the space bar, or "q" to quit viewing the log. To view the log in a more concise form, add the \texttt{--oneline} argument (\texttt{git log --oneline}).
     \end{compactitem}
 \vspace{.5em}
-Send locally committed changes to remote repository (\texttt{git push}) 
+\textbf{\texttt{git push}}: Send locally committed changes to remote repository. 
     \begin{compactitem}
     \item In the centralized workflow for collaboration as described in this tutorial, collaborators work on their own local repositories, and periodically send the changes that they have made to the central (remote) repository.
     \end{compactitem}
 \vspace{.5em}
-Receive changes from the remote repository (\texttt{git pull}) 
+\textbf{\texttt{git pull}}: Receive changes from the remote repository. 
     \begin{compactitem}
     \item To keep the local repository up-to-date with other collaborators' changes, users must periodically pull changes from the remote (central) repository. It is good practice to pull the most up-to-date version of the project every time before making changes, to avoid unnecessary conflicts.
     \end{compactitem}
@@ -701,7 +740,7 @@ The challenges to reproducibility are many, and they have only recently received
 
 # Acknowledgments
 
-The authors would like to thank Travis Riddle and Judy Xu for feedback on earlier drafts of this manuscript.
+We thank Travis Riddle and Judy Xu for feedback on earlier drafts of this manuscript.
 
 \newpage
 
@@ -709,7 +748,7 @@ The authors would like to thank Travis Riddle and Judy Xu for feedback on earlie
 [^csv]: `.csv` stands for comma separated values, and is a plain text file commonly used to store two-dimensional data.
 [^git-version]: As of the writing of this article, the current version of Git is 2.13.1.
 [^git-name]: <https://git-scm.com/>. The creator of Git, Linus Torvalds (who also is the principal developer of the Linux operating system), named Git after himself as "the stupid content tracker" (@mcmillan_after_2005; <https://git-scm.com/docs/git.html>)
-[^simple]: By "simple", we only mean that the technical aspects of the project, related to curating materials related to it, are simple. We of course do not suggest that there might be anything theoretically or scientifically simple in such projects.
+[^simple]: By "simple", we only mean that the technical aspects of the project, related to curating its materials, are simple. We of course do not suggest that there might be anything theoretically or scientifically simple in such projects.
 [^vcs-collaborate]: The software we present below is used used by major software developers such as Microsoft, Google, and Facebook on code bases with hundreds of contributors.
 [^cli-links]: If using a text-based command line seems challenging, Codecademy (<https://www.codecademy.com/learn/learn-the-command-line>) has a free interactive online tutorial, and MIT offers a free online game to teach using the command line (<http://web.mit.edu/mprat/Public/web/Terminus/Web/main.html>).
 [^git-link-submodules]: For advanced users, Git *submodules* allow linking projects to each other, or organizing more complex projects into projects and their sub-projects (<https://git-scm.com/book/en/v2/Git-Tools-Submodules>).
