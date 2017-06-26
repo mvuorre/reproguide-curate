@@ -742,7 +742,7 @@ The challenges to reproducibility are many, and they have only recently received
 
 # Acknowledgments
 
-We thank Travis Riddle and Judy Xu for feedback on earlier drafts of this manuscript.
+We thank Travis Riddle and Judy Xu for feedback on earlier drafts of this manuscript. This work was supported, in part, by Institute of Education Science grant (R305A150467). The authors are solely responsible for the content of this article.
 
 \newpage
 
