@@ -706,6 +706,10 @@ We have presented an introductory tutorial on using the Git version Control Syst
 \end{compactitem}
 \end{tcolorbox}
 
+# Author contributions
+
+MV and JPC designed the format of the tutorial, MV drafted the manuscript, MV and JPC wrote and approved the final version of the manuscript for submission.
+
 # Acknowledgments
 
 We thank Travis Riddle and Judy Xu for feedback on earlier drafts of this manuscript. This work was supported, in part, by Institute of Education Science grant (R305A150467). The authors are solely responsible for the content of this article.
