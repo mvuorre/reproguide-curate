@@ -20,7 +20,7 @@ abstract: >
   Recent calls for improving the reproducibility of behavioral sciences have increased attention to the ways in which researchers curate, share and collaborate on their research assets. However, these discussions have largely failed to provide practical instructions on how to do so. In this tutorial paper, we explain how version control systems, such as the popular Git program, address these challenges to reproducibility. We then present a tutorial on how to use Git from the computer's command line, and with the popular graphical interface in the R Studio development environment. This tutorial is especially written for behavioral scientists with no previous experience with version control systems or command line interfaces, and covers single-user and collaborative workflows. Git is easy to learn, presents an elegant solution to specific challenges to reproducibility, facilitates multi-site collaboration and productivity by allowing multiple collaborators to work on the same source simultaneously, and can be implemented on common behavioral science workflows with little extra effort. Git may also offer a suitable solution to transparent data and material sharing through popular online services, such as GitHub and Open Science Framework.
   
 keywords          : "reproducibility; version control; git; research methods; open science"
-# wordcount         : "X"
+wordcount         : "7700"
 bibliography      : ["references.bib"]
 figsintext        : yes
 figurelist        : no
