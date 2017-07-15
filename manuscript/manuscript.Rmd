@@ -17,7 +17,7 @@ affiliation:
     institution   : "Department of Psychology, University of Texas at Austin, Texas, USA"
 
 abstract: >
-  Recent calls for improving the reproducibility of behavioral sciences have increased attention to the ways in which researchers curate, share and collaborate on their research assets. However, these discussions have largely failed to provide practical instructions on how to do so. In this tutorial paper, we explain how version control systems, such as the popular Git program, address these challenges to reproducibility. We then present a tutorial on how to use Git from the computer's command line, and with the popular graphical interface in the R Studio development environment. This tutorial is especially written for behavioral scientists with no previous experience with version control systems or command line interfaces, and covers single-user and collaborative workflows. Git is easy to learn, presents an elegant solution to specific challenges to reproducibility, facilitates multi-site collaboration and productivity by allowing multiple collaborators to work on the same source simultaneously, and can be implemented on common behavioral science workflows with little extra effort. Git may also offer a suitable solution to transparent data and material sharing through popular online services, such as GitHub and Open Science Framework.
+  Recent calls for improving the reproducibility of behavioral sciences have increased attention to the ways in which researchers curate, share and collaborate on their research assets. In this tutorial paper, we explain how version control systems, such as the popular Git program, address these challenges to reproducibility. We then present a tutorial on how to use Git with a graphical interface in the R Studio development environment. This tutorial is especially written for behavioral scientists with no previous experience with version control systems, and covers single-user and collaborative workflows. We also include an appendix with information on advanced Git command line functions. Git is easy to learn, presents an elegant solution to specific challenges to reproducibility, facilitates multi-site collaboration and productivity by allowing multiple collaborators to work on the same source simultaneously, and can be implemented on common behavioral science workflows with little extra effort. Git may also offer a suitable solution to transparent data and material sharing through popular online services, such as GitHub and Open Science Framework.
   
 keywords          : "reproducibility; version control; git; research methods; open science"
 wordcount         : "7700"
@@ -50,7 +50,7 @@ library(tidyverse)
 
 Lack of reproducibility is increasingly recognized as a problem across scientific disciplines, and calls for changing the scientific workflow to enhance reproducibility have been published in a wide range of research areas, including Biology [@markowetz_five_2015], Ecology [@ihle_striving_2017], Neuroscience [@eglen_toward_2017] and Psychology [@munafo_manifesto_2017]. Some studies suggest that one specific challenge to reproducibility is the ways in which researchers organize, curate, share, and collaborate on the research assets---e.g. data and code used to analyze the data---which support the product's conclusions [@vanpaemel_are_2015; @wicherts_poor_2006]. 
 
-Fortunately for the empirical sciences, challenges related to organizing and curating materials across time, space, and collaborators have been solved to a high standard in computer science with Version Control Systems (VCS). In this tutorial article, we introduce a popular VCS called Git, and illustrate its use in the scientific workflow with a hypothetical example project. We show how to use Git by using text commands from the computer's command line, and with a Graphical User Interface (GUI) implemented in the popular R Studio Integrated Development Environment (IDE; @rstudio_team_rstudio:_2016). We also show how to use Git with the popular online service GitHub for collaborative workflows. Learning how to use Git(Hub) will streamline workflows and help researchers to stay better organized, and thereby facilitate reproducibility.
+Fortunately for the empirical sciences, challenges related to organizing and curating materials across time, space, and collaborators have been solved to a high standard in computer science with Version Control Systems (VCS). In this tutorial article, we introduce a popular VCS called Git, and illustrate its use in the scientific workflow with a hypothetical example project. We show how to use Git with a Graphical User Interface (GUI) implemented in the popular R Studio Integrated Development Environment (IDE; @rstudio_team_rstudio:_2016), and include an appendix for more advanced command line Git functions. We also show how to use Git with the popular online service GitHub for collaborative workflows. Learning how to use Git(Hub) will streamline workflows and help researchers stay better organized, and thereby facilitates reproducibility.
 
 # Version Control Systems
 
@@ -59,6 +59,10 @@ Before proceeding with the practical tutorial, it is important to understand wha
 For example, computerized behavioral experiments are usually written with computer programming languages such as MATLAB or Python. The experiment's source code (text written by humans but interpreted by computers to e.g. display stimuli to participants) may have multiple authors and go through multiple versions. Keeping track of the versions of the program and changes to the code, and allowing many authors to contribute to it (without breaking the experimental program) are problems that VCSs were specifically designed for. It might be less obvious that writing a manuscript is quite similar, at least as far as the computer is concerned: Multiple authors write multiple versions of a text document, and sometimes previous versions need to be inspected, and the text needs to be "merged" across the many authors. Even less obvious is that datasets are often plain text: In most computerized behavioral experiments, the output data are numbers and text written into a text file. These text files can be version controlled (and researchers would usually not want to see that their raw data files have changed after they were created---VCS allows verifying that they haven't changed because their history is logged.)
 
 The core concepts of version control are that contributors to a project create small checkpoints of the changes they make to the source code---analogous to saving an intermediate version of a file on the computer's hard disk---and then submit those changes to the VCS. The VCS maintains a history of changes to the code between these little checkpoints, and therefore allows coming back to any earlier version by browsing the history. These concepts---i.e. the typical Git workflow---is illustrated in Figure \@ref(fig:git-diagram).
+
+```{r git-diagram, fig.cap = "A diagram illustrating the typical Git workflow. Verbs indicated in bold text are Git operations and explained in detail in the main text. In brief, this workflow consists of making changes to files in the project (such as editing a manuscript.) Once the revised version of the file is saved, the user adds the changed file to the staging area (1). Many files can be added to the staging area, if desired. Once the changes in the staging area reflect a conceptual entity, such as edits to an image file and its accompanying caption in the manuscript, the user then commits the changes to Git's history (2). These commits are accompanied with short commit messages that describe the changes made in that commit. Finally, when needed, changes to files can be discarded by checking out an earlier version of the file from Git's history. Figure adapted from https://git-scm.com/book/en/v2/Getting-Started-Git-Basics."}
+knitr::include_graphics("../data/git-diagram.png")
+```
 
 To understand what VCS is, it is useful to contrast an example scenario with VCS to what we believe is a fairly standard workflow. Consider collaborating with one person on a manuscript that reports results from a data set using some statistical model. In the standard workflow, one person might format the raw data in one way to fit a statistical model, and then write a draft of the manuscript. This would create three files: `data.csv`[^csv], `analysis.R`, and `manuscript.doc`. If the coauthor then wished to explore another statistical model, which requires the data in a different format, and then edit the manuscript, she would create three more files: `data_new.csv`, `analysis_new.R`, and `manuscript_new.doc`. This cycle would then repeat as many times as required, each time creating more files, making it more and more difficult for the authors to remember which data was paired with which analysis, and which analyses (and data format) was reported in which version of the paper.
 
@@ -86,303 +90,110 @@ How to share work easily, safely, and in an organized manner?
 
 Version control software has a long history in software engineering, and there are many VCS programs. Some popular ones are Apache Subversion[^subversion], Mercurial[^mercurial], and Git[^git-name]. In this tutorial, we focus on Git because it is already increasing in popularity within the scientific community, and is especially good for scientific collaboration because of online tools which allow seamless collaboration even for very large research teams. One of these online tools is GitHub, which we discuss in more detail below. Further, Git is free and open source, works on Windows, Mac, and Linux operating systems (among others). 
 
-Git, unlike the operating system's (OS) default file viewer (Mac's Finder, Windows' File Explorer), is not a point-and-click program for navigating files and folders on a computer. Instead, Git adds functionality to the existing file system, by making available a specific set of commands---either executed from the command line, or through a graphical point-and-click user interface (GUI)---which allow keeping track of files and their history, and distributing the files across multiple computers and users. Because Git is a standalone program not usually included in standard OS installs, users must first download and install the Git software on their computers. 
+Git, unlike the operating system's (OS) default file viewer (Mac's Finder, Windows' File Explorer), is not a point-and-click program for navigating files and folders on a computer. Instead, Git adds functionality to the existing file system, by making available a specific set of commands---either executed from a graphical point-and-click user interface (GUI) or from the computer's command line---which allow keeping track of files and their history, and distributing the files across multiple computers and users. Because Git is a standalone program not usually included in standard OS installs, users must first download and install the Git software on their computers. 
 
 ## Installing Git
 
 Even if you already have Git installed (some computers do) it is good practice to install the latest version[^git-version], which can be downloaded as a standalone program from <https://git-scm.com/download>. For Mac users, the easiest way to install or update Git to the latest version is to download the installer from <http://git-scm.com/download/mac>, and install it like any other program. Similarly, Windows users can download the Git software installer from <http://git-scm.com/download/win> and install it like any other application. Linux (and other) users can download Git and find further install instructions on the Git website (<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>). 
 
-## Git setup
+After the Git software has been installed, its functions are available to the computer's users through various Git clients. In this tutorial, we show how to use Git with R Studio. We also present more detailed instructions for using Git from the command line in the supplement.
 
-Once you have installed Git, you can use it from the computer's command line or through a GUI---there are various GUIs for using Git, and below we will explain how to use the R Studio Git GUI. Before using a GUI, it is important to learn a few basic Git commands from the OSs command line, because it is simultaneously the most basic and most flexible interface to Git's functionality. Understanding the basic Git commands as entered through the computer's command line also facilitates understanding its more advanced uses, and is highly recommended.
-
-### The command line
-
-The command line is a text-based interface for interacting with your computer, and its functionality greatly extends that of the standard way of interacting with the computer by clicking and pointing with a mouse. Many advanced techniques require using your computer through a command line, and it is very helpful in e.g. scripting and scheduling tasks on your computer. Here, we introduce the command line in just enough detail so that you can navigate folders on the computer, and set up Git's basic configuration (identify Git's user).
-
-To access the command line interface, you need to use a command line "shell" application. Mac users can open the built-in app Terminal, and Windows users can use the Git Bash application, which is installed with the Windows Git program. After opening the command line shell, you can type in commands and execute them by pressing Return (Mac) or Enter (Windows). The most common command line functions are listed in Table \@ref(tab:cli-commands-table).
-
-```{r cli-commands-table, results = 'asis'}
-cli_tab <- tibble(
-    Command = c("pwd", "cd ..", "cd folder", "ls"),
-    Result = c("Show current directory.",
-               "Move out of current directory (up one level).",
-               "Move into folder (must be inside current directory).",
-               "List files and folders in current directory.")
-)
-apa_table(cli_tab, 
-          caption = "Basic command line functions.", 
-          note = "Execute the commands in your command line shell application (e.g. Terminal (Mac) or Git Bash(Windows)) by pressing Return (Mac) or Enter (Windows).")
-```
-
-First, you need to know how to navigate the folders on your computer (a task that is typically done by clicking folders in Finder (Mac) or File Explorer (Windows)). This is important because whenever you execute commands in the command line, they are executed in a specific directory. Usually, when you open up your command line shell, you begin in the user's home directory (or folder, we use these terms interchangeably). Depending on your operating system, the home directory is usually represented with a `~` on the left side of the cursor. To ask for the current working directory, you can use the function `pwd`. To move up in the directory hierarchy (into the folder that contains the current directory), you can use `cd ..` (note the space). To move into a folder that is inside the current working directory, you can use `cd folder` where `folder` is the name of the desired folder. These command line functions are illustrated in Figure \@ref(fig:cli-intro) with the Mac Terminal application.
-
-```{r cli-intro, fig.cap="The Terminal command line shell. The functions are explained in more detail in the text. Each command (prepended with a \\$ symbol) is followed by its output on the following line. To the left of the \\$ symbol, this user's shell application displays the user's user name and the current directory in square brackets. Here, the outputs are directories separated with forward slashes, and top-most (containing, also known as parent) folders are on the left of their subfolders (also known as children). Your command line interface might look slightly different because of different user and folder names, operating systems, and command line shell applications."}
-knitr::include_graphics("images/terminal-commands.png")
-```
-
-Some users may find using a text-based command line interface unfamiliar, but to get started with Git, there are two required configuration commands which you need to run once, and the basic functionality requires using only four commands[^cli-links]. However, users can also read through the first part of the tutorial without executing the commands and simply focus on the workflow; we show how to use Git with a GUI in the second part of the tutorial.
-
-### Setting Git's user information
-
-The first step in using Git is making it aware of who is using the computer. You need to set the user's name and email address by entering a few basic commands in the command line. First, to show the current user information, run the following command in the command line: 
-
-```bash
-$ git config --global user.name 
-```
-
-This should not return anything, unless a previous user of the computer has set the global Git user name. Each Git command starts with the word `git`, then a command (such as `config`), and then arguments to the command, such as `--global` (for global configuration), followed by variables, such as `user.name`. To ensure that Git knows who you are, execute the following command (replacing `User Name` with your desired user name):
-
-```bash
-$ git config --global user.name "User Name"
-```
-
-This command maps `User Name` to Git's global `user.name` variable. If you now re-run the first command (`git config --global user.name`), the command line will return the user name you entered. The user name can be anything you'd like, but it is probably a good idea to use your real name so that potential collaborators know who you are. The second piece of information is your email address, which is entered by the following command (where `email@address.com` is your email address):
-
-```bash
-$ git config --global user.email "email@address.com"
-```
-
-You can verify that the correct email address was saved with `git config --global user.email`. These commands are shown as entered to the Terminal command line shell application in Figure \@ref(fig:cli-intro).
-
-```{r git-setup, fig.cap="Setting up Git's configuration using the command line. Notice that for these configuration commands, the current working directory does not matter (we did them in the user's home directory)."}
-knitr::include_graphics("images/git-setup.png")
-```
-
-Once this information is entered, Git will know who you are, and is able to track who is doing what and when within a project, which is especially helpful when you are collaborating with other people, or when you are working on multiple computers. For detailed instructions on how to use Git commands, you can type `git --help`. For help on how to use the `git config` command, type `git config --help`. When printed in the command line, some help pages run for several pages; you can press the space bar to move to the next page, or `q` to quit looking at the help page.
-
-# Using Git
+# Using Git with a Graphical Interface
 
 The first operating principle of Git is that your work is organized into independent projects, which Git calls *repositories*[^git-link-submodules]. A repository is a folder on your computer which is version controlled by Git[^git-folder]. Everything that happens inside a repository is tracked by Git, but you have full control of what is committed to Git's history and when. Because you have full control of what and when is committed to history, there is a small set of operations you need to know[^git-cheat-sheet].
 
-Briefly, when you work in a Git repository (make changes to files within it), Git monitors the state of each file, and when they change Git knows that they differ from the previously logged state. If you are happy with the current changes, you **add** the changed files to Git's "staging area". If you then are certain that the changes in the staging area are desirable, you **commit** the changes. These two operations are the backbone of using Git to store the state of the project whenever meaningful changes are made. Importantly, each commit in the repository's history contains information to recover the full state of the project at that point in time. Users can always go back to an earlier version by **checking out** a previous state from Git's history. This core of the Git workflow is illustrate in Figure \@ref(fig:git-diagram).
+Briefly, when you work in a Git repository (make changes to files within it), Git monitors the state of each file, and when they change Git knows that they differ from the previously logged state. If you are happy with the current changes, you **add** the changed files to Git's "staging area". If you then are certain that the changes in the staging area are desirable, you **commit** the changes. These two operations are the backbone of using Git to store the state of the project whenever meaningful changes are made. Importantly, each commit in the repository's history contains information to recover the full state of the project at that point in time. Users can always go back to an earlier version by **checking out** a previous state from Git's history (Figure \@ref(fig:git-diagram)).
 
-```{r git-diagram, fig.cap = "A diagram illustrating the typical Git workflow. Verbs indicated in bold text are Git operations and explained in detail in the main text. In brief, this workflow consists of making changes to files in the project (such as editing a manuscript.) Once the revised version of the file is saved, the user adds the changed file to the staging area (1). Many files can be added to the staging area, if desired. Once the changes in the staging area reflect a conceptual entity, such as edits to an image file and its accompanying caption in the manuscript, the user then commits the changes to Git's history (2). These commits are accompanied with short commit messages that describe the changes made in that commit. Finally, when needed, changes to files can be discarded by checking out an earlier version of the file from Git's history. Figure adapted from https://git-scm.com/book/en/v2/Getting-Started-Git-Basics."}
-knitr::include_graphics("../data/git-diagram.png")
-```
+To understand the Git workflow in practice, we now turn to a practical example using a hypothetical project. Git can be added to a project at any stage of the project's life cycle, but to most clearly show its use, we begin with an empty project.
 
-To understand the Git workflow in practice, we now turn to a practical example using a hypothetical project. Git can be added to a project at any stage of the project's life cycle, but to most clearly show its use, we begin with an empty project with nothing in it.
+## R Studio
+
+R Studio[^rstudio-link] is an integrated development environment (IDE; @rstudio_team_rstudio:_2016) for the R programming language [@r_core_team_r:_2017], and has a graphical module for interacting with Git. An IDE is an interface that bundles together many tools for software development---some users may be familiar with R Studio for conducting statistical analyses. Version control is an essential feature of software development, and R Studio provides a good GUI within its IDE for controlling Git[^r-not-required].
+
+For this tutorial, we will begin a completely new project using only R Studio, and assume that readers are familiar with the concepts from the above tutorial. Once downloaded and installed, it can be used for accessing the R programming language, and for many operations involved in curating research assets, including a GUI for Git.
 
 ## Organizing Files and Folders
 
-Implementing reproducibility into the scientific workflow is less time-consuming and effortful if it is planned from the onset of the project, rather than added to the project after all the work has been completed. It is therefore important to organize the project keeping a few key goals in mind (here, we follow guidelines such as the Project TIER recommendations[^tier-link]): The files and folders should have easy to understand names (avoid idiosyncratic naming schemes), and the names should indicate the purposes of the files and folders. We illustrate some good and not-so-good practices in Figure \@ref(fig:organizing-files).
+Implementing reproducibility into the scientific workflow is less time-consuming and effortful if it is planned from the onset of the project, rather than added to the project after all the work has been completed. It is therefore important to organize the project keeping a few key goals in mind (here, we follow guidelines such as the Project TIER recommendations[^tier-link]): Files and folders should have easy to understand names (avoid idiosyncratic naming schemes), and the names should indicate the purposes of the files and folders. We illustrate some good and not-so-good practices in Figure \@ref(fig:organizing-files).
 
 ```{r organizing-files, fig.cap = "Organizing a project's files and folders helps potential collaborators (including yourself in the future) to quickly and reliably find the correct files. Some bad practices (left panel) include having multiple versions of each file, increasing the potential for e.g. accidentally using the wrong data for the analysis, or forgetting which version was used in the analysis. Better practices (right panel) organize the data to subfolders with meaningful names, and have one file per purpose. These files are then versioned using Git, eschewing the need for multiple files, thereby reducing potential for mistakes."}
 knitr::include_graphics("images/project-organization.png")
 ```
 
-The first step is to create a home folder for the project. This folder should have an immediately recognizable name, and should be placed somewhere on your computer where you can find it. We call the example project (and therefore its home folder) `git-example`. All the materials related to this project will be placed in sub-folders of the home directory, but for now `git-example` is just an empty folder waiting to be filled with materials. Because the folder structure on a computer is easy to think of as a tree, a project's home folder---or any folder that has sub-folders---is also known as the *root* directory. In what follows we use the terms home directory and root (directory) interchangeably. 
+The project's folder should have an immediately recognizable name, and should be placed somewhere on your computer where you can find it. We call the example project (and therefore its home folder) `git-example`. Because the folder structure on a computer is easy to think of as a tree, a project's home folder---or any folder that has sub-folders---is also known as the *root* directory. In what follows we use the terms home directory and root (directory) interchangeably. 
 
-To create a new folder for the Git repository, you first choose an appropriate folder on your computer (such as `User/Documents/`) where you'd like to create the project. You can either use the system's file navigator (Finder / File Explorer) to create this folder, or use the command line: Navigate to the desired folder by using `cd Documents` to move into the `Documents` folder (assuming it exists in the folder where you currently are). Use `cd ..` to move out of a folder (to its containing folder), if needed.
+Managing projects, their folders, and Git repositories with R Studio is centered on the idea of R Projects. To start a new project with R Studio, open the R Studio application, and click File -> New Project. This brings up a dialog (left panel in Figure \@ref(fig:rstudio-project-1)) asking whether to create a project in a new directory, existing directory, or checkout an existing project from a version control repository. Here, we create the project in a new directory. We then choose "New Project" (old R Studio versions may instead have "Empty Project") in the following screen (middle panel in Figure \@ref(fig:rstudio-project-1)). We'll then give a name to the project's home folder (`git-example`) and choose where to save it on the computer. Importantly, we'll also check the "Create a git repository" box (right panel in Figure \@ref(fig:rstudio-project-1)), which will automatically set up a new repository for the project. Clicking "Create project" creates the folder in the specified location, and two files inside the project's main folder.
 
-## Initializing a Git Repository
-
-Once you are in the folder where you want to create the project, type `mkdir git-example` to make the `git-example` directory, then `cd git-example` to move into it. You can, of course, also use the point-and-click interface (Finder or File Explorer) to create folders, instead of the `mkdir` command. Once you are in the project's home folder (you can verify where you are by typing `pwd`), you can turn the folder into a Git repository by initializing Git with the `git init` command. These commands are shown in \@ref(fig:git-initialize)
-
-```{r git-initialize, fig.cap = "Creating and navigating to a folder, and initializing it as a Git repository."}
-knitr::include_graphics("images/git-initialize.png")
+```{r rstudio-project-1, fig.cap = "Creating a project in R Studio.", out.width="6in"}
+knitr::include_graphics("images/rstudio-project-1.png")
 ```
 
-Instead of screenshots, for the rest of the tutorial we present the commands as follows:
+One of these files is `.gitignore` which we will discuss in more detail below. The other file is an `.Rproj` file, which indicates that the folder is the home folder for an R (Studio) project. Users don't interact with this file directly, but if opened, it is a plain text file containing the project's settings (these can be modified through Tools -> Project Options in R Studio).
 
-```bash
-$ git init
+## Using Git with R Studio
+
+Once the R Project has been created, R Studio has a "Git" panel in the top-right panel of the GUI (Figure \@ref(fig:rstudio-git-1)). This panel shows the two new files in the repository, and buttons for the main Git commands. Because the project's main folder is initialized as a Git repository, Git monitors any changes within it, and allows you to add and commit these changes (Figure \@ref(fig:git-diagram).) 
+
+```{r rstudio-git-1, fig.cap = "R Studio's Git tab for a newly created project. The Git tab in R Studio has buttons for Git commands covered in this tutorial, such as viewing Git's history, diffs, and commits."}
+knitr::include_graphics("images/rstudio-git-1.png")
 ```
 
-In these code listings, each command is preceded by a `$` symbol to indicate that they are inputs to the command line. The command line typically displays this symbol (some versions might use another symbol, such as `>`) on the current line where commands can be entered. Do not type the `$` symbol as part of the command. To help remember the commands, we recommend typing them out, instead of copy-pasting. The `git init` command initializes the folder as a Git repository, and the only change so far has been the addition of a hidden `.git` folder inside `git-example` (and possibly a `.gitattributes` file. Users can ignore these hidden files and folders, however they can be shown with the `ls -la` command.) Now that the folder is initialized as a Git repository, Git monitors any changes within it, and allows you to add and commit these changes (Figure \@ref(fig:git-diagram).) 
+### Adding Files to Git
 
-## Adding a File to Git
+To mark this milestone of creating a project, you can commit all the changes so far to Git. To begin committing these changes, click on "Commit" in the Git panel. This brings up another window (Figure \@ref(fig:rstudio-git-2)) where you can select files to add into the staging area. R Studio indicates that there are two new files in the repository with yellow question marks. To **add** these new files to Git's staging area, select the radio buttons in the "Staged" column. This will turn the files' status to a green "A". The text highlighted in green in the bottom part indicates the lines of text that were changed in the selected file (`.gitignore`). These lines are all green because the file is new to Git and therefore each change is an addition (we will discuss the contents of this file in more detail below.)
 
-Every project (repository) should contain a brief note explaining what the project is about and who to contact. This note is usually called a readme, and therefore our first contribution to this project will be a README file (this file is so important that it has become standard practice to write it in capital letters). The README file should be a plain text `.txt` file (i.e. not created with Microsoft Word) that can be read with a simple text editor[^plain-text]. You can create this file with any text editor (e.g. the TextEdit and Notepad apps which allow for creating plain text files are installed by default on Mac and Windows OS respectively). We created the file with some text in it, and can now see the file in the `git-example` folder, either by using the system's graphical file viewer or with the `ls` command line command. 
+We have now added the files to Git's staging area, and if we are happy with changes to the files' status, we can **commit** the file to Git's history. Before clicking "Commit", write a short message to the "Commit message" box describing what changed and why. These messages will be important when you later browse the history of your repository.  After you click the "Commit" button, R Studio pops up a window summarizing the commit's changes (Figure \@ref(fig:rstudio-git-3)). 
 
-Because we added this file to a (folder that is a) Git repository, Git is also aware of it. To see what files have changed since the last status change in the repository (there clearly has been only this one), you can ask for Git's **status** (in subsequent code listings, command line input is prepended with `$`, and output is printed without preceding characters):
-
-```bash
-$ git status
-On branch master
-Initial commit
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	README
-nothing added to commit but untracked files present (use "git add" to track)
+```{r rstudio-git-2, fig.cap = "Creating a Git commit with R Studio."}
+knitr::include_graphics("images/rstudio-git-2.png")
 ```
 
-The relevant output returned from executing this command is the "Untracked files:" part. There, Git tells the user that there is an untracked file (`README`) in the repository. To start tracking changes in this file, we **add** it to Git's staging area (Figure \@ref(fig:git-diagram)) by using the command `git add` followed by the file name (i.e. `README`, in our example, the file doesn't have an extension), or `.` which is a shortcut for adding all files with changes to the staging area.:
+Every project (repository) should contain a brief note explaining what the project is about and who to contact. This note is usually called a readme file, and therefore our first proper contribution to this project will be a README file (this file is so important that it has become standard practice to write it in capital letters). The README file should be a plain text `.txt` file (i.e. not created with Microsoft Word or similar) that can be read with a simple text editor[^plain-text]. Create this file with R Studio's text editor (click "File" -> "New File" -> "Text File"), and save it to the project's root folder. Once you have saved the file (into the project's home folder), it will be visible in R Studio's Git panel (with yellow question marks, indicating it is a new file). Once you are happy with the README file's contents, stage the file by checking the radio button, write a commit message, and click "Commit". This initial version of the README file is now saved in Git's history, and can be later retrieved. Notice also that after the commit the Git panel in R Studio is empty; there are no changes to the repository.
 
-```bash
-$ git add README
+```{r rstudio-git-3, fig.cap = "Git's description of changes within a commit. This commit changed two files and inserted a total of 17 lines of text."}
+knitr::include_graphics("images/rstudio-git-3.png")
 ```
-
-We have now added this file to the staging area, and if we are happy with changes to the file's status, we can **commit** the file to Git's history. Commits are essential Git operations: They signify meaningful changes to the repository, and can be later browsed and compared to one another. As such, it is helpful to attach a small message to each commit describing why that commit was made. Here, we've created a README file, and our commit command would look as follows:
-
-```bash
-$ git commit -m "Add README file."
-```
-
-The quoted text after the `-m` argument is the *commit message*. Entering this command to the command line returns a brief description of the commit, such as how many files changed, and how many characters inside those files were inserted and deleted. The distinction between adding and committing in Git is important: The adding stage allows the user detailed control of what to add to the staging area in preparation of a commit to Git's history. The commit, then, commits the files from the staging area to history. These two operations can be run simultaneously by including the `-a` option to `git commit` (e.g. `git commit -a -m "Commit message"`), but it may be more difficult to control what gets committed with this command, and we therefore recommend beginning users to do `git add` and `git commit` in separate commands.
 
 ## Keeping Track of Changes with Git
 
-The `git-example` project (or rather, Git) now keeps track of all and any changes to README. To illustrate, you can change the text in the README file with a text editor, save the file, and then ask for `git status` on the command line:
+The `git-example` project (or rather, Git) now keeps track of all and any changes to README (and the two other files, which we ignore for now). To illustrate, you can change the text in the README file with R Studio's text editor, save the file, and then see that R Studio's Git panel now shows the README file with a blue "M" (modified) flag: Git knows that the README file has been modified since the last commit. It is often useful to know exactly *how* a file has changed, before committing it. To view differences to a file not yet committed, click on "Commit" in the Git panel, and select the appropriate file (README). The bottom panel will then display all the added lines of text in green, and all the removed lines of text in red (see Figure \@ref(fig:rstudio-git-2)). Once you are happy with the changes, you can repeat the add and commit steps from above to permanently record the current state of the project to Git's history.
 
-```bash
-$ git status
-On branch master
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
-	modified:   README
-no changes added to commit (use "git add" and/or "git commit -a")
-```
+The real importance of these somewhat abstract steps becomes apparent when we consider Git's **history**. The history contains the exact state of the project at each commit, and allows retrieving previous versions of files. To view Git's history in R Studio, click the "History" button in the Git panel. The following screen's (Figure \@ref(fig:rstudio-git-4)) top panel shows each commit's message, author, date and SHA key, which is a hash code that uniquely identifies each commit. The bottom panel of Figure \@ref(fig:rstudio-git-4) shows more details about the commit, including the actual changes made to files in that commit. In the current example, the README file received three new lines, shown in green background in Figure \@ref(fig:rstudio-git-4).
 
-Git can tell that the README file has been modified since the last commit. It is often useful to know exactly *how* a file has changed, before committing it. To view differences to a file not yet committed, use `git diff file`. It shows changes within `file`, line by line, highlighting removed lines of text with red and added lines with green. Once you are happy with the changes, you can repeat the add and commit steps from above to permanently record the current state of the project to Git's history (below we use the `.` shortcut for adding all files with changes[^dot-shortcut]):
-
-```bash
-$ git add .
-$ git commit -m "Populate README with project description."
-```
-
-## What Does Git Know?
-
-The real importance of these somewhat abstract steps becomes apparent when we consider the Git **log**. To reveal the commit log of your repository, call
-
-```bash
-$ git log
-```
-
-The output of this command shows that each commit is identified with a unique hash code (long alphanumeric string), which we can use to call for further information (see below); an author; a date and time; and a short commit message. Executing `git log` on our example project at this stage returns this:
-
-```bash
-commit 60cbe5c9b4a78e500314f791080381030577a035
-Author: Matti Vuorre <mv2521@columbia.edu>
-Date:   Tue Jun 13 17:20:27 2017 -0400
-    Populate README with project description.
-    
-commit 16c475023ecbc99446164187eeaaab10647ac550
-Author: Matti Vuorre <mv2521@columbia.edu>
-Date:   Tue Jun 13 17:14:14 2017 -0400
-    Add README file.
-```
-
-To see what exactly changed in the last commit (latest commits are at the top), you can call `git show` with the commit's hash code (only relevant parts of output shown below):
-
-```bash
-$ git show 60cbe5c9b4a78e500314f791080381030577a035
-Author: Matti Vuorre <mv2521@columbia.edu>
-Date:   Tue Jun 13 17:20:27 2017 -0400
-    Populate README with project description.
-diff --git a/README b/README
---- a/README
-+++ b/README
-@@ -0,0 +1,2 @@
-+# Example Git Project
-+This example project illustrates the use of Git.
-```
-
-This output is a detailed log of the changes in that commit. From top, it lists the commit's author, date, message, and then the commit's "**diff**". The diff is a detailed description of the changes introduced in that commit, explained in more detail below. The diff's first line tells that the following output is a git diff, and the origin of the changes was the `README` file (`a/README`), and the destination was the same file (`b/README`): 
-
-```bash
-diff --git a/README b/README
-```
-
-These two file names could be different if the content from a file was moved to another file with a different name, or if a file was moved. The next two lines expand the information presented in the previous line:
-
-```bash
---- a/README
-+++ b/README
-```
-
-The first and second line in this output show the file which received deletions (lines were removed, `---`) and the file which received additions (lines were added, `+++`). Alternatively, if a file was moved or renamed, these lines would indicate that. Following these lines, the output shows where the changes were made:
-
-```bash
-@@ -0,0 +1,2 @@
-```
-
-The `-0,0` indicates where in the initial version of the file the changes were made; the first number indicates the first line of changes, the second indicates for how many following lines the changes continued. This output is a little awkward, but because the file was initially empty, the changes must have occurred on the 0th line. The second pair of numbers (`+1,2`) indicates that the added text begins on line 1, and covers two lines of text. The last two lines of the output indicated the changes in the text. The two added lines are prepended with `+` symbols to indicate that these lines were added:
-
-```bash
-+# Example Git Project
-+This example project illustrates the use of Git.
+```{r rstudio-git-4, fig.cap = "R Studio display of the example project's Git history."}
+knitr::include_graphics("images/rstudio-git-4.png")
 ```
 
 Although you have now seen the fundamentals of using Git to track the states of (and therefore changes to) a repository, this overly simplistic example doesn't allow full appreciation of the benefits of using Git for version control. To better illustrate Git's functioning, we now fast-forward in the hypothetical example project to a stage where more files and materials have been created.
 
 ## (Slightly More) Advanced Git
 
-For example, after working for a while on the project, you could have added two files inside well-organized sub-folders of the project. At this point, the project could look like Figure \@ref(fig:advanced-project).
+After working for a while on the project, you could have added two files to the project. At this point, the project could look like Figure \@ref(fig:advanced-project). Viewing the Git panel in R Studio now reveals that there are two new files (possible empty folders are ignored): One is a .pdf file with some administrative information (`ethics-info.pdf`), the other one is an R [@r_core_team_r:_2017] script file for a pre-planned power analysis (`plan_n.R`). You would probably like to track any changes to the power analysis script, but the ethics information file isn't something that you need to keep track of---at least for this example. However, it would be a nuisance to constantly keep ignoring it when committing changes to Git, but fortunately Git has an elegant solution to specifying which files to keep track of. Because by default all files are monitored, Git uses a special file for instructing which files are to be *ignored*.
 
 ```{r advanced-project, fig.cap = "A project with more components."}
 knitr::include_graphics("images/advanced-project.png")
 ```
 
-Running `git status` in this folder reveals that there are two new files (possible empty folders are ignored). That is, since the previous commit, two files have been added to the project; one a .pdf file with some administrative information (`ethics-info.pdf`), the other one is an R [@r_core_team_r:_2017] script file for a pre-planned power analysis (`plan_n.R`). You would probably like to track any changes to the power analysis script, but the ethics information file isn't something that you need to keep track of---at least for this example. It would be laborious to constantly keep ignoring it when committing changes to Git (especially if you'd like to add multiple files simultaneously with `git add .`) Git has an elegant solution to specifying which files to keep track of. Because by default all files are monitored, Git uses a special file for instructing which files are to be *ignored*.
-
 ### Make Git ignore files
 
-To make Git ignore files, you simply add a plain text file called `.gitignore` to the home folder of the repository. You can use any text editor to create this file[^touch]. Notice that the file is *hidden* (by default, not visible in the OSs file viewer), but can be seen in the command line with the command `ls -la`. Each row of this file should specify a file or a folder (or a regular expression) that Git should ignore. In the current example you could make Git ignore the `admin/` folder entirely (first line in the code listing below), and any file with the .pdf extension inside `manuscript/` (second line). The example `.gitignore` file would look like this:
+Git uses a special plain text file called `.gitignore` in the home folder of the repository to control which files are to be ignored. R Studio projects create this file automatically, and you can use a text editor to edit it. Notice that the file is *hidden* (by default, not visible in the OSs file viewer), but can be seen in R Studio's **Files** panel. Each row of text in this file should specify a file or a folder (or a regular expression) that Git should ignore. In the current example you could make Git ignore the `admin/` folder entirely (fifth line in the code listing below), and any file with the .pdf extension inside `manuscript/` (sixth line). The first four lines are automatically written by R Studio when creating the project. The example `.gitignore` file would look like this:
 
 ```bash
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
 admin/
 manuscript/*.pdf
 ```
 
-Re-running `git status` now only shows the `plan_n.R` file and the newly created `.gitignore` file, which is also under version control, naturally. Because there are now two untracked files, which are not specified to be ignored in `.gitignore` (`.gitignore` and `plan_n.R`), and you usually should aim to maintain a clean commit history for the project, you can create two separate commits: One for the `.gitignore` file, and one for the power analysis file.[^when-to-commit]
+After saving these change to the `.gitignore` file, R Studio's Git panel shows that the `.gitignore` file has changed, and that there are changes in the `experiment-1/` folder. To reveal which files have changed in the folder, click on the "Staged" radio button next to the folder, which will then select the only changed file in that folder (the `plan_n.R` file). Because there are now two untracked files, which are not specified to be ignored in `.gitignore` (`.gitignore` and `plan_n.R`), and you usually should aim to maintain a clean commit history for the project, you should create two separate commits: One for the `.gitignore` file, and one for the power analysis file.[^when-to-commit] 
 
-```bash
-$ git add .gitignore
-$ git commit -m "Added .gitignore file"
-$ git add .
-$ git commit -m "Completed power analysis"
-```
+After committing the `plan_n.R` file to Git's history, you can at any time come back to this commit with Git's history and see what was inside the newly created power analysis file. For instance, if new information suggests that you should change the assumed effect size in the power analysis, you can simply edit and save the file, then add and commit the changes to Git with a helpful message that logs this important event in Git's history.
 
-After this last commit you can, at any time in the future, come back to this commit with `git log` or `git show` and see what was inside the newly created power analysis file when it was first created. For instance, if new information suggests that you should change the assumed effect size in the power analysis, you can simply edit and save the file, then add and commit the changes to Git with a helpful message that logs this important event in Git's history.
+This possibility of "rewinding history" is especially useful for files that might go under multiple revisions (manuscripts, analysis files), or if you are interested in when and in what order the files were created---and who created or changed them. For example, one might consider committing a power analysis file to Git as a small personal pre-registration of a part of the research plan. To see earlier versions of files, click "History" in the Git panel, and select the commit that contains the version of the file that you would like to see (top panel in Figure \@ref(fig:rstudio-git-4)). Then, find the file in the lower panel of the History window, and click "View file @ SHA" (where "SHA" is the commit's SHA code). This reveals the file exactly as it was at that point in history. 
 
-This possibility of "rewinding history" is especially useful for files that might go under multiple revisions (manuscripts, analysis files), or if you are interested in when and in what order the files were created---and who created or changed them. One might consider committing a power analysis file to Git as a small personal pre-registration of a part of the research plan. Below, we show some useful ways in which Git can be used to "rewind" the commit history.
-
-### Try a new feature
-
-We often find that making some changes to a project didn't have the desired effect: The manuscript ended weaker or the analysis didn't work anymore. Git allows great flexibility in trying new features, then undoing the changes[^git-branches]. Starting with an empty staging area, you could start modifying a file (e.g. `plan_n.R`) and later realize that the changes were not good. At this point it is common to press "Undo" in the text editor, but if the file has been saved multiple times or multiple files have been changed, it is difficult to get to the starting point by simply using the "Undo" button. Instead, with Git you can **checkout** the file's previous version from history. To undo all changes to `plan_n.R` (since the last commit), run
-
-```bash
-$ git checkout experiment-1/analysis/plan_n.R
-```
-
-Notice that you have to write the full path of the file (relative to the project's root, see Figure \@ref(fig:advanced-project)) so that Git knows precisely which file you want to checkout from history. With these example operations, we have discussed the main Git operations as outlined in Figure \@ref(fig:git-diagram): Make changes to files, **add** them to the staging area, **commit** to history; **checkout** from history to undo changes. Although these operations are enough to maintain a Git repository, we have only scratched the surface of Git's functionality.
-
-### Undo committed changes
-
-Another common scenario is one where a user makes changes to a file, adds the changes to the staging area, commits them to Git's history, and only then realizes that the changes weren't good. If you have committed changes to a file, and would like to revert back to an older version of the file, you could **checkout** the file's earlier version, and then commit the older version. [^undoing-more-info] For example, suppose you have made bad changes to a file called `file.txt`, and committed the changes to history, and would then like to undo the bad changes by reverting to an older version of the file. View the history with `git log` (you can use the `--oneline` argument for more concise output):
-
-```bash
-$ git log --oneline
-4c64f11 Bad changes to file.txt
-039d6ff Good changes to file.txt
-a73f2ec Add file.txt
-```
-
-Recall that `git log` returns the most recent changes at the top, and notice that the `--oneline` argument has also made the commit hash codes shorter and thus easier to read and write. Here we can see that commit `039d6ff` has a good version of the file, and subsequent changes in commit `4c64f11` were bad (you would of course not commit "bad changes", but here the message is informative for clarity). To revert `file.txt` to it's good state in commit `039d6ff`, you can use use `git checkout hash filename`, which here would be:
-
-```bash
-$ git checkout 039d6ff file.txt
-```
-
-Now asking for `git status` reveals that `file.txt` has been modified in the working directory (its current state is as it was in commit `039d6ff`). You can now add and commit these changes with `git add file.txt`, then `git commit -m "Undid bad changes to file.txt"` (type a commit message suitable for your situation).[^undo-the-revert] `git log --oneline` would then show:
-
-```bash
-$ git log --oneline
-bcbb123 Undid bad changes to file.txt
-4c64f11 Bad changes to file.txt
-039d6ff Good changes to file.txt
-a73f2ec Add file.txt
-```
-
-This operation of checking out earlier versions is very useful not only for undoing changes, but for viewing older versions of files as well. However, if you would only like to view past states of the project, instead of reverting / undoing to earlier states of particular files, you can checkout an earlier version of the entire repository, as explained below.
-
-### Going to an earlier version of the project
-
-To return to an earlier state of the project, you can use the `git checkout` command. For example, the display above shows that in commit `a73f2ec`, you had added `file.txt`. If you would like to see the project at that commit, type `git checkout a73f2ec`. This command instantly checks out the file(s) at that point in history, and places them in the working directory where you can view them. This is very helpful if, for example, you would like to quickly run an earlier version of a statistical analysis, which may depend on multiple files. After you have viewed this old version of the project, you can return to the current version with `git checkout master`.
-
-Both of these operations---checking out an earlier version of a file or of the entire project---are "safe" in the sense that your project's history won't be affected. However, checking out an earlier version of a specific file changes the current state of the project (the current version of the file is temporarily overwritten with the old version), so it is good practice to carefully keep track of the current version of your file before making further commits.
+Currently, R Studio's Git panel offers limited functionality in "rewinding history", and to our knowledge the best tools for accessing old versions of the project are Git's command line functions. In the supplemental file we discuss in detail how to retrieve old versions of files, and even old versions of the entire project, using command line functions.
 
 # Collaborating
 
@@ -390,194 +201,82 @@ The true advantages of using Git become apparent when we consider projects with 
 
 Git and other VCSs, on the other hand, were specifically designed to allow (and facilitate) multi-site collaboration on arbitrarily complex projects: Microsoft Windows is developed on a Git platform collaboratively by about 4,000 engineers [@harry_largest_2017]. We believe that Git can be especially helpful in scientific collaboration, a topic to which we turn next.
 
-There are many ways in which a team could collaborate on a Git project; here we focus on a common one, called "centralized workflow", where one virtual copy of the project is considered central, and all contributors interact with this central copy, instead of directly with each other. 
-
 ## Overview of the Centralized Git Workflow
 
-In this workflow, a central project hosted on a research team's server, or an online service like GitHub, is used to send and receive information from and to local projects. Because the word "project" can now refer to virtual copies of projects, they are instead commonly referred to as **repositories**. First, one user creates this central repository, then other users **clone** local copies of it (see Box 2). Contributors, including the one who created the central repository, then work on their local projects as detailed above, and after committing, **push** their changes to the central repository. To get changes which other users have pushed to the central repository, contributors **pull** changes from it.
+There are many ways in which a team could collaborate on a Git project; here we focus on a common one, called "centralized workflow", where one virtual copy of the project is considered central, and all contributors interact with this central copy, instead of directly with each other. In this workflow, a central project hosted on a research team's server, or an online service like GitHub, is used to send and receive information from and to local projects. 
+
+Because the word "project" can now refer to virtual copies of projects, they are instead commonly referred to as **repositories**. First, one user creates this central repository, then other users **clone** local copies of it. Contributors, including the one who created the central repository, then work on their local projects as detailed above, and after committing, **push** their changes to the central repository. To get changes which other users have pushed to the central repository, contributors **pull** changes from it. Setting up a centralized Git repository on a research team's private server is relatively straightforward, but because the details vary from team to team, here we illustrate the centralized workflow using GitHub.
 
 ```{r git-diagram-collaborate, fig.cap = "A diagram illustrating the typical collaborative Git workflow with a remote repository (e.g. GitHub). Verbs indicated in bold text are Git operations and explained in detail in the main text.", out.width="6in"}
 knitr::include_graphics("../data/git-diagram-collaborate.png")
 ```
 
-Setting up a centralized Git repository on a research team's private server is relatively straightforward, but because the details vary from team to team, here we illustrate the centralized workflow using GitHub.
-
 ## GitHub
 
 GitHub is one of the 100 most popular website worldwide, and hosts over 60 million software projects with a total of over 20 million users.[^github-stats] We chose GitHub for collaboration because it is already the de facto standard among scientists who use VCS, it offers free private repositories (see below), and repositories from GitHub can easily be connected to projects hosted on the Open Science Framework (<https://osf.io>). 
 
-Anyone wanting to use GitHub must first create a free user account at <https://github.com>. After the user account has been set up, and the user has logged in, creating a new repository at GitHub is self-evident (there is a big green button labeled "New repository" in the user's home page). You must create the GitHub account with the same email address that you used above when configuring your local Git (or re-configure your local Git to use your the email address that you used to register for GitHub).
-
+New GitHub users must first create a free user account at <https://github.com>. Then, to use GitHub with local Git repositories, you must configure your local Git program to know your name, and especially your email address (GitHub will use your email address for authorization purposes). To configure your local Git program, please refer to the supplemental file, where we show how to use the command line for configuring Git. You must create the GitHub account with the same email address that you used when configuring your local Git (or re-configure your local Git to use your the email address that you used to register for GitHub).
 
 ### Create a new GitHub repository
 
-Although we describe how to create a new repository, the goal here is to create an online "remote" repository for the running example within this tutorial, so that you can "push" your current local repository to the GitHub remote. Because of this, when you are creating the new repository on GitHub, do not check the "Initialize this repository with a README" (you already created one in the local repository if you followed the steps above on your own computer), and do not add a .gitignore or a license. When creating the repository, you are also asked to enter a name for the repository, which can be anything. For consistency we call the GitHub repository `git-example`---the same name as the local project folder. After entering the name, click "Create repository". The next step is to link the new remote on GitHub to the local `git-example` repository. To do this, use the following commands (the commands are also visible on GitHub, on a page that opens after you have created the repository):
+In this tutorial we have already created a local project, and made and committed some changes in it. To make this project collaborative, we need to link this local repository to a **remote** repository, such as one hosted on GitHub. To do this, we must first create a repository on GitHub.
 
-```bash
-$ git remote add origin https://github.com/username/reponame.git
+After you have created an account on GitHub, navigate to https://www.github.com and log into your account. Then click the green "New repository" button. You will first want to give a name to your GitHub repository: The name can be anything, but for consistency we call the GitHub repository `git-example`---the same name as the local project folder. You can then write a short description about the repository in the row below. You can then choose whether the repository should be public or private; we discuss this choice in more detail below, but for now choose "Public". Importantly, because you already have a local repository with a `.gitignore` file and a README file, do not check the "Initialize this repository with a README" (you already created one in the local repository if you followed the steps above on your own computer), and do not add a `.gitignore` or a license. After entering the name, click "Create repository". The next step is to link the new remote on GitHub to the local `git-example` repository. 
+
+### Connecting the GitHub remote repository to a local repository
+
+You can connect the existing local repository to the newly created GitHub remote with two short lines of commands in the computer's command line---we show how in the supplemental materials. However, you cannot link the existing local repository with the GitHub remote with R Studio. If you do not want to write out the commands in the command line, you can circumvent this problem by creating a new project in R Studio as you did above. Instead of choosing "New Directory" in Figure \@ref(fig:rstudio-project-1), you create a new local project from the GitHub remote (Figure \@ref(fig:clone-from-github)). Although this workflow avoids the use of command line functions, and can be used, it is not recommended because you will have to manually copy-paste the project's contents from the old local folder to the new one. This copy-pasting will work, but by doing so you will leave the old local repository behind, and therefore lose the project's history. However, this method is entirely appropriate for new projects.
+
+After you have created the new remote repository on GitHub, you need the .git repository's URL, which you need to use when setting up the new project in R Studio. This is visible on GitHub on the page that appears after creating a new repository. Copy-paste the repository's URL from the address box on GitHub (e.g. https://github.com/username/reponame.git). Then, in R Studio, click "File" -> "New Project", and select "Version Control" (left panel of Figure \@ref(fig:clone-from-github)). This option allows you to create a new local repository by checking out a GitHub remote repository. Click Git (Figure \@ref(fig:clone-from-github), middle panel), then copy-paste the GitHub URL to the "Repository URL" box, and choose an appropriate location for the project ("Documents/" in Figure \@ref(fig:clone-from-github), right panel). 
+
+Because you cannot associate an existing local Git repository with GitHub by using R Studio, you've now associated the empty remote (GitHub) repository with a local folder on your computer. Because we've already created files and folders in our tutorial project, we can now simply copy-paste the materials from the old project folder to the new empty folder, which is connected to GitHub. After you have copy-pasted the materials to the new local folder make sure that the contents of the old `.gitignore` file are also copied to the new file. Otherwise you will be committing files into Git's history that you would rather ignore. You can then commit all the files using the steps detailed above, after which you will have two new buttons in R Studio's Git panel: The local repository can now send (**push**) and receive (**pull**) changes from the remote repository. Click "Push", and then navigate to the repository's GitHub page and refresh the page: You will see all the committed files and folders on GitHub. We also detail how to do these steps without losing the repository's history by using the command line tools in the supplemental file.
+
+```{r clone-from-github, fig.cap = "Creating a new local repository by cloning a GitHub repository.", out.width="6in"}
+knitr::include_graphics("images/rstudio-git-clone.png")
 ```
-
-Above, `username` and `reponame` are the user's GitHub user name, and the GitHub repository name. The correct address is visible in the GitHub page that opens after creating the repository. Once you have added the GitHub remote to the local repository, you can verify that the correct address was given with the command `git remote -v`. Once the connection is set up, we can **push** local changes to the GitHub remote:
-
-```bash
-$ git push -u origin master
-```
-
-The `-u origin master` arguments are only required for the first push, as they set up the connection. Running this command will send your local repository to the GitHub repository. For pushing changes following this initial push, simply type `git push` after adding and committing locally. You have now created the remote central repository, and other users can start contributing to it. 
-
-### Create a GitHub repository from an existing project
-
-Alternatively, we may already have a project with several files in it that is not yet a Git repository and that we wish to share with others. To do this, first log in to your GitHub account and create a new repository. This can be done by clicking on the large green button called `New` under the `Repositories` tab. On the next page enter the repository name in the text box and choose whether to make the repository public or private. The name of the repository should match the name of the top-level folder of the project you wish to share. We recommend not checking the box for adding a README or adding a `.gitignore` file or license at this point. These can be added after completing the setup. Next open the command line (e.g. the Terminal for Mac users, Git Bash for Windows users) and change the current working directory to the home directory of the project you wish to share. 
-
-First initialize the local directory as a Git repository:
-
-```bash
-$ git init
-```
-
-Now add all files to the staging area (if there are files or folders that you would not like to include, see the above section on how to make Git ignore files with the `.gitignore` file):
-
-```bash
-$ git add .
-```
-Commit these files including a comment such as "First commit":
-
-```bash
-$ git commit -m "First commit"
-```
-
-To push the local files to GitHub we follow the same steps as in the previous section where `username` and `reponame` are the user's GitHub username, and the GitHub repository name.
-
-```bash
-$ git remote add origin https://github.com/username/reponame.git
-```
-
-You can then verify the new repository:
-
-```bash
-$ git remote -v
-origin	https://github.com/username/reponame.git (fetch)
-origin	https://github.com/username/reponame.git (push)
-```
-
-The two lines of output indicate the remote repository from where changes are to be received, and from they are to be sent, respectively. These should usually be the same address. You can then push all files to GitHub with the first commit:
-
-```bash
-$ git push -u origin master
-```
-
-Like when sharing a git repository created from scratch, after these steps all users can contribute modifications to the central GitHub repository by pushing changes with `git push` after adding and committing locally. 
 
 ### Contributing to a central (GitHub) repository
 
-Once another team member has set up Git on their own computer, and signed up for GitHub, they need to **clone** the remote GitHub repository onto their local computer. To clone a repository, the new user must first navigate to an appropriate location on the computer where they would like to save the project on their computer, for example their `User/Documents` folder. They do not need to create the project's folder locally before cloning the remote repository. Once the appropriate location is found, cloning will create a new folder for the repository inside this folder. Use `git clone` to clone a repository from a URL:
+Once another team member has set up Git on their own computer, and signed up for GitHub, they need to **clone** the remote GitHub repository onto their local computer, just as you did in the above steps. Other users can find out the repository's URL by navigating their web browsers to the repository's GitHub address (e.g. <https://github.com/mvuorre/reproguide-curate> for this tutorial's repository) and clicking the big green "Clone or download" button; the complete address is in the text box. New contributors can then work on their local copies as detailed in earlier parts of this tutorial; making changes, adding, committing, and pushing. After committing their changes, they can update the status of the central Git repo by pushing their changes to it. To push changes, they simply press the "Push" button in R Studio's Git panel.
 
-```bash
-$ git clone https://github.com/username/reponame.git
-```
-
-To find out the correct URL to enter to `git clone`, you can navigate your web browser to the repository's GitHub address (e.g. <https://github.com/mvuorre/reproguide-curate> for this tutorial's repository) and click the big green "Clone or download" button; the complete address is in the text box. New contributors can then work on their local copies as detailed in earlier parts of this tutorial; making changes, adding, committing, and pushing. After committing their changes, they can update the status of the central Git repo by pushing their changes to it:
-
-```bash
-$ git push
-```
-
-You can also clone GitHub repositories if you are not aiming to contribute to a project. Hosting projects on GitHub is attractive because other people can easily clone (download) your work to build on, and contribute to, your work.
+Note that you can also clone GitHub repositories if you are not aiming to contribute to a project. Hosting projects on GitHub is attractive because other people can easily clone (download) your work to build on, and contribute to, your work.
 
 ### Obtaining other's changes from the central repo
 
-Just as you must manually push your own local changes to the remote repository, you must also obtain others' changes by **pulling** them from the central repo. Pulling is indicated as the first step in the collaborative workflow in Figure \@ref(fig:git-diagram-collaborate), because it is important that you start working on the most up to date version of the project (e.g. you don't want to reinvent the wheel or make unnecessary conflicting changes). Before starting to work on your proposed changes, pull the remote changes with:
+Just as you must manually push your own local changes to the remote repository, you must also obtain others' changes by **pulling** them from the central repo. Pulling is indicated as the first step in the collaborative workflow in Figure \@ref(fig:git-diagram-collaborate), because it is important that you start working on the most up to date version of the project (e.g. you don't want to reinvent the wheel or make unnecessary conflicting changes). Before starting to work on your proposed changes, pull the remote changes by pressing the "Pull" button in R Studio's Git panel.
 
-```bash
-$ git pull
-```
-
-The way in which users and their local repositories interact with the central repository by pushing and pulling is the cornerstone of collaboration on GitHub, and thoughtful use of these commands allows for complex workflows without any important code (data, ideas in manuscript, analysis code) ever being overwritten. For instance, prior to restarting work on a project it is often worth checking if any files have changed in the central repository by checking the status of your local repository with `git status` as described above. If someone else has made changes to the central repo, pull them to your local repo before starting your work. It is also worthwhile in committing and pushing changes made after each period of work. However, there is no automatic way for a computer to tell what changes to prioritize: If two or more users have worked on the same code and then attempt to push their changes, it is possible that they have made changes which conflict with each other. If this happens, there is no need to worry; you simply need to know how to resolve the conflict.
+The way in which users and their local repositories interact with the central repository by pushing and pulling is the cornerstone of collaboration on GitHub, and thoughtful use of these operations allows for complex workflows without any important code (data, ideas in manuscript, analysis code) ever being overwritten. For instance, prior to restarting work on a project it is often worth checking if any files have changed in the central repository by looking at the project's GitHub page. Most recent commits are listed on top of the file panel, and if someone else has pushed a commit to the GitHub repo, you should pull the changes before starting your work. However, there is no automatic way for a computer to tell what changes to prioritize: If two or more users have worked on the same code and then attempt to push their changes, it is possible that they have made changes which conflict with each other. If this happens, there is no need to worry; you simply need to know how to resolve the conflict.
 
 ## Resolving conflicts in collaborative work
+
+```{r rstudio-push-rejected, fig.cap = "R Studio displays a Git warning if a user attempts to push conflicting changes to the remote repository."}
+knitr::include_graphics("images/rstudio-push-rejected.png")
+```
 
 Many different types of conflicts may appear in collaborative work, such as multiple users creating files with the same name but different content, or multiple users working on the same code (recall that we use the word code to mean any text written on a computer, e.g. text in a manuscript) and creating changes that conflict with each other. We use this latter situation as an example to explain how to resolve conflicts in collaborative work.
 
 Consider the following scenario. Two collaborators, User A and User B, are working on the same project (they collaborate on a repository on GitHub, with local repositories as detailed above.) At some point, they might be working on the same file---such as writing a manuscript together---and find that they have made changes that conflict with each other. More formally, let's assume that both users are making changes to a file, and User B happens to add and commit his changes locally and push them to the central repository before User A does. When User A then attempts to push her changes to the local repository---and the changes are incompatible with User B's changes---a **conflict** will happen. That is just a natural consequence of two individuals working simultaneously on the same idea, and then writing different code in the same location in the file. When this happens, user A needs to first integrate the latest version of the project from the central repository to her local project, such that it reflects both collaborators' edits, and then push the new "merged" version to the central repository. Let's look at what this workflow entails in a little more detail.
 
-First, let's assume that a collaborator (User B) has made changes to the `README` file in the `git-example` project and pushed the changes to the central repository. For brevity, we only show the first few lines of this file (User B has added the second line):
+First, let's assume that a collaborator (User B) has made changes to the `README` file in the `git-example` project and pushed the changes to the central repository. Meanwhile, if User A has committed conflicting changes and then attempts to push them to the remote repository, R Studio will display a Git error message indicating that the push would create a conflict, (Figure \@ref(fig:rstudio-push-rejected)). In this situation, User A first needs to pull the most current state of the remote repository by clicking "Pull".
 
-```bash
-# Example Git Project
-Hello world!
-This example project illustrates the use of Git.
-```
-
-At the same time, User A might have changed her local version of the `README` file to look like this (User A also added to the second line):
-
-```bash
-# Example Git Project
-Here are some changes.
-This example project illustrates the use of Git.
-```
-
-If User A now commits the changes locally, and attempts to push the changes to the central repository, an error will appear
-
-```bash
-$ git add .
-$ git commit -m "Some meaningful changes"
-$ git push
-error: failed to push some refs
-hint: Updates were rejected because the remote contains work that you
-do not have locally. This is usually caused by another repository 
-pushing to the same ref. You may want to first integrate the remote 
-changes (e.g., 'git pull ...') before pushing again.
-```
-
-As is usually the case, Git also returns a hint on what to do, which you can follow to successfully resolve the conflict. Git suggests that User A first integrate the remote changes: She needs to first obtain the latest version of the file(s) from the central repository, add the proposed changes to the latest version of the file (the one containing User B's changes), and push that version.  She can first obtain the latest changes from the central repository:
-
-```bash
-$ git pull --rebase
-```
-
-The `--rebase` argument turns Git into rebasing mode, meaning that you are now applying your local commits on top of the "base" obtained from the remote repository. You can `git pull` without the `--rebase` argument, but that would create an unnecessary commit message and lead to a slightly different workflow[^pull-rebase]; we recommend using the `--rebase` argument. At this point, Git is in "rebasing" mode, allowing User A to resolve the conflict before pushing her changes. Running `git status` returns (only relevant output shown):
-
-```bash
-$ git status
-rebase in progress; onto bada506
-You are currently rebasing branch 'master' on 'bada506'.
-  (fix conflicts and then run "git rebase --continue")
-Unmerged paths:
-  (use "git reset HEAD <file>..." to unstage)
-  (use "git add <file>..." to mark resolution)
-	both modified:   README
-no changes added to commit (use "git add" and/or "git commit -a")
-```
-
-Git again shows a helpful (if rather jargony) message; the relevant point is that the repository is in rebasing mode (technically, User A is re-basing her current local version (`master`) onto User B's latest contribution, identified with `bada506`). The next step is to manually edit the conflicted file to reflect both User A's and User B's changes. Of course, the user who is doing the rebasing (i.e. merging or resolving the conflict) may simply decide to edit the file to reflect only her changes, completely rejecting User B's changes. When viewed with a text editor, the conflicting `README` file, on User A's computer, now looks like this:
+After pulling the changes from the remote, Git will automatically merge the two conflicting versions of the file into one file in the local repository. Git will not remove anything, and therefore the user will need to decide which lines of the changed file to save and which ones to discard. Assuming that the two users have made changes to the README file, it can be opened with R Studio's text editor, and might look like this:
 
 ```bash
 # Example Git Project
 <<<<<<< HEAD
-Hello world!
+User A's proposed version of text.
 =======
-Here are some proposed changes.
->>>>>>> Some meaningful changes
+User B's proposed version of the line of text.
+>>>>>>> 212ffb5de589755ae4fda57fb5af60194283dae8
 ```
 
-The first line of the file was identical across the two Users' versions of the file, and therefore remains the same. However, after the first line, there is first a line (`<<<<<<< HEAD`) indicating that what follows are the to-be-integrated lines of text. Anything after this line up to the `======` line is the to-be-integrated text from the central repository. We can see that this is simply the line of text that User B created ("Hello world!"). After the separating line (`======`) are User A's local changes, followed by those changes' commit message ("Some meaningful changes") prepended with a `>>>>>>>`. User A can then edit this file however she chooses, using the tags to help her see which are her lines of code (text), and which are User B's. For example, User A may integrate the changes to make the file look like this:
+The first line of the file was identical across the two Users' versions of the file, and therefore remains the same. However, after the first line, there is a line (`<<<<<<< HEAD`) indicating that what follows are the to-be-integrated lines of text. Anything after this line up to the `======` are User A's proposed lines of text. After the separating line (`======`) are User B's changes from the remote repository, followed by those changes' SHA key prepended with a `>>>>>>>`. User A can then edit this file however she chooses, using the tags to help her see which are her lines of code (text), and which are User B's. After editing the file, User A must add the changes to Git's staging area (by checking the radio button in R Studio's Git panel), then commit the changes. Once the commit is done, the conflict has been resolved, and user A can push to the GitHub remote.
 
-```bash
-# Example Git Project
-Here are some proposed changes: Hello world!
-This example project illustrates the use of Git.
+```{r rstudio-git-pull-merge, fig.cap = "After pulling the most up-to-date remote repository with R Studio, Git attempts to automatically merge the two versions of the file."}
+knitr::include_graphics("images/rstudio-git-pull-merge.png")
 ```
 
-Then, User A can save the file and add the changes with `git add README`. Importantly, because Git is in rebasing mode (which can be aborted with `git rebase --abort` to reject the central repository's changes and return User A back to her latest local version), User A should not commit but instead needs to complete the rebasing with `git rebase --continue`. 
-
-```bash
-$ git rebase --continue
-Applying: Some meaningful changes
-```
-
-This command returns a reminder telling User A which local commit is being applied on top of the changes she pulled from the central repository, and then returns Git to it's normal mode from rebase mode. The final step is then to use `git push` to send the local changes to the central repository.
-
-How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial[^more-on-conflicts]. Most importantly, even in the event of conflicts, all committed changes are saved in Git's history and can be retrieved, so experimenting with different approaches to resolving conflicts is safe. 
+The options for dealing with conflicts within R Studio's Git panel are somewhat limited, and we present a more detailed tutorial on managing conflicts with Git's command line tools in the supplemental. How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial[^more-on-conflicts]. Most importantly, even in the event of conflicts, all committed changes are saved in Git's history and can be retrieved, so experimenting with different approaches to resolving conflicts is safe. 
 
 ## Private or public collaboration?
 
@@ -587,112 +286,51 @@ There are two alternatives to working in a public GitHub repository: One, which 
 
 To make a GitHub repository private, navigate to the repository's website with a web browser, and click "Settings", then "Make this repository private". Once one user has set the central GitHub repository to private mode, anyone wishing to clone, push, pull, or view the repo must provide their GitHub username and password. Only if they match an invited team members username and password can the user access the repository. At the time of this writing, GitHub offers five private repositories for free[^github-private]. 
 
-# Using Git with a Graphical Interface
-
-Above, we have detailed how to use Git from the computer's command line, but not all users are comfortable---although there is no reason not to be!---with this mode of interacting with their computers. We chose to introduce Git from the command line because eventually users might want to use it for more complicated operations (and it is required for setting the user's information). However, there are various graphical user interfaces (GUIs) available for Git which allow point-and-click interacting with Git.
-
-## R Studio
-
-In this section, we introduce how to use the popular R Studio[^rstudio-link] IDE [@rstudio_team_rstudio:_2016] for the R programming language [@r_core_team_r:_2017] for interacting with Git. An IDE is an interface that bundles together many tools for software development---some users may be familiar with R Studio for conducting statistical analyses. Version control is an essential feature of software development, and R Studio provides a good GUI within its IDE for controlling Git[^r-not-required].
-
-For this example, we will begin a completely new project using only R Studio, and assume that readers are familiar with the concepts from the above tutorial. Once downloaded and installed, it can be used for accessing the R programming language, and for many operations involved in curating research assets, including a GUI for Git.
-
-Managing projects (and Git repositories) with R Studio is centered on the idea of R Projects. To start a new project with R Studio, open the R Studio application, and click File -> New Project. This brings up a dialog (left panel in Figure \@ref(fig:rstudio-project-1)) asking whether to create a project in a new directory, existing directory, or checkout an existing project from a version control repository. Here, we create the project a new directory. We then choose "New Project" in the following screen (middle panel in Figure \@ref(fig:rstudio-project-1)). Then we'll give a name to the project's home folder and choose where to save it on the computer. Importantly, we'll also check the "Create a git repository" box (right panel in Figure \@ref(fig:rstudio-project-1)), which will automatically set up a new repository for the project. Clicking "Create project" creates the folder in the specified location, and two files inside the project's main folder.
-
-```{r rstudio-project-1, fig.cap = "Creating a project in R Studio.", out.width="6in"}
-knitr::include_graphics("images/rstudio-project-1.png")
-```
-
-One of these files is `.gitignore` which we covered above. The other file is an `.Rproj` file, which indicates that the folder is the home folder for an R (Studio) project. Users don't interact with this file directly, but if opened, it is a plain text file containing the project's settings (these can be modified through Tools -> Project Options in R Studio).
-
-## Using Git with R Studio
-
-Once the R Project has been created, R Studio has a "Git" tab in the top-right panel of the GUI. At first, this tab shows the two new files in the repository, and some buttons with familiar looking names ("Commit", "Push", etc.)
-
-```{r rstudio-git-1, fig.cap = "R Studio's Git tab for a newly created project. The Git tab in R Studio has buttons for Git commands covered in this tutorial, such as viewing Git's history, diffs, and commits."}
-knitr::include_graphics("images/rstudio-git-1.png")
-```
-
-### Add and commit changes
-
-To mark this milestone of creating a project, you can commit all the changes so far (new files, new project) to Git. The workflow is exactly the same as when using Git from the terminal, but instead of text commands, you can now use clickable buttons. To begin committing these changes, click on "Commit" in the Git tab. This brings up another window where you can select files to add into the staging area (the files in Figure \@ref(fig:rstudio-git-2) are staged by checking the boxes on the names' left side). The green "A" indicates that these files are new. Once all the desired files (here we chose both) are staged, you can write a short commit message in the appropriate text box, and click the "Commit" button. The text highlighted in green in the bottom part of Figure \@ref(fig:rstudio-git-2) indicates the lines of text that were changed in the selected file (`.gitignore`). These lines are all green because the file is new to Git and therefore each change is an addition (the files are unimportant R project files which users can safely ignore.)
-
-```{r rstudio-git-2, fig.cap = "Creating a Git commit with R Studio."}
-knitr::include_graphics("images/rstudio-git-2.png")
-```
-
-### Add a remote GitHub repository
-
-When creating the R Project, there was an option for creating the project from an existing Git repository. Because we didn't do this for the current example, we must now manually instruct Git that this project should have a remote GitHub repository. This is done exactly as above, using the command line functions. After you've created a new repository on GitHub, navigate to the project's folder with the command line shell (or you can click on "More" in R Studio's Git tab, and then "Shell", which opens a new shell window in the correct location), and execute the following commands (but replace `username` and `reponame` with the correct user and repository names):
-
-```bash
-$ git remote add origin https://github.com/username/reponame.git
-$ git push -u origin master
-```
-
-After executing these commands, you can use all Git and GitHub features from R Studio. This is especially useful because the R Studio IDE offers a complete environment for project management, data analysis, and manuscript preparation with the R Markdown and knitr R packages [@allaire_rmarkdown:_2016; @xie_knitr:_2016]. Psychologists will be especially interested in the papaja package for creating APA formatted manuscripts [@aust_papaja:_2016]. The source code of this manuscript, which was prepared with the papaja package, can be found at <https://github.com/mvuorre/reproguide-curate>.
-
-# Git Summary
-
-Box 2 describes the main Git commands and their purported use in roughly the order in which they would be used in a typical workflow. Help on how to use each command is available by appending `--help` to each command (e.g. `git commit --help`). In Box 3 we give links to online materials that we have found particularly helpful in learning Git and teaching it to others.
-
 <!-- Box 2. Git summary -->
-\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 2. Main Git commands]
-\textbf{\texttt{git init}}: Initialize a local repository. 
+\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 2. Main Git operations]
+\textit{Initialize a local repository.}
     \begin{compactitem}
     \item Create a local Git repository inside a folder on your computer. In effect, this command turns the local folder into a Git repository.
     \end{compactitem}
 \vspace{.5em}
-\textbf{\texttt{git clone URL}}: Obtain a copy of a remote (GitHub) repository to local computer.
+\textit{Clone a remote repository.}
     \begin{compactitem}
     \item Create a local Git repository from a pre-existing remote Git repository, such as one hosted on GitHub.
     \end{compactitem}
 \vspace{.5em}
-\textbf{\texttt{git add file}}: Add changes in \texttt{file} to Git's staging area. 
+\textit{Add changes in \texttt{file} to Git's staging area.} 
     \begin{compactitem}
-    \item Once a file has been edited or created in the local project, it needs to be added to Git's staging area. Multiple files can be added simultaneously using the \texttt{.} shortcut (\texttt{git add .}). Once the files have been added, they can be saved to Git's history.
+    \item Once a file has been edited or created in the local project, it needs to be added to Git's staging area. Once the files have been added, they can be saved to Git's history.
     \end{compactitem}
 \vspace{.5em}
-\textbf{\texttt{git commit}}: Save changes from staging area to Git's history. 
+\textit{Commit (save) changes from staging area to Git's history.} 
     \begin{compactitem}
-    \item A commit creates a snapshot of the project's current state by adding the most recent changes (which have been added to the staging area) to Git's history. Commits should be accompanied with short, descriptive messages to describe the changes introduced in that commit (\texttt{git commit -m "Commit message"})
+    \item A commit creates a snapshot of the project's current state by adding the most recent changes (which have been added to the staging area) to Git's history. Commits should be accompanied with short, descriptive messages to describe the changes introduced in that commit.
     \end{compactitem}
 \vspace{.5em}
-\textbf{\texttt{git log}}: Show Git's history.
+\textit{Git History.}
     \begin{compactitem}
-    \item Git's log is a list of all the commits made in the current repository, and as such is a description of the project's history. The history can be very long and span multiple pages; to move forward one page, press the space bar, or "q" to quit viewing the log. To view the log in a more concise form, add the \texttt{--oneline} argument (\texttt{git log --oneline}).
+    \item Git's history (or "log") is a list of all the commits made in the current repository, and as such is a description of the project's history.
     \end{compactitem}
 \vspace{.5em}
-\textbf{\texttt{git push}}: Send locally committed changes to remote repository. 
+\textit{Push (send) locally committed changes to remote repository.} 
     \begin{compactitem}
     \item In the centralized workflow for collaboration as described in this tutorial, collaborators work on their own local repositories, and periodically send the changes that they have made to the central (remote) repository.
     \end{compactitem}
 \vspace{.5em}
-\textbf{\texttt{git pull}}: Receive changes from the remote repository. 
+\textit{Pull (receive) changes from the remote repository.}
     \begin{compactitem}
     \item To keep the local repository up-to-date with other collaborators' changes, users must periodically pull changes from the remote (central) repository. It is good practice to pull the most up-to-date version of the project every time before making changes, to avoid unnecessary conflicts.
     \end{compactitem}
 \end{tcolorbox}
 
-## Deleting a Git Repository
-
-Finally, users may sometimes choose to delete their Git repositories. Deleting a project is as simple as moving the containing folder(s) to Trash (Recycle Bin on Windows), which also deletes the Git project (the Git project is contained in a hidden `.git` file in the project's home folder.) If you wish to only delete the Git repository, but keep the project itself, you can delete the `.git` folder. Because the folder is hidden, it will not show up in the default graphical file explorer. You can remove this folder using the command line by navigating to the project's root folder, and using the following command:
-
-```bash
-rm -rf .git
-```
-
-We recommend caution with this operation, as it will permanently delete the `.git` folder, which may contain important information. To verify that the folder was deleted, you can list all the files and folders in the current working directory, including hidden ones, with the following command:
-
-```bash
-ls -la
-```
-
-To delete a repository on GitHub, use your internet browser to navigate to the repository's GitHub address, click Settings, then "Delete this repository". Be aware that if anyone has cloned this project to their computer, you cannot delete their cloned versions.
-
 # Discussion
 
-We have presented an introductory tutorial on using the Git version Control System for curating and collaborating on research assets in behavioral sciences. The essential Git workflow includes adding and committing incremental changes to a version controlled repository, which can then be collaboratively worked on by many researchers through the online GitHub platform. Although this tutorial includes enough material to get started, Git (and GitHub) is a vast ecosystem with great opportunities, some of which are further discussed by Perez-Riverol and colleagues [-@perez-riverol_ten_2016]. For example, the concept of "Born open data", where research data is automatically posted online upon collection, is made very easy with the Git + GitHub workflow [@rouder_what_2016]. The challenges to reproducibility are many, and they have only recently received the targeted attention they deserve in the collaborative effort to improve the reliability of empirical sciences. Curating research assets and focusing on the practical aspects of the scientific workflow is important for ensuring the continuity of one's work, and for efforts toward a cumulative and reliable science.
+We have presented an introductory tutorial on using the Git version Control System for curating and collaborating on research assets in behavioral sciences. The essential Git workflow includes adding and committing incremental changes to a version controlled repository, which can then be collaboratively worked on by many researchers through the online GitHub platform. Box 2 summarizes the main Git operations and their purported use in roughly the order in which they would be used in a typical workflow. In Box 3 we give links to online materials that we have found particularly helpful in learning Git and teaching it to others. 
+
+Using Git from R Studio is an especially attractive option for Psychologists because the R Studio IDE offers a complete environment for project management, data analysis, and manuscript preparation with the R Markdown and knitr R packages [@allaire_rmarkdown:_2016; @xie_knitr:_2016]. Psychologists will be especially interested in the papaja package for creating APA formatted manuscripts [@aust_papaja:_2016]. The source code of this manuscript, which was prepared with the papaja package, can be found at <https://github.com/mvuorre/reproguide-curate>.
+
+Although this tutorial includes enough material to get started, Git (and GitHub) is a vast ecosystem with great opportunities, some of which are further discussed by Perez-Riverol and colleagues [-@perez-riverol_ten_2016]. For example, the concept of "Born open data", where research data is automatically posted online upon collection, is made very easy with the Git + GitHub workflow [@rouder_what_2016]. The challenges to reproducibility are many, and they have only recently received the targeted attention they deserve in the collaborative effort to improve the reliability of empirical sciences. Curating research assets and focusing on the practical aspects of the scientific workflow is important for ensuring the continuity of one's work, and for efforts toward a cumulative and reliable science.
 
 <!-- Box 3. Further resources for learning Git -->
 \begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 3. Further resources for learning Git]
