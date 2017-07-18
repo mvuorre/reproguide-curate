@@ -4,6 +4,8 @@ GitHub repository for a Git tutorial for Psychologists and Behavioral Scientists
 
 Authors: [Matti Vuorre](mv2521@columbia.edu) & James P. Curley
 
+**Status: Submitted** (preprint [here](https://osf.io/preprints/psyarxiv/6tzh8/)).
+
 ## How to contribute
 
 The manuscript is written in [R Markdown](http://rmarkdown.rstudio.com/) with the [papaja](https://github.com/crsh/papaja) R package. The source file is `manuscript/manuscript.Rmd` (knit to view resulting PDF.)
