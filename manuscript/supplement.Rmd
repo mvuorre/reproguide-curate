@@ -42,17 +42,20 @@ library(papaja)
 library(tidyverse)
 ```
 
+\newpage
 This is a supplemental file to "Curating Research Assets in Behavioral Sciences". In this file, we show how to set up and use Git from the computer's command line, and highlight some more advanced Git functionality. The commands in this supplemental file run approximately parallel to the Git operations executed through the R Studio GUI in the main text.
 
 # Git setup
 
-Once you have installed Git, you can use it from the computer's command line or through a GUI. Before using a GUI, it is important to learn a few basic Git commands from the OSs command line, because it is simultaneously the most basic and most flexible interface to Git's functionality. Understanding the basic Git commands as entered through the computer's command line also facilitates understanding its more advanced uses, and is highly recommended.
+Once you have installed Git, you can use it from the computer's command line or through a GUI. Although you can use Git with a GUI, it is important to learn a few basic Git commands from the OSs command line, because it is simultaneously the most basic and most flexible interface to Git's functionality. Understanding the basic Git commands as entered through the computer's command line also facilitates understanding its more advanced uses, and is highly recommended. For some Git functions, such as identifying its user, you will need to use a few command line functions, shown below. Before getting to the commands, we provide a brief introduction on how to use the computer's command line.
 
 ## The command line
 
 The command line is a text-based interface for interacting with your computer, and its functionality greatly extends that of the standard way of interacting with the computer by clicking and pointing with a mouse. Many advanced techniques require using your computer through a command line, and it is very helpful in e.g. scripting and scheduling tasks on your computer. Here, we introduce the command line in just enough detail so that you can navigate folders on the computer, and set up Git's basic configuration (identify Git's user).
 
 To access the command line interface, you need to use a command line "shell" application. Mac users can open the built-in app Terminal, and Windows users can use the Git Bash application, which is installed with the Windows Git program. After opening the command line shell, you can type in commands and execute them by pressing Return (Mac) or Enter (Windows). The most common command line functions are listed in Table \@ref(tab:cli-commands-table).
+
+First, you need to know how to navigate the folders on your computer (a task that is typically done by clicking folders in Finder (Mac) or File Explorer (Windows)). This is important because whenever you execute commands in the command line, they are executed in a specific directory. Usually, when you open up your command line shell, you begin in the user's home directory (or folder, we use these terms interchangeably). Depending on your operating system, the home directory is usually represented with a `~` on the left side of the cursor. To ask for the current working directory, you can use the function `pwd`. To move up in the directory hierarchy (into the folder that contains the current directory), you can use `cd ..` (note the space). To move into a folder that is inside the current working directory, you can use `cd folder` where `folder` is the name of the desired folder. These command line functions are illustrated in Figure \@ref(fig:cli-intro) with the Mac Terminal application.
 
 ```{r cli-commands-table, results = 'asis'}
 cli_tab <- tibble(
@@ -67,17 +70,13 @@ apa_table(cli_tab,
           note = "Execute the commands in your command line shell application (e.g. Terminal (Mac) or Git Bash(Windows)) by pressing Return (Mac) or Enter (Windows).")
 ```
 
-First, you need to know how to navigate the folders on your computer (a task that is typically done by clicking folders in Finder (Mac) or File Explorer (Windows)). This is important because whenever you execute commands in the command line, they are executed in a specific directory. Usually, when you open up your command line shell, you begin in the user's home directory (or folder, we use these terms interchangeably). Depending on your operating system, the home directory is usually represented with a `~` on the left side of the cursor. To ask for the current working directory, you can use the function `pwd`. To move up in the directory hierarchy (into the folder that contains the current directory), you can use `cd ..` (note the space). To move into a folder that is inside the current working directory, you can use `cd folder` where `folder` is the name of the desired folder. These command line functions are illustrated in Figure \@ref(fig:cli-intro) with the Mac Terminal application.
-
 ```{r cli-intro, fig.cap="The Terminal command line shell. The functions are explained in more detail in the text. Each command (prepended with a \\$ symbol) is followed by its output on the following line. To the left of the \\$ symbol, this user's shell application displays the user's user name and the current directory in square brackets. Here, the outputs are directories separated with forward slashes, and top-most (containing, also known as parent) folders are on the left of their subfolders (also known as children). Your command line interface might look slightly different because of different user and folder names, operating systems, and command line shell applications."}
 knitr::include_graphics("images/terminal-commands.png")
 ```
 
-Some users may find using a text-based command line interface unfamiliar, but to get started with Git, there are two required configuration commands which you need to run once, and the basic functionality requires using only four commands[^cli-links]. However, users can also read through the first part of the tutorial without executing the commands and simply focus on the workflow; we show how to use Git with a GUI in the second part of the tutorial.
-
 ## Setting Git's user information
 
-The first step in using Git is making it aware of who is using the computer. You need to set the user's name and email address by entering a few basic commands in the command line. First, to show the current user information, run the following command in the command line: 
+Some users may find using a text-based command line interface unfamiliar, but to get started with Git, there are two required configuration commands which you need to run once, and the basic functionality requires using only a handful of commands[^cli-links]. The first step in using Git is making it aware of who is using the computer. You need to set the user's name and email address by entering a few basic commands in the command line. First, to show the current user information, run the following command in the command line: 
 
 ```bash
 $ git config --global user.name 
@@ -111,7 +110,7 @@ To create a new folder for the Git repository, you first choose an appropriate f
 
 ## Initializing a Git Repository
 
-Once you are in the folder where you want to create the project, type `mkdir git-example` to make the `git-example` directory, then `cd git-example` to move into it. You can, of course, also use the point-and-click interface (Finder or File Explorer) to create folders, instead of the `mkdir` command. Once you are in the project's home folder (you can verify where you are by typing `pwd`), you can turn the folder into a Git repository by initializing Git with the `git init` command. These commands are shown in Figure \@ref(fig:git-initialize)
+Once you are in the folder where you want to create the project, type `mkdir git-example` to make the `git-example` directory, then `cd git-example` to move into it. You can, of course, also use the point-and-click interface (Finder or File Explorer) to create folders, instead of the `mkdir` command. Once you are in the project's home folder (you can verify where you are by typing `pwd`), you can turn the folder into a Git repository by initializing Git with the `git init` command. These commands are shown in Figure \@ref(fig:git-initialize).
 
 ```{r git-initialize, fig.cap = "Creating and navigating to a folder, and initializing it as a Git repository."}
 knitr::include_graphics("images/git-initialize.png")
@@ -269,7 +268,7 @@ We often find that making some changes to a project didn't have the desired effe
 $ git checkout experiment-1/analysis/plan_n.R
 ```
 
-Notice that you have to write the full path of the file (relative to the project's root) so that Git knows precisely which file you want to checkout from history. With these example operations, we have discussed the main Git operations: Make changes to files, **add** them to the staging area, **commit** to history; **checkout** from history to undo changes. Although these operations are enough to maintain a Git repository, we have only scratched the surface of Git's functionality.
+Notice that you have to write the full path of the file (relative to the project's root) so that Git knows precisely which file you want to checkout from history. With these example operations, we have discussed the main Git operations: Make changes to files, **add** them to the staging area, **commit** to history; **checkout** from history to undo changes. 
 
 ### Undo committed changes
 
