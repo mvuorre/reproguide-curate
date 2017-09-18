@@ -98,17 +98,27 @@ knitr::include_graphics("../data/git-diagram.png")
 
 Version control software has a long history in software engineering, and there are many VCS programs. Some popular ones are Apache Subversion[^subversion], Mercurial[^mercurial], and Git[^git-name]. In this tutorial, we focus on Git because it is already increasing in popularity within the scientific community, and is especially good for scientific collaboration because of online tools which allow seamless collaboration even for very large research teams. One of these online tools is GitHub, which we discuss in more detail below. Further, Git is free and open source, works on Windows, Mac, and Linux operating systems (among others). 
 
+[^subversion]: <https://subversion.apache.org/>
+[^mercurial]: <https://www.mercurial-scm.org/>
+[^git-name]: <https://git-scm.com/>. The creator of Git, Linus Torvalds (who also is the principal developer of the Linux operating system), named Git after himself as "the stupid content tracker" (@mcmillan_after_2005; <https://git-scm.com/docs/git.html>)
+
 Git, unlike the operating system's (OS) default file viewer (Mac's Finder, Windows' File Explorer), is not a point-and-click program for navigating files and folders on a computer. Instead, Git adds functionality to the existing file system, by making available a specific set of commands---either executed from a graphical point-and-click user interface (GUI) or from the computer's command line---which allow keeping track of files and their history, and distributing the files across multiple computers and users. Because Git is a standalone program not usually included in standard OS installs, users must first download and install the Git software on their computers. 
 
 ## Installing Git
 
 Even if you already have Git installed (some computers do) it is good practice to install the latest version[^git-version], which can be downloaded as a standalone program from <https://git-scm.com/download>. For Mac users, the easiest way to install or update Git to the latest version is to download the installer from <http://git-scm.com/download/mac>, and install it like any other program. Similarly, Windows users can download the Git software installer from <http://git-scm.com/download/win> and install it like any other application. Linux (and other) users can download Git and find further install instructions on the Git website (<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>). 
 
+[^git-version]: As of the writing of this article, the current version of Git is 2.13.1.
+
 After the Git software has been installed, its functions are available to the computer's users through various Git clients. In this tutorial, we show how to use Git with R Studio. We also present more detailed instructions for using Git from the command line in the supplement.
 
 # Using Git with a Graphical Interface
 
 The first operating principle of Git is that your work is organized into independent projects, which Git calls *repositories*[^git-link-submodules]. A repository is a folder on your computer which is version controlled by Git[^git-folder], and can itself contain subfolders. Everything that happens inside a repository is tracked by Git, but you have full control of what is committed to Git's history and when. Because you have full control of what and when is committed to history, there is a small set of operations you need to know[^git-cheat-sheet].
+
+[^git-link-submodules]: For advanced users, Git *submodules* allow linking projects to each other, or organizing more complex projects into projects and their sub-projects (<https://git-scm.com/book/en/v2/Git-Tools-Submodules>).
+[^git-cheat-sheet]: It helps to have a Git command cheat sheet (<https://services.github.com/resources/cheatsheets/>) printed and taped on your wall, but it contains many more commands than are needed for the basic use of Git in standard Psychology studies.
+[^git-folder]: There are no visible changes to a folder once it is tracked by Git. Once Git is initialized in a folder, the only change is that a hidden folder, called `.git` is added, but users do not need to interact with it directly.
 
 Briefly, when you work in a Git repository (make changes to files within it), Git monitors the state of each file, and when they change Git knows that they differ from the previously logged state. If you are happy with the current changes, you **add** the changed files to Git's "staging area". If you then are certain that the changes in the staging area are desirable, you **commit** the changes. These two operations are the backbone of using Git to store the state of the project whenever meaningful changes are made. Importantly, each commit in the repository's history contains information to recover the full state of the project at that point in time. Users can always go back to an earlier version by **checking out** a previous state from Git's history (Figure \@ref(fig:git-diagram)).
 
@@ -118,9 +128,14 @@ To understand the Git workflow in practice, we now turn to a practical example u
 
 R Studio[^rstudio-link] is an integrated development environment (IDE; @rstudio_team_rstudio:_2016) for the R programming language [@r_core_team_r:_2017][^r-not-required]. It incorporates tools that are useful throughout the scientific research cycle, including project organization, data analysis, and writing manuscripts. To these ends, R Studio also includes a graphical interface for using Git. 
 
+[^rstudio-link]: R Studio is a free and open source IDE, works on Windows, Mac, and Linux operating systems, and can be downloaded from the project's website at <https://www.rstudio.com/products/rstudio/download/>.
+[^r-not-required]: Although in this example we refer to the R programming language, Git can be used through the R Studio GUI even if you do not use R (or any other programming language.) 
+
 ## Organizing Files and Folders
 
 Implementing reproducibility into the scientific workflow is less time-consuming and effortful if it is planned from the onset of the project, rather than added to the project after all the work has been completed. It is therefore important to organize the project keeping a few key goals in mind (here, we follow guidelines such as the Project TIER recommendations[^tier-link]): Files and folders should have easy to understand names (avoid idiosyncratic naming schemes), and the names should indicate the purposes of the files and folders. We illustrate some good and not-so-good practices in Figure \@ref(fig:organizing-files).
+
+[^tier-link]: <http://www.projecttier.org/tier-protocol/specifications/>
 
 ```{r organizing-files, fig.cap = "Organizing a project's files and folders helps potential collaborators (including yourself in the future) to quickly and reliably find the correct files. Some bad practices (left panel) include having multiple versions of each file, increasing the potential for e.g. accidentally using the wrong data for the analysis, or forgetting which version was used in the analysis. Better practices (right panel) organize the data to subfolders with meaningful names, and have one file per purpose. These files are then versioned using Git, eschewing the need for multiple files, thereby reducing potential for mistakes."}
 knitr::include_graphics("images/project-organization.png")
@@ -157,6 +172,8 @@ knitr::include_graphics("images/rstudio-git-2.png")
 ```
 
 Every project (repository) should contain a brief note explaining what the project is about and who to contact. This note is usually called a readme file, and therefore our first proper contribution to this project will be a README file (this file is so important that it has become standard practice to write it in capital letters). The README file should be a plain text `.txt` file (i.e. not created with Microsoft Word or similar) that can be read with a simple text editor[^plain-text]. Create this file with R Studio's text editor (click "File" -> "New File" -> "Text File"), and save it to the project's root folder. Once you have saved the file (into the project's home folder), it will be visible in R Studio's Git panel (with yellow question marks, indicating it is a new file). Once you are happy with the README file's contents, stage the file by checking the radio button, write a commit message, and click "Commit". This initial version of the README file is now saved in Git's history, and can be later retrieved. Notice also that after the commit the Git panel in R Studio is empty; there are no changes to the repository.
+
+[^plain-text]: Plain text has many advantages over proprietary file formats such as Microsoft Word's .docx files. Briefly, plain text is both human and computer readable (.docx are unreadable without a copy of Microsoft Word), is both forward and backward compatible (there will always, and has always been, software capable of reading it), and plain text takes very little space. The file extension (the `.docx` part of a Word file's name, for example) of plain text doesn't matter much, but we recommend using either `.txt` because it is widely recognized, `.md` for markdown syntax, or in the case of a readme file, simply not using any file extension.
 
 ```{r rstudio-git-3, fig.cap = "Git's description of changes within a commit. This commit changed two files and inserted a total of 17 lines of text."}
 knitr::include_graphics("images/rstudio-git-3.png")
@@ -195,7 +212,11 @@ admin/
 manuscript/*.pdf
 ```
 
+[^ignore-by-git]: Files specified in `.gitignore` are only ignored by Git; they will still behave just like any other file in your local computer's hard drive.
+
 After saving these changes to the `.gitignore` file, R Studio's Git panel shows that the `.gitignore` file has changed, and that there are changes in the `experiment-1/` folder. To reveal which files have changed in the folder, click on the "Staged" radio button next to the folder, which will then select the only changed file in that folder (the `plan_n.R` file). Because there are now two untracked files, which are not specified to be ignored in `.gitignore` (`.gitignore` and `plan_n.R`), and you usually should aim to maintain a clean commit history for the project, you should create two separate commits: One for the `.gitignore` file, and one for the power analysis file.[^when-to-commit] 
+
+[^when-to-commit]: It is entirely up to the user to decide what to commit and when. However, it is best practice to commit often while making incremental changes. Each commit should aim to solve one problem, introduce one new idea, or---more generally---do one thing. This way, when the commit history is reviewed later, it is easy to find and come back to a specific change.
 
 After committing the `plan_n.R` file to Git's history, you can at any time come back to this commit with Git's history and see what was inside the newly created power analysis file. For instance, if new information suggests that you should change the assumed effect size in the power analysis, you can simply edit and save the file, then add and commit the changes to Git with a helpful message that logs this important event in Git's history.
 
@@ -223,6 +244,7 @@ knitr::include_graphics("../data/git-diagram-collaborate.png")
 
 GitHub is one of the 100 most popular website worldwide, and hosts over 60 million software projects with a total of over 20 million users.[^github-stats] We chose GitHub for collaboration because it is already the de facto standard among scientists who use VCS, it offers free private repositories (see below), and repositories from GitHub can easily be connected to projects hosted on the Open Science Framework (<https://osf.io>)[^osf-connect].
 
+[^github-stats]: <https://github.com/about>.
 [^osf-connect]: Open Science Framework (OSF) is a website designed for organizing and communicating research materials, and is quickly becoming a popular service for e.g. sharing data sets and stimuli. Researchers can link projects on GitHub to their OSF projects by following on-screen instructions on the OSF website: <http://help.osf.io/m/addons/l/524148-connect-add-ons>.
 
 New GitHub users must first create a free user account at <https://github.com>. Then, to use GitHub with local Git repositories, you must configure your local Git program to know your name, and especially your email address (GitHub will use your email address for authorization purposes). To configure your local Git program, please refer to the supplemental file, where we show how to use the command line for configuring Git. You must create the GitHub account with the same email address that you used when configuring your local Git (or re-configure your local Git to use your the email address that you used to register for GitHub).
@@ -288,6 +310,8 @@ knitr::include_graphics("images/rstudio-git-pull-merge.png")
 
 The options for dealing with conflicts within R Studio's Git panel are somewhat limited, and we present a more detailed tutorial on managing conflicts with Git's command line tools in the supplemental. How these potential conflicts appear depends on how users collaborate with one another, and a detailed explanation of all potential scenarios is outside the scope of this tutorial[^more-on-conflicts]. Most importantly, even in the event of conflicts, all committed changes are saved in Git's history and can be retrieved, so experimenting with different approaches to resolving conflicts is safe. 
 
+[^more-on-conflicts]: Covering all different types of file conflicts is outside the scope of this tutorial. Although the instructions provided herein will help in most common use case scenarios, readers can refer to the following websites for more information: <https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line/> and <https://www.atlassian.com/git/tutorials/comparing-workflows>. You can also resolve conflicts on GitHub (<https://help.github.com/articles/resolving-a-merge-conflict-on-github/>), and the GitHub customer service (<https://github.com/contact>) is very responsive to users' help requests, which can include questions on code conflicts.
+
 ## Private or public collaboration?
 
 By default, all GitHub repositories are public: Anyone with an internet connection can use their web browser to inspect the contents of your repository, or even clone it to their computer. This may sound unfamiliar to researchers used to working more privately, and clearly necessitates planning and thought with respect to issues such as data privacy and sharing sensitive materials. However, for many projects---including the writing of this tutorial---we see very few downsides to working "in the open".
@@ -295,6 +319,8 @@ By default, all GitHub repositories are public: Anyone with an internet connecti
 There are two alternatives to working in a public GitHub repository: One, which we won't cover here, is to not use GitHub but instead place the central repository on the research team's private server. The second option is to make the repository private on GitHub (this can be done when the repository is first created or afterwards by clicking Settings on the repository's website). Private repositories, and their contents, are only accessible to invited team members, and are therefore ideal for small teams who would like to work without revealing their master plans to the public just yet. For example, you might initially choose to work in a private repository, and only make it public once you feel the material is mature enough for public consumption.
 
 To make a GitHub repository private, navigate to the repository's website with a web browser, and click "Settings", then "Make this repository private". Once one user has set the central GitHub repository to private mode, anyone wishing to clone, push, pull, or view the repo must provide their GitHub username and password. Only if they match an invited team members username and password can the user access the repository. At the time of this writing, GitHub offers five private repositories for free[^github-private]. 
+
+[^github-private]: To obtain the free repositories, fill out the request form at <https://education.github.com/discount_requests/new>. Students with .edu email addresses, can obtain unlimited free repositories at <https://education.github.com/pack>.
 
 <!-- Box 2. Git summary -->
 \begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 2. Main Git operations]
@@ -363,32 +389,6 @@ MV and JPC designed the format of the tutorial, MV drafted the manuscript, MV an
 We thank Travis Riddle and Judy Xu for feedback on earlier drafts of this manuscript. This work was supported, in part, by Institute of Education Science grant (R305A150467). The authors are solely responsible for the content of this article.
 
 \newpage
-
-<!-- Footnotes -->
-[^git-version]: As of the writing of this article, the current version of Git is 2.13.1.
-[^git-name]: <https://git-scm.com/>. The creator of Git, Linus Torvalds (who also is the principal developer of the Linux operating system), named Git after himself as "the stupid content tracker" (@mcmillan_after_2005; <https://git-scm.com/docs/git.html>)
-[^simple]: By "simple", we only mean that the technical aspects of the project, related to curating its materials, are simple. We of course do not suggest that there might be anything theoretically or scientifically simple in such projects.
-[^cli-links]: If using a text-based command line seems challenging, Codecademy (<https://www.codecademy.com/learn/learn-the-command-line>) has a free interactive online tutorial, and MIT offers a free online game to teach using the command line (<http://web.mit.edu/mprat/Public/web/Terminus/Web/main.html>).
-[^git-link-submodules]: For advanced users, Git *submodules* allow linking projects to each other, or organizing more complex projects into projects and their sub-projects (<https://git-scm.com/book/en/v2/Git-Tools-Submodules>).
-[^git-cheat-sheet]: It helps to have a Git command cheat sheet (<https://services.github.com/resources/cheatsheets/>) printed and taped on your wall, but it contains many more commands than are needed for the basic use of Git in standard Psychology studies.
-[^tier-link]: <http://www.projecttier.org/tier-protocol/specifications/>
-[^git-branches]: A particularly powerful approach for trying new features is **branching**: The project can be duplicated to a new branch and modified, then merged back to the main branch after work on the new feature is complete---or the new branch can be discarded if the work ended unsatisfactory. Branches are outside the scope of this tutorial, for more information see the Git website (<https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell>).
-[^subversion]: <https://subversion.apache.org/>
-[^mercurial]: <https://www.mercurial-scm.org/>
-[^git-folder]: There are no visible changes to a folder once it is tracked by Git. Once Git is initialized in a folder, the only change is that a hidden folder, called `.git` is added, but users do not need to interact with it directly.
-[^plain-text]: Plain text has many advantages over proprietary file formats such as Microsoft Word's .docx files. Briefly, plain text is both human and computer readable (.docx are unreadable without a copy of Microsoft Word), is both forward and backward compatible (there will always, and has always been, software capable of reading it), and plain text takes very little space. The file extension (the `.docx` part of a Word file's name, for example) of plain text doesn't matter much, but we recommend using either `.txt` because it is widely recognized, `.md` for markdown syntax, or in the case of a readme file, simply not using any file extension.
-[^dot-shortcut]: For the `.` shortcut to work, you must currently be in the project's root directory. If you are not in the root directory, you can use `-A` shortcut instead. However, we recommend that you always ensure that you are in the project's root directory when running any Git commands.
-[^when-to-commit]: It is entirely up to the user to decide what to commit and when. However, it is best practice to commit often while making incremental changes. Each commit should aim to solve one problem, introduce one new idea, or---more generally---do one thing. This way, when the commit history is reviewed later, it is easy to find and come back to a specific change.
-[^undoing-more-info]: For more information on undoing changes, see <https://www.atlassian.com/git/tutorials/undoing-changes>.
-[^undo-the-revert]: If, for some reason, you preferred the latest version after all, you can undo the revert process by `git checkout HEAD file.txt`, instead of adding and committing the older version. This function checks out the current state ("`HEAD`") which contained the bad changes.
-[^pull-rebase]: For more information, see <https://www.atlassian.com/git/tutorials/comparing-workflows>.
-[^github-private]: To obtain the free repositories, fill out the request form at <https://education.github.com/discount_requests/new>. Students with .edu email addresses, can obtain unlimited free repositories at <https://education.github.com/pack>.
-[^more-on-conflicts]: Covering all different types of file conflicts is outside the scope of this tutorial. Although the instructions provided herein will help in most common use case scenarios, readers can refer to the following websites for more information: <https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line/> and <https://www.atlassian.com/git/tutorials/comparing-workflows>. You can also resolve conflicts on GitHub (<https://help.github.com/articles/resolving-a-merge-conflict-on-github/>), and the GitHub customer service (<https://github.com/contact>) is very responsive to users' help requests, which can include questions on code conflicts.
-[^github-stats]: <https://github.com/about>.
-[^rstudio-link]: R Studio is a free and open source IDE, works on Windows, Mac, and Linux operating systems, and can be downloaded from the project's website at <https://www.rstudio.com/products/rstudio/download/>.
-[^touch]: You can also create this file in the command line by using the `touch` command: `touch .gitignore`. You can then open the file with a text editor to make changes to it.
-[^r-not-required]: Although in this example we refer to the R programming language, Git can be used through the R Studio GUI even if you do not use R (or any other programming language.) 
-[^ignore-by-git]: Files specified in `.gitignore` are only ignored by Git; they will still behave just like any other file in your local computer's hard drive.
 
 # References
 
