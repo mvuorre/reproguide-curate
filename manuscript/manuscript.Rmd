@@ -33,6 +33,7 @@ output            : papaja::apa6_pdf
 header-includes:
    - \usepackage{tcolorbox}
    - \usepackage{paralist}
+   - \usepackage{multicol}
 ---
 
 ```{r include = FALSE}
@@ -48,65 +49,63 @@ library(tidyverse)
 \newpage
 # Introduction
 
-Lack of reproducibility is increasingly recognized as a problem across scientific disciplines, and calls for changing the scientific workflow to enhance reproducibility have been published in a wide range of research areas, including Biology [@markowetz_five_2015], Ecology [@ihle_striving_2017], Neuroscience [@eglen_toward_2017] and Psychology [@munafo_manifesto_2017]. Some studies suggest that one specific challenge to reproducibility is the ways in which researchers organize, curate, share, and collaborate on their research assets---e.g. data and code used to analyze the data---which support a research article's conclusions [@vanpaemel_are_2015; @wicherts_poor_2006]. 
+Lack of reproducibility is increasingly recognized as a problem across scientific disciplines, and calls for changing the scientific workflow to enhance reproducibility have been published in a wide range of research areas, including Biology [@markowetz_five_2015], Ecology [@ihle_striving_2017], Neuroscience [@eglen_toward_2017] and Psychology [@munafo_manifesto_2017]. Studies suggest that one specific challenge to reproducibility is the ways in which researchers organize, curate, share, and collaborate on their research assets [@vanpaemel_are_2015; @wicherts_poor_2006]. By assets, we mean e.g. stimuli, data, and code used to support a research article's conclusions. 
 
-Fortunately for the empirical sciences, challenges related to organizing and curating materials across time, space, and collaborators have been solved to a high standard in computer science with Version Control Systems (VCS). In this tutorial article, we introduce a popular VCS called Git, and illustrate its use in the scientific workflow with a hypothetical example project. We show how to use Git with a Graphical User Interface (GUI) implemented in the popular R Studio Integrated Development Environment (IDE; @rstudio_team_rstudio:_2016), and include an appendix for more advanced command line Git functions. We also show how to use Git with the popular online service GitHub for collaborative workflows. Learning how to use Git(Hub) will streamline workflows and help researchers stay better organized, and thereby facilitate reproducibility.
+Fortunately for the empirical sciences, challenges related to curating materials across time, space, and collaborators have been solved to a high standard in computer science with Version Control Systems (VCS). In this tutorial article, we introduce a popular VCS called Git, and illustrate its use in the scientific workflow with a hypothetical example project. We show how to use Git with a Graphical User Interface (GUI) in the R Studio program [@rstudio_team_rstudio:_2016], and include an online appendix for more advanced command line Git functions. We also show how to use Git with the online service GitHub for collaborative workflows. Learning how to use Git(Hub) will streamline workflows and help researchers stay better organized, and thereby facilitate reproducibility.
 
-# Version Control Systems
+## Version Control Systems
 
-VCS are computer programs designed for tracking changes to computer code, and collaborating on the code with others. They were initially developed by software engineers for writing code collaboratively[^vcs-collaborate], but are increasingly being adopted to enhance workflows outside computer science. To help understand why, it is helpful to think of "code" more broadly as any text written on a computer: Manuscripts, books, statistical analysis scripts, source code of computerized experiments, and even data files are "code", or have source code. Code is just plain text written on a computer, and when we use the word "code" in this tutorial, we mean it in this broad sense (e.g. this manuscript's source "code" was written on a computer, and was version controlled.[^repo-address])
+Consider collaborating with one person on a manuscript that reports results from a data set using some statistical model. In a typical workflow, one person might format the raw data in a specific way to fit a statistical model, and then write a draft of the manuscript. This would create three files: `data.csv`[^csv], `analysis.R`[^r-file], and `manuscript.docx`. If the coauthor then decided to use another statistical model, which requires the data in a different format, and then edited the manuscript, she would create three more files: `data_new.csv`, `analysis_new.R`, and `manuscript_new.docx`. This cycle would then repeat as many times as required, each time creating more files, making it more and more difficult for the authors to remember which data was paired with which analysis, and which analyses (and data format) were reported in which version of the paper. 
+
+[^csv]: `.csv` stands for comma separated values, and is a plain text file commonly used to store two-dimensional data. In other words, `.csv` files can be considered as machine-readable spreadsheets.
+[^r-file]: A file with the `.R` extension contains computer code in the R language for conducting statistical analyses.
+
+With VCS, the project would contain three files only (data, analysis, and manuscript): The VCS would keep track of changes to the files and their different versions, therefore removing the need for new files for every new idea or edit. This lack of duplicity, in turn, possibly reduces room for error in remembering which data file was linked with which analysis, and which manuscript version had the correct numerical results, and so forth. Box 1 shows practical examples of scenarios where VCS (specifically, Git, see below) can be used to improve the scientific workflow. To get a birds-eye view of the Git workflow, readers can refer to Figures \@ref(fig:git-diagram) and \@ref(fig:git-diagram-collaborate).
+
+VCS were initially developed for writing code collaboratively[^vcs-collaborate], but are increasingly being adopted to enhance workflows outside computer science. To help understand why, it is helpful to think of "code" more broadly as any text written on a computer: Manuscripts, books, statistical analysis scripts, source code of computerized experiments, and even data files are "code", or have source code. Code is just plain text written on a computer, and when we use the word "code" in this tutorial, we mean it in this broad sense (e.g. this manuscript's source "code" was written on a computer, and was version controlled.[^repo-address]) Furthermore, metadata, stimuli, study notes, and other research documents often go through multiple revisions, and could therefore benefit from being version controlled.
 
 [^vcs-collaborate]: The software we present below is used by major software developers such as Microsoft, Google, and Facebook on code bases with hundreds of contributors.
 [^repo-address]: This manuscript's source can be found at <https://github.com/mvuorre/reproguide-curate>.
 
 For example, a computerized behavioral experiment's source code (text written by humans but interpreted by computers to e.g. display stimuli to participants) may have multiple authors and go through multiple versions. Keeping track of the experimental program's versions and changes to its source code, and allowing many authors to contribute to it (without breaking the experimental program) are problems that VCSs were specifically designed for. It might be less obvious that writing a manuscript is quite similar, at least as far as the computer is concerned: Multiple authors write multiple versions of a text document, and sometimes previous versions need to be inspected, and the text needs to be merged across the many authors. Even less obvious is that datasets are often plain text "code": In most computerized behavioral experiments, the output data are numbers and text written into a text file. These text files can be version controlled, and researchers would usually not want to see that their raw data files have changed after they were created---VCS allows verifying that they haven't changed because their history is logged.
 
-## What Problems Do VCS address?
-
-To understand why VCSs are so useful, we contrast an example scenario with VCS to what we believe is a fairly standard workflow that doesn't use VCS. Consider collaborating with one person on a manuscript that reports results from a data set using some statistical model. In the standard workflow, one person might format the raw data in one way to fit a statistical model, and then write a draft of the manuscript. This would create three files: `data.csv`[^csv], `analysis.R`[^r-file], and `manuscript.doc`. If the coauthor then wished to explore another statistical model, which requires the data in a different format, and then edit the manuscript, she would create three more files: `data_new.csv`, `analysis_new.R`, and `manuscript_new.doc`. This cycle would then repeat as many times as required, each time creating more files, making it more and more difficult for the authors to remember which data was paired with which analysis, and which analyses (and data format) were reported in which version of the paper. 
-
-[^csv]: `.csv` stands for comma separated values, and is a plain text file commonly used to store two-dimensional data. In other words, `.csv` files can be considered as machine-readable spreadsheets.
-[^r-file]: A file with the `.R` extension contains computer code in the R language for conducting statistical analyses.
-
-VCS greatly streamlines this workflow: With VCS, the project would contain three files only (data, analysis, and manuscript), but they would all be under version control, which would keep track of changes to the files and their different versions. Because VCS monitors changes to the files and saves each file's history, creating new files for every new idea or edit is unnecessary. This lack of duplicity, in turn, possibly reduces room for error in remembering which data file was linked with which analysis, and which manuscript version had the correct numerical results, and so forth. Further, as we explain below, VCS allows many coauthors to work on the files simultaneously, eschewing the need for emailing different versions of the same file to the coauthors, then waiting for them to make changes before continuing with your work. Box 1 shows practical examples of scenarios where VCS (specifically, Git, see below) can be used to improve the scientific workflow. To get a birds-eye view of the Git workflow, before beginning with the details, we suggest readers to inspect Figures \@ref(fig:git-diagram) and \@ref(fig:git-diagram-collaborate) at this point.
-
-<!-- Box 1. Examples of problems in psychology solved by Git. -->
+<!-- Box: Examples of problems in psychology solved by Git. -->
 \begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 1. How Git facilitates the scientific workflow.]
-How to try different ways of visualizing and modeling data while keeping track of the different versions---and the differences between them?
+How to try different ways of visualizing data while keeping track of my work?
     \begin{compactitem}
-    \item Git saves each version of the analysis, allowing testing new features without losing previous versions or proliferating files in the project's directories. All the past versions can be directly compared with each other, and retrieved from the Git's history.
+    \item Whenever requested, Git saves a file's current version, allowing testing new features without losing previous versions or proliferating files in the project's directories. Any past version can be retrieved from Git's history. In contrast, without Git one needs to create a different file for each version of the analysis. This can lead to unwieldy projects where unnecessary effort is required to identify the most up-to-date or appropriate versions of files.
     \end{compactitem}
 \vspace{.5em}
 How to work on the same code or manuscript files simultaneously with collaborators?
     \begin{compactitem}
-    \item Git was designed for distributed collaborative work: Collaborators work on their local copies and "push" and "pull" material to and from each other or a central "repository". Git keeps precise track of who has done what, when, and (possibly) why. Git never loses information or overwrites work with another collaborator's work, but allows for many authors to work on the same ideas simultaneously.
+    \item Collaborators work on their local projects and send and receive material to and from a central copy of the project. Git keeps track of who has done what, when, and (possibly) why. Git never loses information or overwrites work with another collaborator's work, unless asked to do so, but allows for collaborators to work on the same ideas simultaneously. In contrast, emailing files back and forth leaves more room for error, and makes it more difficult for collaborators to work on the same files simultaneously. The popular Dropbox service keeps track of files' old versions for 30 days, but doesn't keep track of who has done what, or allow recovering older work. Microsoft Word allows 'tracking changes', but once changes are 'accepted' and the file saved, previous versions cannot be recovered. 
     \end{compactitem}
 \vspace{.5em}
 How to share work easily, safely, and in an organized manner?
     \begin{compactitem}
-    \item Git enforces a common organization scheme among collaborators, making it easier to keep everyone "on the same page" with what goes where, and how to contribute to specific parts of the project. Git projects are shared as a whole, so complex projects with multiple files linking to each other are easy to share. Sharing projects with others is built into Git, and can be facilitated with online services such as GitHub: Once a project uses Git, it can be very easily copied to GitHub, from where others can easily download the entire project onto their local computers.
+    \item Git enforces a common organization scheme among collaborators, making it easier to keep everyone "on the same page" with what goes where, and how to contribute to specific parts of the project. Git projects are shared as a whole, so complex projects with multiple files linking to each other are easy to share. Sharing projects with others is built into Git, and can be facilitated with online services such as GitHub: Once a project uses Git, it can be very easily copied to GitHub, from where others can easily download the entire project onto their local computers. In contrast, collaborating on a project on a shared server, for example, makes it difficult for two or more people to work on the same files at the same time.
     \end{compactitem}
 \end{tcolorbox}
 
 The core concepts of version control are that contributors to a project create small checkpoints of the changes they make to the source code---analogous to saving an intermediate version of a file on the computer's hard disk---and then submit those changes to the VCS. The VCS maintains a history of changes to the code between these little checkpoints, and therefore allows coming back to any earlier version by browsing the history. These concepts---i.e. the typical Git workflow---is illustrated in Figure \@ref(fig:git-diagram).
 
-```{r git-diagram, fig.cap = "A diagram illustrating the typical Git workflow. Verbs indicated in bold text are Git operations and explained in detail in the main text. In brief, this workflow consists of making changes to files in the project (such as editing a manuscript.) Once the revised version of the file is saved, the user adds the changed file to the staging area (1). Many files can be added to the staging area, if desired. Once the changes in the staging area reflect a conceptual entity, such as edits to an image file and its accompanying caption in the manuscript, the user then commits the changes to Git's history (2). These commits are accompanied with short commit messages that describe the changes made in that commit. Finally, when needed, changes to files can be discarded by checking out an earlier version of the file from Git's history. Figure adapted from https://git-scm.com/book/en/v2/Getting-Started-Git-Basics."}
+```{r git-diagram, fig.cap = "A diagram illustrating the typical Git workflow. Verbs indicated in bold text are Git operations and explained in detail in the main text. In brief, this workflow consists of making changes to files in the project (such as editing a manuscript.) Once the revised version of the file is saved, the user adds the changed file to the staging area (1). Many files can be added to the staging area, if desired. Once the changes in the staging area reflect a conceptual entity, such as edits to an image file and its accompanying caption in the manuscript, the user then commits the changes to Git's history (2). These commits are accompanied with short commit messages that describe the changes made in that commit. Finally, when needed, changes to files can be discarded by checking out an earlier version of the file from Git's history. We explain these terms and operations in more detail in the main text. Figure adapted from https://git-scm.com/book/en/v2/Getting-Started-Git-Basics."}
 knitr::include_graphics("../data/git-diagram.png")
 ```
 
 ## The Git Version Control System
 
-Version control software has a long history in software engineering, and there are many VCS programs. Some popular ones are Apache Subversion[^subversion], Mercurial[^mercurial], and Git[^git-name]. In this tutorial, we focus on Git because it is already increasing in popularity within the scientific community, and is especially good for scientific collaboration because of online tools which allow seamless collaboration even for very large research teams. One of these online tools is GitHub, which we discuss in more detail below. Further, Git is free and open source, works on Windows, Mac, and Linux operating systems (among others). 
+Version control software has a long history in software engineering, and there are many VCS programs. Some popular ones are Apache Subversion[^subversion], Mercurial[^mercurial], and Git[^git-name]. In this tutorial, we focus on Git because it is already increasing in popularity within the scientific community, and is especially good for scientific collaboration because of online tools which allow seamless collaboration even for very large research teams. Further, Git is free and open source, works on Windows, Mac, and Linux operating systems (among others). 
 
 [^subversion]: <https://subversion.apache.org/>
 [^mercurial]: <https://www.mercurial-scm.org/>
 [^git-name]: <https://git-scm.com/>. The creator of Git, Linus Torvalds (who also is the principal developer of the Linux operating system), named Git after himself as "the stupid content tracker" (@mcmillan_after_2005; <https://git-scm.com/docs/git.html>)
 
-Git, unlike the operating system's (OS) default file viewer (Mac's Finder, Windows' File Explorer), is not a point-and-click program for navigating files and folders on a computer. Instead, Git adds functionality to the existing file system, by making available a specific set of commands---either executed from a graphical point-and-click user interface (GUI) or from the computer's command line---which allow keeping track of files and their history, and distributing the files across multiple computers and users. Because Git is a standalone program not usually included in standard OS installs, users must first download and install the Git software on their computers. 
+Most computer users are already familiar with creating, copying, and deleting files and folders on their computers with the operating system's (OS) default file viewer (Mac's Finder, Windows' File Explorer). Git adds functionality to the computer's file system by making available a set of commands---either executed from a graphical point-and-click user interface (GUI) or from the computer's command line---which allow keeping track of files and their history, and distributing the files across multiple computers and users. Importantly, Git does not move or change the files or folders in any way: Users still interact with their files as they would without Git, but instead of creating new files to indicate important changes, they use Git to save the files' current state to Git's history, from which old versions can be retrieved.
 
 ## Installing Git
 
-Even if you already have Git installed (some computers do) it is good practice to install the latest version[^git-version], which can be downloaded as a standalone program from <https://git-scm.com/download>. For Mac users, the easiest way to install or update Git to the latest version is to download the installer from <http://git-scm.com/download/mac>, and install it like any other program. Similarly, Windows users can download the Git software installer from <http://git-scm.com/download/win> and install it like any other application. Linux (and other) users can download Git and find further install instructions on the Git website (<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>). 
+Even if you already have Git installed (some computers do) it is good practice to install the latest version[^git-version], which can be downloaded from <https://git-scm.com/download>. Because Git is a standalone program, it is easy to install by simply downloading the installer, and following the on-screen instructions. For Mac users, the easiest way to install or update Git to the latest version is to download the installer from <http://git-scm.com/download/mac>, and install it like any other program. Similarly, Windows users can download the Git software installer from <http://git-scm.com/download/win> and install it like any other application. Linux (and other) users can download Git and find further install instructions on the Git website (<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>). 
 
 [^git-version]: As of the writing of this article, the current version of Git is 2.13.1.
 
@@ -122,7 +121,51 @@ The first operating principle of Git is that your work is organized into indepen
 
 Briefly, when you work in a Git repository (make changes to files within it), Git monitors the state of each file, and when they change Git knows that they differ from the previously logged state. If you are happy with the current changes, you **add** the changed files to Git's "staging area". If you then are certain that the changes in the staging area are desirable, you **commit** the changes. These two operations are the backbone of using Git to store the state of the project whenever meaningful changes are made. Importantly, each commit in the repository's history contains information to recover the full state of the project at that point in time. Users can always go back to an earlier version by **checking out** a previous state from Git's history (Figure \@ref(fig:git-diagram)).
 
-To understand the Git workflow in practice, we now turn to a practical example using a hypothetical project. Git can be added to a project at any stage of the project's life cycle, but to most clearly show its use, we begin with an empty project.
+To understand the Git workflow in practice, we now turn to a practical example using a hypothetical project. Git can be added to a project at any stage of the project's life cycle, but to most clearly show its use, we begin with an empty project. The GitHub repository (explained below) for this hypothetical example project can be found at <https://github.com/mvuorre/git-example>.
+
+<!-- Box: Git summary -->
+\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 2. Main Git operations and terms.]
+Git.
+    \begin{compactitem}
+    \item A Version Control System program, designed for tracking changes to files.
+    \end{compactitem}
+Git repository.
+    \begin{compactitem}
+    \item A folder whose contents are tracked by Git. Changes within this folder can be saved to Git's history. Git repositories are located on user's computers, and are therefore also called local repositories.
+    \end{compactitem}
+GitHub repository.
+    \begin{compactitem}
+    \item GitHub repositories can be set to receive changes from local repositories, allowing multiple users to work on the same project by connecting their local repositories to the GitHub one, which is also called a remote repository. 
+    \end{compactitem}
+Initialize a local repository.
+    \begin{compactitem}
+    \item Create a local Git repository in a computer's folder. 
+    \end{compactitem}
+Clone a remote repository.
+    \begin{compactitem}
+    \item Create a local Git repository from a remote repository, e.g. one hosted on GitHub.
+    \end{compactitem}
+Add changes to a file to Git's staging area.
+    \begin{compactitem}
+    \item After making changes to a file(s), they are added to Git's staging area. Only changes that are added to the staging area are committed, allowing for better control over what is saved in Git's history. For instance, if changes to file X are relevant to a commit, but changes to file Z are not, X can be added to the staging area and committed without committing changes to Z.
+    \end{compactitem}
+Commit (save) changes from staging area to Git's history.
+    \begin{compactitem}
+    \item Commits create snapshots of the project's current state by saving changes from the staging area to Git's history. Commits can include short messages describing the commit's purpose.
+    \end{compactitem}
+Git History.
+    \begin{compactitem}
+    \item Git's history (or "log") is a list of all the commits made in the repository.
+    \end{compactitem}
+Push (send) committed changes from local to remote repository.
+    \begin{compactitem}
+    \item Collaborators work on their local repositories, and periodically send their changes to the central (remote) repository.
+    \end{compactitem}
+Pull (receive) changes from the remote repository.
+    \begin{compactitem}
+    \item To keep the local repository up-to-date with other collaborators' changes, users periodically pull changes from the remote (central) repository. 
+    \end{compactitem}
+\end{tcolorbox}
 
 ## R Studio
 
@@ -171,11 +214,13 @@ We have now added the files to Git's staging area, and if we are happy with chan
 knitr::include_graphics("images/rstudio-git-2.png")
 ```
 
-Every project (repository) should contain a brief note explaining what the project is about and who to contact. This note is usually called a readme file, and therefore our first proper contribution to this project will be a README file (this file is so important that it has become standard practice to write it in capital letters). The README file should be a plain text `.txt` file (i.e. not created with Microsoft Word or similar) that can be read with a simple text editor[^plain-text]. Create this file with R Studio's text editor (click "File" -> "New File" -> "Text File"), and save it to the project's root folder. Once you have saved the file (into the project's home folder), it will be visible in R Studio's Git panel (with yellow question marks, indicating it is a new file). Once you are happy with the README file's contents, stage the file by checking the radio button, write a commit message, and click "Commit". This initial version of the README file is now saved in Git's history, and can be later retrieved. Notice also that after the commit the Git panel in R Studio is empty; there are no changes to the repository.
+Every project (repository) should contain a brief note explaining what the project is about and who to contact. This note is usually called a readme file, and therefore our first proper contribution to this project will be a README file (this file is so important that it has become standard practice to write it in capital letters). Although it might seem odd to document such trivia when working solo on a project, it is easier for you and others (for example, someone else continuing your project later on) to recall what the project was about if this information is available.
+
+The README file should be a plain text `.txt` file (i.e. not created with Microsoft Word or similar) that can be read with a simple text editor[^plain-text]. Create this file with R Studio's text editor (click "File" -> "New File" -> "Text File"), and save it to the project's root folder. Once you have saved the file (into the project's home folder), it will be visible in R Studio's Git panel (with yellow question marks, indicating it is a new file). Once you are happy with the README file's contents, stage the file by checking the radio button, write a commit message, and click "Commit". This initial version of the README file is now saved in Git's history, and can be later retrieved. Notice also that after the commit the Git panel in R Studio is empty; there are no changes to the repository.
 
 [^plain-text]: Plain text has many advantages over proprietary file formats such as Microsoft Word's .docx files. Briefly, plain text is both human and computer readable (.docx are unreadable without a copy of Microsoft Word), is both forward and backward compatible (there will always, and has always been, software capable of reading it), and plain text takes very little space. The file extension (the `.docx` part of a Word file's name, for example) of plain text doesn't matter much, but we recommend using either `.txt` because it is widely recognized, `.md` for markdown syntax, or in the case of a readme file, simply not using any file extension.
 
-```{r rstudio-git-3, fig.cap = "Git's description of changes within a commit. This commit changed two files and inserted a total of 17 lines of text."}
+```{r rstudio-git-3, fig.cap = "Git's description of changes within a commit. This commit changed two files and inserted a total of 17 lines of text. The rest of the information can be safely ignored, and users can press 'Close' to proceed."}
 knitr::include_graphics("images/rstudio-git-3.png")
 ```
 
@@ -203,7 +248,7 @@ knitr::include_graphics("images/advanced-project.png")
 
 Git uses a special plain text file called `.gitignore` in the home folder of the repository to control which files are to be ignored by Git.[^ignore-by-git] R Studio projects create this file automatically, and you can use a text editor to edit it. Notice that the file is *hidden* (by default, not visible in the OSs file viewer), but can be seen in R Studio's **Files** panel. Each row of text in this file should specify a file or a folder (or a regular expression) that Git should ignore. In the current example you could make Git ignore the `admin/` folder entirely (fifth line in the code listing below), and any file with the .pdf extension inside `manuscript/` (sixth line). The first four lines are automatically written by R Studio when creating the project. The example `.gitignore` file would look like this:
 
-```bash
+```
 .Rproj.user
 .Rhistory
 .RData
@@ -220,9 +265,36 @@ After saving these changes to the `.gitignore` file, R Studio's Git panel shows 
 
 After committing the `plan_n.R` file to Git's history, you can at any time come back to this commit with Git's history and see what was inside the newly created power analysis file. For instance, if new information suggests that you should change the assumed effect size in the power analysis, you can simply edit and save the file, then add and commit the changes to Git with a helpful message that logs this important event in Git's history.
 
-This possibility of "rewinding history" is especially useful for files that might go under multiple revisions (manuscripts, analysis files), or if you are interested in when and in what order the files were created---and who created or changed them. For example, one might consider committing a power analysis file to Git as a small personal pre-registration [@nosek_preregistration_2017] of a part of the research plan. To see earlier versions of files, click "History" in the Git panel, and select the commit that contains the version of the file that you would like to see (top panel in Figure \@ref(fig:rstudio-git-4)). Then, find the file in the lower panel of the History window, and click "View file @ SHA" (where "SHA" is the commit's SHA code). This reveals the file exactly as it was at that point in history. 
+### Accessing files' past versions
+
+This possibility of "rewinding history" is especially useful for files that might go under multiple revisions (manuscripts, analysis files), or if you are interested in when and in what order the files were created---and who created or changed them. For example, one might consider committing a power analysis file to Git as a small personal pre-registration [@nosek_preregistration_2017] of a part of the research plan. To see earlier versions of files, click the "History" button in the Git panel[^history-panel], and select the commit that contains the version of the file that you would like to see (top panel in Figure \@ref(fig:rstudio-git-4)). Then, find the file in the lower panel of the History window, and click "View file @ SHA" (where "SHA" is the commit's SHA code). This reveals the file exactly as it was at that point in history. 
+
+[^history-panel]: R Studio also has a "History" panel, which is related to R command history, and should not be confused with the History button in the Git panel. The latter is also represented with a little clock icon.
 
 Currently, R Studio's Git panel offers limited functionality in "rewinding history", and to our knowledge the best tools for accessing old versions of the project are Git's command line functions. In the supplemental file we discuss in detail how to retrieve old versions of files, and even old versions of the entire project, using command line functions.
+
+<!-- Box: Git clarifications. -->
+\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 3. Common Git Misconceptions.]
+How easy is it to lose my work with Git?
+    \begin{compactitem}
+    \item Git does not change current files or folders, unless asked to do so, and therefore will not make it more or less likely that something will happen to them due to e.g. hardware failure. Essentially, Git saves the files contents' history in a hidden `.git` folder inside the repository; if users tamper with this folder or run Git commands without knowing their consequences, it is possible to corrupt or lose parts of the files' history.
+    \end{compactitem}
+\vspace{.5em}
+Is Git an alternative to backups?
+    \begin{compactitem}
+    \item No. Git is a tool for keeping track of changes to a project, not for backing up the project. However, connecting one's local Git repository to GitHub creates a cloud copy of it (provided the user keeps the GitHub remote up to date).
+    \end{compactitem}
+\vspace{.5em}
+How is a Git commit different or similar to simply saving a file?
+    \begin{compactitem}
+    \item Saving a file overwrites the file's previous version on the computer's hard drive. Usually, the previous versions cannot be retrieved without specialist intervention. A Git commit saves the file's current state in Git's history, from which old versions can easily be retrieved.
+    \end{compactitem}
+\vspace{.5em}
+Is my Git repository public or private?
+    \begin{compactitem}
+    \item Any Git repository created on a local computer is private. Even when a local Git repository is connected to a remote online repository, users must make a separate operation (push) to make their local changes public.
+    \end{compactitem}
+\end{tcolorbox}
 
 # Collaborating
 
@@ -232,9 +304,11 @@ Git and other VCSs, on the other hand, were specifically designed to allow (and 
 
 ## Overview of the Centralized Git Workflow
 
-There are many ways in which a team could collaborate on a Git project; here we focus on a common one, called "centralized workflow", where one virtual copy of the project is considered central, and all contributors interact with this central copy, instead of directly with each other. In this workflow, a central project hosted on a research team's server, or an online service like GitHub, is used to send and receive information from and to local projects. 
+There are many ways in which a team could collaborate on a Git project; here we focus on a common one, called "centralized workflow". In this workflow, a central (also called a remote) repository is created on an online platform. Individual users work in their local Git repositories as before, but can also send and receive changes from the central repository.
 
-Because the word "project" can now refer to virtual copies of projects, they are instead commonly referred to as **repositories**. First, one user creates this central repository, then other users **clone** local copies of it. Contributors, including the one who created the central repository, then work on their local projects as detailed above, and after committing, **push** their changes to the central repository. To get changes which other users have pushed to the central repository, contributors **pull** changes from it. Setting up a centralized Git repository on a research team's private server is relatively straightforward, but because the details vary from team to team, here we illustrate the centralized workflow using GitHub.
+In summary, once a user wishes to collaborate with others on a project, she creates a central repository, and connects her local repository to it. Other users can then **clone** their own local repositories from the central repository. The central repository exists on an online platform (GitHub), and the local repositories are on the collaborators' own computers. Contributors, including the one who created the central repository, continue to work on their local repositories as detailed above. After committing changes in their local repositories, users **push** changes from the local to the to the central repository, to make the changes available to others. To get changes from the the central repository, contributors **pull** changes from it to their local repositories. 
+
+Central Git repositories can also be set up relatively easily on research teams' private servers, but because the details vary from team to team, here we illustrate the centralized workflow using GitHub. 
 
 ```{r git-diagram-collaborate, fig.cap = "A diagram illustrating the typical collaborative Git workflow with a remote repository (e.g. GitHub). Verbs indicated in bold text are Git operations and explained in detail in the main text.", out.width="6in"}
 knitr::include_graphics("../data/git-diagram-collaborate.png")
@@ -242,26 +316,30 @@ knitr::include_graphics("../data/git-diagram-collaborate.png")
 
 ## GitHub
 
-GitHub is one of the 100 most popular website worldwide, and hosts over 60 million software projects with a total of over 20 million users.[^github-stats] We chose GitHub for collaboration because it is already the de facto standard among scientists who use VCS, it offers free private repositories (see below), and repositories from GitHub can easily be connected to projects hosted on the Open Science Framework (<https://osf.io>)[^osf-connect].
+GitHub is one of the 100 most popular website worldwide, and hosts over 60 million software projects with a total of over 20 million users.[^github-stats] We chose GitHub for collaboration because it is already popular among scientists who use VCS, it offers free private repositories to some users (see below), and repositories from GitHub can easily be connected to projects hosted on the Open Science Framework (<https://osf.io>). There are many alternatives to GitHub, such as Bitbucket[^bitbucket] and GitLab[^gitlab], both of which provide free private repositories, and are used very similarly to GitHub. Thus, while we here focus on GitHub as an example, switching to another service after learning one is relatively straightforward.
 
 [^github-stats]: <https://github.com/about>.
-[^osf-connect]: Open Science Framework (OSF) is a website designed for organizing and communicating research materials, and is quickly becoming a popular service for e.g. sharing data sets and stimuli. Researchers can link projects on GitHub to their OSF projects by following on-screen instructions on the OSF website: <http://help.osf.io/m/addons/l/524148-connect-add-ons>.
+[^bitbucket]: <https://bitbucket.org/>.
+[^gitlab]: <https://gitlab.com>.
+
 
 New GitHub users must first create a free user account at <https://github.com>. Then, to use GitHub with local Git repositories, you must configure your local Git program to know your name, and especially your email address (GitHub will use your email address for authorization purposes). To configure your local Git program, please refer to the supplemental file, where we show how to use the command line for configuring Git. You must create the GitHub account with the same email address that you used when configuring your local Git (or re-configure your local Git to use your the email address that you used to register for GitHub).
 
 ### Create a new GitHub repository
 
-To collaborate on a Git project with others, we need to link a local Git repository with a **remote** repository, such as one hosted on GitHub (Figure \@ref(fig:git-diagram-collaborate); also known as the central repository in a collaborative project). To do this, we must first create a repository on GitHub.
+To start collaborating on a project, a user first needs to link the local Git repository with a remote (central) repository, such as one hosted on GitHub (Figure \@ref(fig:git-diagram-collaborate)). Therefore, the first step is to create a repository on GitHub. After you have created an account on GitHub, log into your account and click the green "New repository" button on GitHub's main page. GitHub will first ask for a name for your GitHub repository: The name can be anything, but for consistency we call the GitHub repository `git-example`---the same name as the local project. You can then choose whether the repository should be public or private; we discuss this choice in more detail below, but for now choose "Public". At this point, you can allow GitHub to automatically create README, `.gitignore`, and license files for your repository, but for this example we won't, because we have already created them in the local repository. Then, click "Create repository". 
 
-After you have created an account on GitHub, log into your account and click the green "New repository" button on GitHub's main page. GitHub will first ask for a name for your GitHub repository: The name can be anything, but for consistency we call the GitHub repository `git-example`---the same name as the local project folder. You can then choose whether the repository should be public or private; we discuss this choice in more detail below, but for now choose "Public". You can also allow GitHub to automatically create README, `.gitignore`, and license files for your repository, but for this example we won't, because we have already created them in the local repository. Then, click "Create repository". The next step is to link the new GitHub remote repository to a local Git repository, by either creating a new local repository from the remote, or connecting an existing local repository to the remote.
+The next step is to link the new GitHub remote repository to a local Git repository, by either creating a new local repository from the remote (this is called **cloning**), or connecting an existing local repository to the remote. For this hypothetical example, we illustrate how to connect the existing `git-example` local repository to the newly created GitHub remote repository.
 
-### Connecting the GitHub remote repository to a local repository
+### Connecting a local repository to a GitHub remote repository
 
-Currently, you can only link a new local Git repository to a remote repository in R Studio when you are creating the project (right panel in Figure \@ref(fig:rstudio-project-1)); you cannot connect existing local Git repositories to GitHub with R Studio. However, you can connect an existing local repository to a GitHub remote repository with two short lines of code in the computer's command line---we show how in the supplemental file. If you would rather not use the command line, you must therefore create a new project in R Studio, and connect it to a GitHub remote repository while creating the project. Therefore, here we show how to create a new project with R Studio such that it connects to a GitHub remote repository. 
+Currently, you can only link a new local Git repository to a remote repository in R Studio when you are creating a new project (right panel in Figure \@ref(fig:rstudio-project-1)); you cannot connect existing local Git repositories to GitHub with R Studio. However, you can connect an existing local repository to a GitHub remote repository with two short lines of code in the computer's command line---we show how in the supplemental file. If you would rather not use the command line, you must therefore create a new project in R Studio, and connect it to a GitHub remote repository while creating the project. Therefore, here we show how to create a new project with R Studio such that it connects to a GitHub remote repository. 
 
-Instead of choosing "New Directory" in Figure \@ref(fig:rstudio-project-1), you create a new local project from an existing GitHub remote (Figure \@ref(fig:clone-from-github)). After you have created the new remote repository on GitHub, you need the remote repository's URL for setting up the new project in R Studio. This is visible on GitHub on the page that appears after creating a new repository. Copy-paste the repository's URL from the address box on GitHub (it will have a `.git` at the end of the URL, e.g. https://github.com/username/reponame.git). Then, in R Studio, click "File" -> "New Project", and select "Version Control" (left panel of Figure \@ref(fig:clone-from-github)). This option allows you to create a new local repository by checking out a GitHub remote repository. Click Git (Figure \@ref(fig:clone-from-github), middle panel), then copy-paste the GitHub URL to the "Repository URL" box, and choose an appropriate location on your computer for the project ("Documents/" in Figure \@ref(fig:clone-from-github), right panel). 
+Instead of choosing "New Directory" in Figure \@ref(fig:rstudio-project-1), you create a new local project from an existing GitHub remote (Figure \@ref(fig:clone-from-github)). For this, you need the remote repository's URL for setting up the new project in R Studio. This is visible on GitHub on the page that appears after creating a new repository. Copy-paste the repository's URL from the address box on GitHub (it will have a `.git` at the end of the URL, e.g. https://github.com/username/reponame.git). Then, in R Studio, click "File" -> "New Project", and select "Version Control" (left panel of Figure \@ref(fig:clone-from-github)). This option allows you to create a new local repository by cloning a GitHub remote repository. Click Git (Figure \@ref(fig:clone-from-github), middle panel), then copy-paste the GitHub URL to the "Repository URL" box, and choose an appropriate location on your computer for the project ("Documents/" in Figure \@ref(fig:clone-from-github), right panel). 
 
-Because you cannot associate an existing local Git repository with GitHub by using R Studio, you've now associated the empty remote (GitHub) repository with a local folder on your computer. Usually, you would connect the local and remote repositories as soon as a project is started. However, because we've already created files and folders in the current tutorial project, we'll copy-paste the materials from the old folder to the new one to allow us to continue with the tutorial. After you have copy-pasted the materials to the new local folder make sure that the contents of the old `.gitignore` file are also copied to the new file. Otherwise you will be committing files into Git's history that you would rather ignore. You can then commit all the files to the local Git repository using the steps detailed above. After adding and committing some files locally, you will have two new buttons in R Studio's Git panel: The local repository can now send (**push**) and receive (**pull**) changes from the remote repository. Click "Push", and use a web browser to navigate to the repository's GitHub page and refresh the page: You will see all the committed files and folders on GitHub. You can browse and view the project's files, and even make changes to them, on the GitHub page.
+Because you cannot associate an existing local Git repository with GitHub by using R Studio, you've now associated the empty remote (GitHub) repository with a local folder on your computer. Usually, you would connect the local and remote repositories as soon as a project is started. However, because you've already created files and folders in the current tutorial project, you need to copy-paste the contents of the old folder to the new one to allow continuing with the same materials.
+
+After you have copy-pasted the materials to the new local folder, make sure that the contents of the old `.gitignore` file are also copied to the new file. Otherwise you will be committing files into Git's history that you would rather ignore. You can then commit all the files to the local Git repository using the steps detailed above. After adding and committing some files locally, you will have two new buttons in R Studio's Git panel: The local repository can now send (**push**) and receive (**pull**) changes from the remote repository. Click "Push", and use a web browser to navigate to the repository's GitHub page and refresh the page: You will see all the committed files and folders on GitHub. You can browse and view the project's files, and even make changes to them, on the GitHub page.
 
 ```{r clone-from-github, fig.cap = "Creating a new local repository by cloning a GitHub repository.", out.width="6in"}
 knitr::include_graphics("images/rstudio-git-clone.png")
@@ -269,9 +347,13 @@ knitr::include_graphics("images/rstudio-git-clone.png")
 
 ### Contributing to a central (GitHub) repository
 
-Once another team member has set up Git on their own computer, and signed up for GitHub, they need to **clone** the remote GitHub repository onto their local computer, just as you did in the above steps. Other users can find out the repository's URL by navigating their web browsers to the repository's GitHub address (e.g. <https://github.com/mvuorre/reproguide-curate> for this tutorial's repository) and clicking the big green "Clone or download" button; the complete address is in the text box. New contributors can then work on their local copies as detailed in earlier parts of this tutorial. After committing their changes, they can update the status of the central Git repo by pushing their changes to it. To push changes, they simply press the "Push" button in R Studio's Git panel.
+Once another team member has set up Git on their own computer, and signed up for GitHub, they can **clone** the remote GitHub repository onto their local computer, just as you did in the above steps. Other users can find out the repository's URL by navigating their web browsers to the repository's GitHub address (e.g. <https://github.com/mvuorre/reproguide-curate> for this tutorial's repository) and clicking the big green "Clone or download" button; the complete address is in the text box, shown in Figure \@ref(fig:url-from-github). New contributors can then work on their local copies as detailed in earlier parts of this tutorial. After committing their changes, they can update the status of the central repository by pushing their changes to it. To push changes, they simply press the "Push" button in R Studio's Git panel.
 
-Note that you can also clone GitHub repositories if you are not aiming to contribute to a project. Hosting projects on GitHub is attractive because other people can easily clone (download) your work to build on it.
+```{r url-from-github, fig.cap = "Finding a remote repository's URL on GitHub. Note that the full address, including 'https://', should be used.", out.width="6in"}
+knitr::include_graphics("images/github-url.png")
+```
+
+Note that you can also clone GitHub repositories if you are not aiming to contribute to a project. Hosting projects on GitHub is useful because other people can easily clone (download) your work to build on it.
 
 ### Obtaining other's changes from the central repo
 
@@ -293,7 +375,7 @@ First, let's assume that a collaborator (User B) has made changes to the `README
 
 After pulling the changes from the remote, Git will automatically merge the two conflicting versions of the file into one file in the local repository. Git will not remove anything, and therefore the user will need to decide which lines of the changed file to save and which ones to discard. Assuming that the two users have made changes to the README file, it can be opened with R Studio's text editor, and might look like this:
 
-```bash
+```
 # Example Git Project
 <<<<<<< HEAD
 User A's proposed version of text.
@@ -314,62 +396,34 @@ The options for dealing with conflicts within R Studio's Git panel are somewhat 
 
 ## Private or public collaboration?
 
-By default, all GitHub repositories are public: Anyone with an internet connection can use their web browser to inspect the contents of your repository, or even clone it to their computer. This may sound unfamiliar to researchers used to working more privately, and clearly necessitates planning and thought with respect to issues such as data privacy and sharing sensitive materials. However, for many projects---including the writing of this tutorial---we see very few downsides to working "in the open".
+By default, all GitHub repositories are public: Anyone with an internet connection can use their web browser to inspect the contents of your repository, or even clone it to their computer. This may sound unfamiliar to researchers used to working more privately, and clearly necessitates planning and thought with respect to issues such as data privacy and sharing sensitive materials. However, for many projects---including writing this tutorial---we see very few downsides to working "in the open".
 
-There are two alternatives to working in a public GitHub repository: One, which we won't cover here, is to not use GitHub but instead place the central repository on the research team's private server. The second option is to make the repository private on GitHub (this can be done when the repository is first created or afterwards by clicking Settings on the repository's website). Private repositories, and their contents, are only accessible to invited team members, and are therefore ideal for small teams who would like to work without revealing their master plans to the public just yet. For example, you might initially choose to work in a private repository, and only make it public once you feel the material is mature enough for public consumption.
+There are two alternatives to working with a public GitHub repository: One, which we won't cover here, is to place the central repository on the research team's private server instead of GitHub. The second option is to make the repository private on GitHub (this can be done when the repository is first created or afterwards by clicking Settings on the repository's website). Private repositories, and their contents, are only accessible to invited team members, and are therefore ideal for teams who would like to work without revealing their work to the public. For example, you might initially choose to work in a private repository and only make it public once you feel the material is mature enough for public consumption. Note, however, that making a repository public makes all of its contents public, including its Git history.
 
 To make a GitHub repository private, navigate to the repository's website with a web browser, and click "Settings", then "Make this repository private". Once one user has set the central GitHub repository to private mode, anyone wishing to clone, push, pull, or view the repo must provide their GitHub username and password. Only if they match an invited team members username and password can the user access the repository. At the time of this writing, GitHub offers five private repositories for free[^github-private]. 
 
 [^github-private]: To obtain the free repositories, fill out the request form at <https://education.github.com/discount_requests/new>. Students with .edu email addresses, can obtain unlimited free repositories at <https://education.github.com/pack>.
 
-<!-- Box 2. Git summary -->
-\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 2. Main Git operations]
-\textit{Initialize a local repository.}
-    \begin{compactitem}
-    \item Create a local Git repository inside a folder on your computer. In effect, this command turns the local folder into a Git repository.
-    \end{compactitem}
-\vspace{.5em}
-\textit{Clone a remote repository.}
-    \begin{compactitem}
-    \item Create a local Git repository from a pre-existing remote Git repository, such as one hosted on GitHub.
-    \end{compactitem}
-\vspace{.5em}
-\textit{Add changes in \texttt{file} to Git's staging area.} 
-    \begin{compactitem}
-    \item Once a file has been edited or created in the local project, it needs to be added to Git's staging area. When the files have been added, they can be saved to Git's history.
-    \end{compactitem}
-\vspace{.5em}
-\textit{Commit (save) changes from staging area to Git's history.} 
-    \begin{compactitem}
-    \item A commit creates a snapshot of the project's current state by adding the most recent changes (which have been added to the staging area) to Git's history. Commits should be accompanied with short, descriptive messages to describe the changes introduced in that commit.
-    \end{compactitem}
-\vspace{.5em}
-\textit{Git History.}
-    \begin{compactitem}
-    \item Git's history (or "log") is a list of all the commits made in the current repository, and as such is a description of the project's history.
-    \end{compactitem}
-\vspace{.5em}
-\textit{Push (send) locally committed changes to remote repository.} 
-    \begin{compactitem}
-    \item In the centralized workflow for collaboration as described in this tutorial, collaborators work on their own local repositories, and periodically send the changes that they have made to the central (remote) repository.
-    \end{compactitem}
-\vspace{.5em}
-\textit{Pull (receive) changes from the remote repository.}
-    \begin{compactitem}
-    \item To keep the local repository up-to-date with other collaborators' changes, users must periodically pull changes from the remote (central) repository. It is good practice to pull the most up-to-date version of the project every time before making changes, to avoid unnecessary conflicts.
-    \end{compactitem}
-\end{tcolorbox}
+## Connecting a GitHub repository to other services
+
+Open Science Framework (OSF) is a website designed for organizing and communicating research materials, and is quickly becoming a popular service for e.g. sharing data sets and stimuli. Researchers can easily link GitHub repositories to their OSF projects by following on-screen instructions on the OSF website[^osf-instructions].
+
+[^osf-instructions]: <http://help.osf.io/m/addons/l/524148-connect-add-ons>.
+
+Hosting a research project's materials online on GitHub also makes the materials themselves citable. To facilitate citability, researchers can connect their GitHub repositories to the archiving website Zenodo, which will assign the repository a DOI (Digital Object Identifier). Obtaining a DOI for a GitHub repository is easy and detailed instructions can be found online[^zenodo-doi].
+
+[^zenodo-doi]: <https://guides.github.com/activities/citable-code/>.
 
 # Discussion
 
-We have presented an introductory tutorial on using the Git version Control System for curating and collaborating on research assets in behavioral sciences. The essential Git workflow includes adding and committing incremental changes to a version controlled repository, which can then be collaboratively worked on by many researchers through the online GitHub platform. Box 2 summarizes the main Git operations and their purported use in roughly the order in which they would be used in a typical workflow. In Box 3 we give links to online materials that we have found particularly helpful in learning Git and teaching it to others. 
+We have presented an introductory tutorial on using the Git version Control System for curating and collaborating on research assets in behavioral sciences. The essential Git workflow includes adding and committing incremental changes to a version controlled repository, which can then be collaboratively worked on by many researchers through the online GitHub platform. 
 
 Using Git from R Studio is an especially attractive option for Psychologists because the R Studio IDE offers a complete environment for project management, data analysis, and manuscript preparation with the R Markdown and knitr R packages [@allaire_rmarkdown:_2016; @xie_knitr:_2016]. Psychologists will be especially interested in the papaja package for creating APA formatted manuscripts [@aust_papaja:_2016]. The source code of this manuscript, which was prepared with the papaja package, can be found at <https://github.com/mvuorre/reproguide-curate>.
 
 Although this tutorial includes enough material to get started, Git (and GitHub) is a vast ecosystem with great opportunities, some of which are further discussed by Perez-Riverol and colleagues [-@perez-riverol_ten_2016]. For example, the concept of "Born open data", where research data is automatically posted online upon collection, is made very easy with the Git + GitHub workflow [@rouder_what_2016]. The challenges to reproducibility are many, and they have only recently received the targeted attention they deserve in the collaborative effort to improve the reliability of empirical sciences. Curating research assets and focusing on the practical aspects of the scientific workflow is important for ensuring the continuity of one's work, and for efforts toward a cumulative and reliable science.
 
-<!-- Box 3. Further resources for learning Git -->
-\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 3. Further resources for learning Git]
+<!-- Box: Further resources for learning Git -->
+\begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 4. Further resources for learning Git]
 \begin{compactitem}
     \item \href{https://www.git-tower.com/blog/workflow-of-version-control}{Basic VCS workflow}, an infographic explaining how VCS works (\url{https://www.git-tower.com/blog/workflow-of-version-control}).
     \item \href{https://services.github.com/resources/cheatsheets/}{GitHub's Git cheat sheet} is available in multiple languages and contains the most used Git commands (\url{https://services.github.com/resources/cheatsheets/}).
@@ -386,7 +440,7 @@ MV and JPC designed the format of the tutorial, MV drafted the manuscript, MV an
 
 # Acknowledgments
 
-We thank Travis Riddle and Judy Xu for feedback on earlier drafts of this manuscript. This work was supported, in part, by Institute of Education Science grant (R305A150467). The authors are solely responsible for the content of this article.
+We thank Tom Hardwicke, Travis Riddle, Judy Xu, and two anonymous reviewers for feedback on earlier drafts of this manuscript. This work was supported, in part, by Institute of Education Science grant (R305A150467). The authors are solely responsible for the content of this article.
 
 \newpage
 

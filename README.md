@@ -6,6 +6,8 @@ Authors: [Matti Vuorre](mv2521@columbia.edu) & James P. Curley
 
 **Status: Submitted** (preprint [here](https://osf.io/preprints/psyarxiv/6tzh8/)).
 
+The tutorial walks through an example Git repository, which has a remote repository on GitHub, which can be found at <https://github.com/mvuorre/git-example>.
+
 ## How to contribute
 
 The manuscript is written in [R Markdown](http://rmarkdown.rstudio.com/) with the [papaja](https://github.com/crsh/papaja) R package. The source file is `manuscript/manuscript.Rmd` (knit to view resulting PDF.)

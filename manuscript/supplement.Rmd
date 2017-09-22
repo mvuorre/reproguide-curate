@@ -305,6 +305,22 @@ To return to an earlier state of the project, you can use the `git checkout` com
 
 Both of these operations---checking out an earlier version of a file or of the entire project---are "safe" in the sense that your project's history won't be affected. However, checking out an earlier version of a specific file changes the current state of the project (the current version of the file is temporarily overwritten with the old version), so it is good practice to carefully keep track of the current version of your file before making further commits.
 
+## Tagging important commits
+
+Git also allows adding tags to commits. Tags can be used to signify important stages in the research cycle, or to mark otherwise particularly important commits. The simplest way to add a tag to the current commit is to use the `git tag` command followed by a name for the tag. The name should usually be a version number (e.g. v1.0), but text labels can be used as well. For example:
+
+```bash
+$ git tag v1.0
+```
+
+The above command will tag the current commit with the version number v1.0. All tags in the repository can be listed with `git tag`, and tagged commits can be accessed with their tag labels (e.g. `git show v1.0`). To create more informative tags (recommended), you can also use annotated tags by using the `-a` and `-m` options:
+
+```bash
+$ git tag -a v1.0 -m "Manuscript submitted"
+```
+
+Tags can become especially useful with larger projects. One common use for them is in software development to signify new versions or releases of the software.
+
 # Collaborating
 
 ## Connect a Local Repository to a GitHub Remote Repository
