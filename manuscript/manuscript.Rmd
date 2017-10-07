@@ -20,7 +20,7 @@ abstract: >
   Recent calls for improving the reproducibility of behavioral sciences have increased attention to the ways in which researchers curate, share and collaborate on their research assets. In this tutorial paper, we explain how version control systems, such as the popular Git program, address these challenges to reproducibility. We then present a tutorial on how to use Git with a graphical interface in the R Studio development environment. This tutorial is especially written for behavioral scientists with no previous experience with version control systems, and covers single-user and collaborative workflows. We also include an appendix with information on advanced Git command line functions. Git is easy to learn, presents an elegant solution to specific challenges to reproducibility, facilitates multi-site collaboration and productivity by allowing multiple collaborators to work on the same source simultaneously, and can be implemented on common behavioral science workflows with little extra effort. Git may also offer a suitable solution to transparent data and material sharing through popular online services, such as GitHub and Open Science Framework.
   
 keywords          : "reproducibility; version control; git; research methods; open science"
-wordcount         : "7700"
+wordcount         : "9000"
 bibliography      : ["references.bib"]
 figsintext        : yes
 figurelist        : no
@@ -89,7 +89,7 @@ How to share work easily, safely, and in an organized manner?
 
 The core concepts of version control are that contributors to a project create small checkpoints of the changes they make to the source code---analogous to saving an intermediate version of a file on the computer's hard disk---and then submit those changes to the VCS. The VCS maintains a history of changes to the code between these little checkpoints, and therefore allows coming back to any earlier version by browsing the history. These concepts---i.e. the typical Git workflow---is illustrated in Figure \@ref(fig:git-diagram).
 
-```{r git-diagram, fig.cap = "A diagram illustrating the typical Git workflow. Verbs indicated in bold text are Git operations and explained in detail in the main text. In brief, this workflow consists of making changes to files in the project (such as editing a manuscript.) Once the revised version of the file is saved, the user adds the changed file to the staging area (1). Many files can be added to the staging area, if desired. Once the changes in the staging area reflect a conceptual entity, such as edits to an image file and its accompanying caption in the manuscript, the user then commits the changes to Git's history (2). These commits are accompanied with short commit messages that describe the changes made in that commit. Finally, when needed, changes to files can be discarded by checking out an earlier version of the file from Git's history. We explain these terms and operations in more detail in the main text. Figure adapted from https://git-scm.com/book/en/v2/Getting-Started-Git-Basics."}
+```{r git-diagram, fig.cap = "A diagram illustrating the typical Git workflow. Verbs indicated in bold text are Git operations and explained in detail in the main text. In brief, this workflow consists of making changes to files in the project (such as editing a manuscript.) Once the revised version of the file is saved, the user adds the changed file to the staging area (1). Many files can be added to the staging area, if desired. Once the changes in the staging area reflect a conceptual entity, such as edits to an image file and its accompanying caption in the manuscript, the user then commits the changes to Git's history (2). These commits are accompanied with short commit messages that describe the changes made in that commit. Finally, when needed, changes to files can be discarded by retrieving (checking out) an earlier version of the file from Git's history. We explain these terms and operations in more detail in the main text. Figure adapted from https://git-scm.com/book/en/v2/Getting-Started-Git-Basics."}
 knitr::include_graphics("../data/git-diagram.png")
 ```
 
@@ -101,7 +101,7 @@ Version control software has a long history in software engineering, and there a
 [^mercurial]: <https://www.mercurial-scm.org/>
 [^git-name]: <https://git-scm.com/>. The creator of Git, Linus Torvalds (who also is the principal developer of the Linux operating system), named Git after himself as "the stupid content tracker" (@mcmillan_after_2005; <https://git-scm.com/docs/git.html>)
 
-Most computer users are already familiar with creating, copying, and deleting files and folders on their computers with the operating system's (OS) default file viewer (Mac's Finder, Windows' File Explorer). Git adds functionality to the computer's file system by making available a set of commands---either executed from a graphical point-and-click user interface (GUI) or from the computer's command line---which allow keeping track of files and their history, and distributing the files across multiple computers and users. Importantly, Git does not move or change the files or folders in any way: Users still interact with their files as they would without Git, but instead of creating new files to indicate important changes, they use Git to save the files' current state to Git's history, from which old versions can be retrieved.
+Most computer users are already familiar with creating, copying, and deleting files and folders on their computers with the operating system's (OS) default file viewer (Mac's Finder, Windows' File Explorer). Git adds functionality to the computer's file system by making available a set of commands---either executed from a graphical point-and-click user interface (GUI) or from the computer's command line---which allow keeping track of files and their history, and distributing the files across multiple computers and users. Importantly, Git does not move or change the files or folders in any way: Users still interact with their files as they would without Git, but instead of creating new files to indicate important changes, they can use Git to save the files' current state to Git's history, from which old versions can be retrieved.
 
 ## Installing Git
 
@@ -109,7 +109,9 @@ Even if you already have Git installed (some computers do) it is good practice t
 
 [^git-version]: As of the writing of this article, the current version of Git is 2.13.1.
 
-After the Git software has been installed, its functions are available to the computer's users through various Git clients. In this tutorial, we show how to use Git with R Studio. We also present more detailed instructions for using Git from the command line in the supplement.
+After the Git software has been installed, its functions are available to the computer's users through various Git clients. In this tutorial, we show how to use Git with R Studio. We also present more detailed instructions for using Git from the command line in the supplement[^supplement-url].
+
+[^supplement-url]: The supplemental file can be accessed on this project's GitHub repository: <https://github.com/mvuorre/reproguide-curate/blob/master/manuscript/supplement.pdf>.
 
 # Using Git with a Graphical Interface
 
@@ -277,7 +279,7 @@ Currently, R Studio's Git panel offers limited functionality in "rewinding histo
 \begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 3. Common Git Misconceptions.]
 How easy is it to lose my work with Git?
     \begin{compactitem}
-    \item Git does not change current files or folders, unless asked to do so, and therefore will not make it more or less likely that something will happen to them due to e.g. hardware failure. Essentially, Git saves the files contents' history in a hidden `.git` folder inside the repository; if users tamper with this folder or run Git commands without knowing their consequences, it is possible to corrupt or lose parts of the files' history.
+    \item Git does not change current files or folders, unless asked to do so, and therefore will not make it more or less likely that something will happen to them due to e.g. hardware failure. Essentially, Git saves the files contents' history in a hidden `.git` folder inside the repository; if users tamper with this folder or run Git commands without knowing their consequences, it is possible to corrupt or lose parts of the files' history. Further, users can discard current un-committed changes by retrieving (checking out) an older version of the repository. Therefore, users should ensure that important changes are committed before they retrieve old versions.
     \end{compactitem}
 \vspace{.5em}
 Is Git an alternative to backups?
@@ -306,7 +308,7 @@ Git and other VCSs, on the other hand, were specifically designed to allow (and 
 
 There are many ways in which a team could collaborate on a Git project; here we focus on a common one, called "centralized workflow". In this workflow, a central (also called a remote) repository is created on an online platform. Individual users work in their local Git repositories as before, but can also send and receive changes from the central repository.
 
-In summary, once a user wishes to collaborate with others on a project, she creates a central repository, and connects her local repository to it. Other users can then **clone** their own local repositories from the central repository. The central repository exists on an online platform (GitHub), and the local repositories are on the collaborators' own computers. Contributors, including the one who created the central repository, continue to work on their local repositories as detailed above. After committing changes in their local repositories, users **push** changes from the local to the to the central repository, to make the changes available to others. To get changes from the the central repository, contributors **pull** changes from it to their local repositories. 
+In summary, once a user wishes to collaborate with others on a project, she creates a central repository, and connects her local repository to it. Other users can then **clone** their own local repositories from the central repository. The central repository exists on an online platform (GitHub), and the local repositories are on the collaborators' own computers. Contributors, including the one who created the central repository, continue to work on their local repositories as detailed above. After committing changes in their local repositories, users **push** changes from the local to the to the central repository, to make the changes available to others. To get changes from the central repository, contributors **pull** changes from it to their local repositories. 
 
 Central Git repositories can also be set up relatively easily on research teams' private servers, but because the details vary from team to team, here we illustrate the centralized workflow using GitHub. 
 
