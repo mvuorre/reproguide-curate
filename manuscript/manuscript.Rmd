@@ -414,7 +414,7 @@ Open Science Framework (OSF) is a website designed for organizing and communicat
 
 Hosting a research project's materials online on GitHub also makes the materials themselves citable. To facilitate citability, researchers can connect their GitHub repositories to the archiving website Zenodo, which will assign the repository a DOI (Digital Object Identifier). Obtaining a DOI for a GitHub repository is easy and detailed instructions can be found online[^zenodo-doi].
 
-[^zenodo-doi]: <https://guides.github.com/activities/citable-code/>.
+[^zenodo-doi]: <https://guides.github.com/activities/citable-code/>. This manuscript's GitHub repository's DOI is <https://doi.org/10.5281/zenodo.1004600>.
 
 # Discussion
 
