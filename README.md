@@ -4,7 +4,7 @@ GitHub repository for a Git tutorial for Psychologists and Behavioral Scientists
 
 Authors: [Matti Vuorre](mv2521@columbia.edu) & James P. Curley
 
-**Status: Under revision** (preprint [here](https://osf.io/preprints/psyarxiv/6tzh8/)).
+**Status: Submitted** (preprint [here](https://osf.io/preprints/psyarxiv/6tzh8/)).
 
 The tutorial walks through an example Git repository, which has a remote repository on GitHub, which can be found at <https://github.com/mvuorre/git-example>.
 
