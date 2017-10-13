@@ -2,7 +2,7 @@
 
 GitHub repository for a Git tutorial for Psychologists and Behavioral Scientists.
 
-Authors: [Matti Vuorre](mv2521@columbia.edu) & James P. Curley
+Authors: Matti Vuorre & James P. Curley
 
 **Status: Submitted** (preprint [here](https://osf.io/preprints/psyarxiv/6tzh8/)).
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1004600.svg)](https://doi.org/10.5281/zenodo.1004600)
