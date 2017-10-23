@@ -17,7 +17,7 @@ affiliation:
     institution   : "Department of Psychology, University of Texas at Austin, Texas, USA"
 
 abstract: >
-  Recent calls for improving reproducibility have increased attention to the ways in which researchers curate, share and collaborate on their research assets. In this tutorial paper, we explain how version control systems, such as the popular Git program, address these challenges to reproducibility. We then present a tutorial on how to use Git with a graphical interface in the R Studio program. This tutorial is written for researchers with no previous experience using version control systems, and covers single-user and collaborative workflows. An online supplement provides information on advanced Git command line functions. Git is easy to learn, presents an elegant solution to specific challenges to reproducibility, facilitates multi-site collaboration and productivity by allowing multiple collaborators to work on the same source files simultaneously, and can be implemented to common workflows with little extra effort. Git may also offer a suitable solution to transparent data and material sharing through popular online services, such as GitHub and Open Science Framework.
+  Recent calls for improving reproducibility have increased attention to the ways in which researchers curate, share and collaborate on their research assets. In this tutorial paper, we explain how version control systems, such as the popular Git program, address these challenges to reproducibility. We then present a tutorial on how to use Git with a graphical interface in the R Studio program. This tutorial is written for researchers with no previous experience using version control systems, and covers single-user and collaborative workflows. An online supplement provides information on advanced Git command line functions. Git presents an elegant solution to specific challenges to reproducibility, facilitates multi-site collaboration and productivity by allowing multiple collaborators to work on the same source files simultaneously, and can be implemented to common workflows with little extra effort. Git may also offer a suitable solution to transparent data and material sharing through popular online services, such as GitHub and Open Science Framework.
   
 keywords          : "reproducibility; version control; git; research methods; open science"
 wordcount         : "9000"
@@ -69,21 +69,21 @@ VCS were initially developed for writing code collaboratively[^vcs-collaborate],
 
 For example, a computerized experiment's source code (text written by humans but interpreted by computers to e.g. display stimuli to participants) may have multiple authors and go through multiple versions. Keeping track of the program's versions and changes to its source code, and allowing many authors to contribute to it (without breaking the experimental program) are problems that VCSs were specifically designed for. Writing manuscripts is quite similar, at least as far as the computer is concerned: Multiple authors write multiple versions of a text document, and sometimes previous versions need to be inspected, and the text needs to be merged across the many authors. Even datasets can be considered as plain text "code": In most computerized experiments, the output data are numbers and text written into a text file. These files can be version controlled, and researchers would usually not want to see that their raw data files have changed after they were created---VCS allows verifying that they haven't changed because their history is preserved.
 
-<!-- Box: Examples of problems in psychology solved by Git. -->
+<!-- Box: Examples of How Git facilitates the scientific workflow. -->
 \begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 1. How Git facilitates the scientific workflow.]
-How to try different ways of visualizing data while keeping track of my work?
+Share work easily, safely, and in an organized manner.
+    \begin{compactitem}
+    \item Git enforces a common organization scheme among collaborators, making it easier to keep everyone "on the same page" with what goes where, and how to contribute to specific parts of the project. Git projects are shared as a whole, so complex projects with multiple files linking to each other are easy to share. Sharing projects with others is built into Git, and can be facilitated with online services such as GitHub: Once a project uses Git, it can be easily copied to GitHub, from where others can download the entire project onto their local computers.
+    \end{compactitem}
+\vspace{.5em}
+Try different ways of visualizing data while keeping track of the variants.
     \begin{compactitem}
     \item Whenever requested, Git saves a file's current version, allowing testing new features without losing previous versions or proliferating files in the project's directories. Any past version can be retrieved from Git's history. 
     \end{compactitem}
 \vspace{.5em}
-How to work on the same code or manuscript files simultaneously with collaborators?
+Work on the same code or manuscript files at the same time as collaborators.
     \begin{compactitem}
     \item Collaborators work on their local projects and send and receive material to and from a central copy of the project. Git keeps track of who has done what, when, and (possibly) why. Git never loses information or overwrites work with another collaborator's work, unless asked to do so, but allows for collaborators to work on the same ideas simultaneously. 
-    \end{compactitem}
-\vspace{.5em}
-How to share work easily, safely, and in an organized manner?
-    \begin{compactitem}
-    \item Git enforces a common organization scheme among collaborators, making it easier to keep everyone "on the same page" with what goes where, and how to contribute to specific parts of the project. Git projects are shared as a whole, so complex projects with multiple files linking to each other are easy to share. Sharing projects with others is built into Git, and can be facilitated with online services such as GitHub: Once a project uses Git, it can be very easily copied to GitHub, from where others can easily download the entire project onto their local computers.
     \end{compactitem}
 \end{tcolorbox}
 
@@ -127,43 +127,43 @@ To understand the Git workflow in practice, we now turn to a practical example u
 
 <!-- Box: Git summary -->
 \begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 2. Main Git operations and terms.]
-Git.
+Git
     \begin{compactitem}
-    \item A Version Control System program, designed for tracking changes to files.
+    \item A Version Control System program, designed to track changes to files.
     \end{compactitem}
-Git repository.
+Git repository
     \begin{compactitem}
     \item A folder whose contents are tracked by Git. Changes within this folder can be saved to Git's history. Git repositories are located on users' computers, and are therefore also called local repositories.
     \end{compactitem}
-GitHub repository.
+GitHub repository
     \begin{compactitem}
     \item GitHub repositories can be set to receive changes from local repositories, allowing multiple users to work on the same project by connecting their local repositories to the GitHub one, which is also called a remote repository. 
     \end{compactitem}
-Initialize a local repository.
+Initialize a local repository
     \begin{compactitem}
     \item Create a local Git repository in a computer's folder. 
     \end{compactitem}
-Clone a remote repository.
+Clone a remote repository
     \begin{compactitem}
     \item Create a local Git repository by copying a remote repository, e.g. one hosted on GitHub.
     \end{compactitem}
-Add changes to a file to Git's staging area.
+Add changes to a file to Git's staging area
     \begin{compactitem}
     \item After making changes to a file(s), they can be added to Git's staging area. Only changes that are added to the staging area can be committed, allowing for better control over what is saved in Git's history. For instance, if changes to file X are relevant to a commit, but changes to file Z are not, X can be added to the staging area and committed without committing changes to Z.
     \end{compactitem}
-Commit (save) changes from the staging area to Git's history.
+Commit (save) changes from the staging area to Git's history
     \begin{compactitem}
     \item Commits create snapshots of the project's current state by saving changes from the staging area to Git's history. Commits can include short messages describing the commit's purpose.
     \end{compactitem}
-Git History.
+Git History
     \begin{compactitem}
     \item Git's history (or "log") is a list of all the commits made in the repository.
     \end{compactitem}
-Push (send) committed changes from local to remote repository.
+Push (send) committed changes from local to remote repository
     \begin{compactitem}
     \item Collaborators work on their local repositories, and periodically send their changes to the central (remote) repository.
     \end{compactitem}
-Pull (receive) changes from the remote repository.
+Pull (receive) changes from the remote repository
     \begin{compactitem}
     \item To keep the local repository up-to-date with other collaborators' changes, users periodically pull changes from the remote (central) repository. 
     \end{compactitem}
@@ -218,7 +218,7 @@ knitr::include_graphics("images/rstudio-git-2.png")
 
 Every project (repository) should contain a brief note explaining what the project is about and who to contact. This note is usually called a readme file, and therefore our first proper contribution to this project will be a README file[^readme-caps]. Although it might seem odd to document such trivia when working solo on a project, it is easier for you and others (for example, someone else continuing your project later on) to recall what the project was about if this information is available.
 
-[^readme-caps]: The README file is so important that it has become standard practice to write it in capital letters. We follow this tradition in the current manuscript, but note that the capital letters are a tradition, not a requirement. 
+[^readme-caps]: The README file is so important that it has become standard practice to write its file name in capital letters. We follow this tradition in the current manuscript, but note that the capital letters are a tradition, not a requirement. 
 
 The README file should be a plain text `.txt` file (i.e. not created with Microsoft Word or similar) that can be read with a simple text editor[^plain-text]. Create this file with R Studio's text editor (click "File" -> "New File" -> "Text File"), and save it to the project's root folder. Once you have saved the file (into the project's home folder), it will be visible in R Studio's Git panel (with yellow question marks, indicating it is a new file). Once you are happy with the README file's contents, stage the file by checking the radio button, write a commit message, and click "Commit". This initial version of the README file is now saved in Git's history, and can be later retrieved. Notice also that after the commit the Git panel in R Studio is empty; there are no changes to the repository.
 
@@ -414,7 +414,7 @@ Open Science Framework (OSF) is a website designed for organizing and communicat
 
 [^osf-instructions]: <http://help.osf.io/m/addons/l/524148-connect-add-ons>.
 
-Hosting a research project's materials online on GitHub also makes the materials themselves citable. To facilitate citability, researchers can connect their GitHub repositories to the archiving website Zenodo, which will assign the repository a DOI (Digital Object Identifier). Obtaining a DOI for a GitHub repository is easy and detailed instructions can be found online[^zenodo-doi].
+Hosting a research project's materials online on GitHub also makes the materials themselves citable. To facilitate citability, researchers can connect their GitHub repositories to the archiving website Zenodo, which will assign the repository a DOI (Digital Object Identifier). Instructions for obtaining a DOI for a GitHub repository can be found online[^zenodo-doi].
 
 [^zenodo-doi]: <https://guides.github.com/activities/citable-code/>. This manuscript's GitHub repository's DOI is <https://doi.org/10.5281/zenodo.1004600>.
 
@@ -435,7 +435,7 @@ However, for more complicated projects, version control systems--such as Git--ha
 
 Using Git from R Studio is an especially attractive option for Psychologists because the R Studio IDE offers a complete environment for project management, data analysis, and manuscript preparation with the R Markdown and knitr R packages [@allaire_rmarkdown:_2016; @xie_knitr:_2016]. Psychologists will be especially interested in the papaja package for creating APA formatted manuscripts [@aust_papaja:_2016]. The source code of this manuscript, which was prepared with the papaja package, can be found at <https://github.com/mvuorre/reproguide-curate>.
 
-Although this tutorial includes enough material to get started, Git (and GitHub) is a vast ecosystem with great opportunities, some of which are further discussed by Perez-Riverol and colleagues [-@perez-riverol_ten_2016]. For example, the concept of "Born open data", where research data is automatically posted online upon collection, is made very easy with the Git + GitHub workflow [@rouder_what_2016]. The challenges to reproducibility are many, and they have only recently received the targeted attention they deserve in the collaborative effort to improve the reliability of empirical sciences. Curating research assets and focusing on the practical aspects of the scientific workflow is important for ensuring the continuity of one's work, and for efforts toward a cumulative and reliable science.
+Although this tutorial includes enough material to get started, Git (and GitHub) is a vast ecosystem with great opportunities, some of which are further discussed by Perez-Riverol and colleagues [-@perez-riverol_ten_2016]. For example, the concept of "Born open data", where research data is automatically posted online upon collection, is made easy with the Git + GitHub workflow [@rouder_what_2016]. The challenges to reproducibility are many, and they have only recently received the targeted attention they deserve in the collaborative effort to improve the reliability of empirical sciences. Curating research assets and focusing on the practical aspects of the scientific workflow is important for ensuring the continuity of one's work, and for efforts toward a cumulative and reliable science.
 
 <!-- Box: Further resources for learning Git -->
 \begin{tcolorbox}[colframe=green!50!black, colback=green!5, fonttitle=\small\bfseries, fontupper=\small, title=Box 4. Further resources for learning Git]
