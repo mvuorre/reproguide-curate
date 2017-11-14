@@ -27,7 +27,7 @@ figurelist        : no
 tablelist         : no
 footnotelist      : no
 lineno            : yes
-lang              : "english"
+lang              : "en-US"
 class             : "doc"  # man / jou / doc
 output            : papaja::apa6_pdf
 header-includes:
@@ -90,7 +90,7 @@ Work on the same code or manuscript files at the same time as collaborators.
 The core concepts of version control are that contributors to a project create small checkpoints of the changes they make to the source code---analogous to saving an intermediate version of a file on the computer's hard disk---and then submit those changes to the VCS. The VCS maintains a history of changes to the code between these little checkpoints, and therefore allows coming back to any earlier version by browsing the history. These concepts---i.e. the typical Git workflow---is illustrated in Figure \@ref(fig:git-diagram).
 
 ```{r git-diagram, fig.cap = "A diagram illustrating the typical Git workflow. Verbs indicated in bold text are Git operations and explained in detail in the main text. In brief, this workflow consists of making changes to files in the project (such as editing a manuscript.) Once the revised version of the file is saved, the user adds the changed file to the staging area (1). Many files can be added to the staging area, if desired. Once the changes in the staging area reflect a conceptual entity, such as edits to an image file and its accompanying caption in the manuscript, the user then commits the changes to Git's history (2). These commits are accompanied with short commit messages that describe the changes made in that commit. Finally, when needed, changes to files can be discarded by retrieving (checking out) an earlier version of the file from Git's history. We explain these terms and operations in more detail in the main text. Figure adapted from https://git-scm.com/book/en/v2/Getting-Started-Git-Basics."}
-knitr::include_graphics("../data/git-diagram.png")
+knitr::include_graphics("../data/git-diagram.pdf")
 ```
 
 ## The Git Version Control System
@@ -315,7 +315,7 @@ In summary, once a user wishes to collaborate with others on a project, she crea
 Central Git repositories can also be set up relatively easily on research teams' private servers, but because the details vary from team to team, here we illustrate the centralized workflow using GitHub. 
 
 ```{r git-diagram-collaborate, fig.cap = "A diagram illustrating the typical collaborative Git workflow with a remote repository (e.g. GitHub). Verbs indicated in bold text are Git operations and explained in detail in the main text.", out.width="6in"}
-knitr::include_graphics("../data/git-diagram-collaborate.png")
+knitr::include_graphics("../data/git-diagram-collaborate.pdf")
 ```
 
 ## GitHub
