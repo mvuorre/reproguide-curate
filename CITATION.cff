@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+title: 'Code supplement to "Curating research assets: a tutorial on the git version control system"'
+version: 1.0.1
+license: MIT
+type: software
+abstract: |
+  Recent calls for improving reproducibility have increased attention to the ways in which researchers curate, share, and collaborate on their research assets. In this Tutorial, we explain how version control systems, such as the popular Git program, support these functions and then show how to use Git with a graphical interface in the RStudio program. This Tutorial is written for researchers with no previous experience using version control systems and covers both single-user and collaborative workflows. The online Supplemental Material provides information on advanced Git command-line functions. Git presents an elegant solution to specific challenges to curating, sharing, and collaborating on research assets and can be implemented in common workflows with little extra effort.
+message: Please cite as indicated.
+authors:
+  - family-names: Vuorre
+    given-names: Matti
+    orcid: https://orcid.org/0000-0001-5052-066X
+    affiliation: Columbia University
+  - family-names: Curley
+    given-names: James
+    orcid: https://orcid.org/0000-0001-5546-007X
+    affiliation: Columbia University
+keywords:
+  - psychology
